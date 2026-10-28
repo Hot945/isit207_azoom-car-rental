@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AZoom Car Rental</title>
-    <link rel="stylesheet" href="css/style.css?v=70">
+    <link rel="stylesheet" href="css/style.css?v=87">
 </head>
 <body>
 
@@ -19,10 +19,26 @@
             <button class="nav-btn" data-target="about">About Us</button>
         </nav>
         <div class="nav-auth">
-            <button id="auth-btn" class="auth-btn">
+            <button id="auth-btn" class="auth-btn" aria-haspopup="true" aria-expanded="false" title="Account Login or Registration">
                 <img src="images/user.svg" alt="Auth Icon" id="auth-icon" class="auth-icon">
                 <span id="auth-btn-text">Login / Register</span>
             </button>
+            <!-- User Profile Dropdown (Toggled when logged in) -->
+            <div id="auth-user-dropdown" class="auth-user-dropdown" style="display: none;">
+                <div class="auth-dropdown-user-info">
+                    <span class="dropdown-user-name" id="dropdown-user-name">Alex Tan</span>
+                    <span class="dropdown-user-email" id="dropdown-user-email">demo@azoom.sg</span>
+                </div>
+                <div class="auth-dropdown-divider"></div>
+                <button type="button" class="auth-dropdown-logout-btn" id="auth-logout-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Log Out</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -1132,6 +1148,138 @@
         </div>
     </section>
 
+    <!-- 6. Dedicated Reservation Confirmation & Time Selection Page (#page-reserve) -->
+    <section id="page-reserve" class="page-view">
+        <div class="search-page-header reserve-yellow-header" id="reserve-yellow-header">
+            <div class="search-page-container">
+                <div class="search-page-top-bar">
+                    <button type="button" id="reserve-back-btn" class="search-back-btn" aria-label="Back to Search Results">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="search-back-icon">
+                            <path d="m12 19-7-7 7-7"/>
+                            <path d="M19 12H5"/>
+                        </svg>
+                        <span>Back to Vehicle Selection</span>
+                    </button>
+                </div>
+                <div class="reserve-header-hero-slot">
+                    <h1 class="reserve-page-title">Complete Your Reservation</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="reserve-page-wrapper">
+            <div class="reserve-page-container">
+
+                <div class="reserve-workspace">
+                    <!-- Left Column: Selected Vehicle Information Only -->
+                    <div class="reserve-summary-col">
+                        <div class="reserve-card reserve-vehicle-card">
+                            <div class="reserve-card-topbar">
+                                <span class="reserve-card-tag">SELECTED VEHICLE</span>
+                            </div>
+                            <div class="reserve-vehicle-body">
+                                <div class="reserve-vehicle-img-box">
+                                    <img id="reserve-car-img" src="images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4" alt="Selected EV">
+                                </div>
+                                <div class="reserve-vehicle-info">
+                                    <div class="reserve-vehicle-title-row">
+                                        <img id="reserve-car-logo" src="images/byd-seeklogo.svg?v=6" alt="Brand" class="reserve-brand-logo">
+                                        <h2 id="reserve-car-name">BYD Atto 3</h2>
+                                        <strong class="rate-val" id="reserve-car-rate">S$108 / day</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: All Other Rental Details (Itinerary, Dates, Time Selection & Total) -->
+                    <div class="reserve-action-col">
+                        <div class="reserve-card reserve-details-card">
+                            <div class="reserve-card-topbar">
+                                <span class="reserve-card-tag">YOUR RESERVATION DETAILS</span>
+                            </div>
+
+                            <div class="reserve-details-body">
+                                <!-- Read-Only Itinerary & Date Range -->
+                                <div class="reserve-locked-grid">
+                                    <div class="reserve-locked-field">
+                                        <span class="locked-field-label">Pickup Location</span>
+                                        <div class="locked-field-box">
+                                            <img src="images/map-pinned.svg" alt="" class="locked-field-icon">
+                                            <span id="reserve-locked-pickup-loc">Alexandra Main Branch</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reserve-locked-field">
+                                        <span class="locked-field-label">Return Location</span>
+                                        <div class="locked-field-box">
+                                            <img src="images/navigation.svg" alt="" class="locked-field-icon">
+                                            <span id="reserve-locked-return-loc">Changi Airport Branch</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reserve-locked-field reserve-locked-field-full">
+                                        <div class="locked-date-header">
+                                            <span class="locked-field-label">Pickup Date</span>
+                                            <span class="locked-field-label">Return Date</span>
+                                        </div>
+                                        <div class="locked-field-box locked-date-range-box">
+                                            <strong class="locked-date-val" id="reserve-locked-pickup-date">2026-10-28</strong>
+                                            <div class="locked-date-center">
+                                                <span class="reserve-duration-badge" id="reserve-duration-badge">2 Days</span>
+                                                <span class="locked-date-arrow" aria-hidden="true">&rarr;</span>
+                                            </div>
+                                            <strong class="locked-date-val" id="reserve-locked-return-date">2026-10-29</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form id="reserve-time-form" class="reserve-time-form" onsubmit="return false;" novalidate>
+                                    <div class="reserve-time-grid">
+                                        <div class="reserve-time-field" id="field-reserve-pickup-time">
+                                            <label for="reserve-pickup-time" class="locked-field-label">Pickup Time</label>
+                                            <select id="reserve-pickup-time" class="reserve-time-select" required>
+                                                <option value="" disabled selected hidden>Select</option>
+                                            </select>
+                                            <span class="reserve-field-error" id="reserve-pickup-time-error"></span>
+                                        </div>
+
+                                        <div class="reserve-time-field" id="field-reserve-return-time">
+                                            <label for="reserve-return-time" class="locked-field-label">Return Time</label>
+                                            <select id="reserve-return-time" class="reserve-time-select" required>
+                                                <option value="" disabled selected hidden>Select</option>
+                                            </select>
+                                            <span class="reserve-field-error" id="reserve-return-time-error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="reserve-cost-summary">
+                                        <div class="cost-row">
+                                            <span id="reserve-cost-calc">S$108 &times; 2 days</span>
+                                            <span id="reserve-cost-subtotal">S$216</span>
+                                        </div>
+                                        <div class="cost-row">
+                                            <span>EV Charging &amp; Basic Insurance</span>
+                                            <span class="cost-free-tag">Included</span>
+                                        </div>
+                                        <div class="cost-divider"></div>
+                                        <div class="cost-row cost-total-row">
+                                            <span>Total Amount</span>
+                                            <strong id="reserve-cost-total">S$216</strong>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" id="reserve-confirm-btn" class="reserve-confirm-btn">
+                                        <span>Confirm Reservation</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>            </div>
+        </div>
+    </section>
+
     <footer class="site-footer">
         <div class="footer-container">
             
@@ -1233,6 +1381,257 @@
             </div>
         </div>
     </div>
+
+    <!-- Account Auth Modal (Floating Login & Register Modal with Blurred Backdrop) -->
+    <div id="auth-modal" class="ev-modal-overlay auth-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Account Login and Registration">
+        <div class="ev-modal-dialog auth-modal-dialog">
+            <button type="button" class="ev-modal-close" id="auth-modal-close" aria-label="Close Authentication Dialog">
+                <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
+            </button>
+
+            <!-- Auth Modal Tabs Header -->
+            <div class="auth-tabs-header" role="tablist">
+                <button type="button" class="auth-tab-btn active" id="auth-tab-login" data-tab="login" role="tab" aria-selected="true" aria-controls="auth-panel-login">
+                    <span>Log In</span>
+                </button>
+                <button type="button" class="auth-tab-btn" id="auth-tab-register" data-tab="register" role="tab" aria-selected="false" aria-controls="auth-panel-register">
+                    <span>Register</span>
+                </button>
+            </div>
+
+            <div class="auth-modal-body">
+                <!-- 1. Log In Panel (Default View) -->
+                <div id="auth-panel-login" class="auth-panel active" role="tabpanel" aria-labelledby="auth-tab-login">
+                    <div class="auth-panel-intro">
+                        <h3 class="auth-title">Welcome Back</h3>
+                        <p class="auth-subtitle">Log in to manage your electric car rentals and bookings.</p>
+                    </div>
+
+                    <form id="auth-login-form" class="auth-form" onsubmit="return false;" novalidate>
+                        <div class="auth-field" id="field-login-email">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" class="auth-input" placeholder="e.g. alex@example.com" autocomplete="email" required>
+                            <span class="auth-field-error" id="login-email-error"></span>
+                        </div>
+                        <div class="auth-field" id="field-login-password">
+                            <label for="login-password">Password</label>
+                            <div class="auth-pwd-wrap">
+                                <input type="password" id="login-password" class="auth-input" placeholder="Enter your password" autocomplete="current-password" required>
+                                <button type="button" class="auth-pwd-toggle" data-pwd-target="login-password" aria-label="Toggle password visibility">
+                                    <img src="images/eye-closed.svg" alt="" class="pwd-eye-icon" aria-hidden="true">
+                                </button>
+                            </div>
+                            <span class="auth-field-error" id="login-password-error"></span>
+                        </div>
+
+                        <div class="auth-feedback" id="login-feedback" style="display: none;"></div>
+
+                        <button type="submit" class="auth-submit-btn" id="login-submit-btn">
+                            <span>Log In</span>
+                        </button>
+
+                        <div class="auth-switch-prompt">
+                            <span>Don't have an account?</span>
+                            <button type="button" class="auth-switch-link" id="switch-to-register">Register now</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2. Register Panel -->
+                <div id="auth-panel-register" class="auth-panel" role="tabpanel" aria-labelledby="auth-tab-register" style="display: none;">
+                    <div class="auth-panel-intro">
+                        <h3 class="auth-title">Create an Account</h3>
+                        <p class="auth-subtitle">Join AZoom to unlock instant Singapore EV reservations.</p>
+                    </div>
+
+                    <form id="auth-register-form" class="auth-form" onsubmit="return false;" novalidate>
+                        <div class="auth-field-row">
+                            <div class="auth-field" id="field-register-firstname">
+                                <label for="register-firstname">First Name</label>
+                                <input type="text" id="register-firstname" class="auth-input" placeholder="e.g. Alex" autocomplete="given-name" required>
+                                <span class="auth-field-error" id="register-firstname-error"></span>
+                            </div>
+                            <div class="auth-field" id="field-register-lastname">
+                                <label for="register-lastname">Last Name</label>
+                                <input type="text" id="register-lastname" class="auth-input" placeholder="e.g. Tan" autocomplete="family-name" required>
+                                <span class="auth-field-error" id="register-lastname-error"></span>
+                            </div>
+                        </div>
+                        <div class="auth-field" id="field-register-email">
+                            <label for="register-email">Email Address</label>
+                            <input type="email" id="register-email" class="auth-input" placeholder="e.g. alex@example.com" autocomplete="email" required>
+                            <span class="auth-field-error" id="register-email-error"></span>
+                        </div>
+                        <div class="auth-field" id="field-register-password">
+                            <label for="register-password">Password</label>
+                            <div class="auth-pwd-wrap">
+                                <input type="password" id="register-password" class="auth-input" placeholder="Minimum 6 characters" autocomplete="new-password" required>
+                                <button type="button" class="auth-pwd-toggle" data-pwd-target="register-password" aria-label="Toggle password visibility">
+                                    <img src="images/eye-closed.svg" alt="" class="pwd-eye-icon" aria-hidden="true">
+                                </button>
+                            </div>
+                            <span class="auth-field-error" id="register-password-error"></span>
+                        </div>
+                        <div class="auth-field" id="field-register-confirm">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <div class="auth-pwd-wrap">
+                                <input type="password" id="register-confirm-password" class="auth-input" placeholder="Re-enter your password" autocomplete="new-password" required>
+                                <button type="button" class="auth-pwd-toggle" data-pwd-target="register-confirm-password" aria-label="Toggle password visibility">
+                                    <img src="images/eye-closed.svg" alt="" class="pwd-eye-icon" aria-hidden="true">
+                                </button>
+                            </div>
+                            <span class="auth-field-error" id="register-confirm-error"></span>
+                        </div>
+
+                        <div class="auth-feedback" id="register-feedback" style="display: none;"></div>
+
+                        <button type="submit" class="auth-submit-btn" id="register-submit-btn">
+                            <span>Create Account</span>
+                        </button>
+
+                        <div class="auth-switch-prompt">
+                            <span>Already have an account?</span>
+                            <button type="button" class="auth-switch-link" id="switch-to-login">Log in here</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- My Bookings Modal (Large Floating Dialog with Blurred Backdrop) -->
+    <div id="booking-modal" class="ev-modal-overlay booking-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="My Bookings">
+        <div class="ev-modal-dialog booking-modal-dialog">
+            <button type="button" class="ev-modal-close" id="booking-modal-close" aria-label="Close Bookings Dialog">
+                <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
+            </button>
+
+            <div class="booking-modal-header">
+                <h3 class="booking-modal-title">My Bookings</h3>
+            </div>
+
+            <div class="booking-modal-workspace">
+                <aside class="booking-sidebar" role="tablist" aria-orientation="vertical">
+                    <button type="button" class="booking-nav-item active" id="booking-tab-upcoming" data-booking-tab="upcoming" role="tab" aria-selected="true">
+                        <span>In Progress</span>
+                    </button>
+                    <button type="button" class="booking-nav-item" id="booking-tab-past" data-booking-tab="past" role="tab" aria-selected="false">
+                        <span>Completed</span>
+                    </button>
+                </aside>
+
+                <div class="booking-modal-body">
+                <!-- Panel 1: Upcoming & Active -->
+                <div id="booking-panel-upcoming" class="booking-panel active" role="tabpanel">
+                    <div class="booking-item-card">
+                        <div class="booking-item-topbar">
+                            <div class="booking-ref-group">
+                                <span class="booking-ref-label">BOOKING REF</span>
+                                <span class="booking-ref-code">#AZ-84920</span>
+                            </div>
+                            <span class="booking-status-badge status-confirmed">Confirmed</span>
+                        </div>
+
+                        <div class="booking-item-main">
+                            <div class="booking-car-col">
+                                <div class="booking-car-thumb">
+                                    <img src="images/cars/Tesla-Model_3-2018-Front_Three-Quarter.669d31aa.jpg?v=4" alt="Tesla Model 3">
+                                </div>
+                                <div class="booking-car-meta">
+                                    <h4>Tesla Model 3</h4>
+                                    <p>Sedan &middot; 5 Seats &middot; 60.0 kWh</p>
+                                </div>
+                            </div>
+
+                            <div class="booking-route-col">
+                                <div class="booking-route-point">
+                                    <span class="route-point-tag">PICKUP</span>
+                                    <strong class="route-point-loc">Alexandra Branch (HQ)</strong>
+                                    <span class="route-point-date">15 Nov 2026 &middot; 10:00 AM</span>
+                                </div>
+                                <div class="booking-route-point">
+                                    <span class="route-point-tag">RETURN</span>
+                                    <strong class="route-point-loc">Changi Airport T3</strong>
+                                    <span class="route-point-date">18 Nov 2026 &middot; 10:00 AM</span>
+                                </div>
+                            </div>
+
+                            <div class="booking-price-col">
+                                <span class="booking-duration-tag">3 Days Rental</span>
+                                <span class="booking-total-price">S$414</span>
+                                <span class="booking-rate-note">S$138 / day</span>
+                            </div>
+                        </div>
+
+                        <div class="booking-item-footer">
+                            <button type="button" class="booking-action-btn btn-outline">Cancel Booking</button>
+                            <button type="button" class="booking-action-btn btn-solid">Edit / Modify Booking</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 2: Past Rentals -->
+                <div id="booking-panel-past" class="booking-panel" role="tabpanel" style="display: none;">
+                    <div class="booking-item-card past-card">
+                        <div class="booking-item-topbar">
+                            <div class="booking-ref-group">
+                                <span class="booking-ref-label">BOOKING REF</span>
+                                <span class="booking-ref-code">#AZ-71045</span>
+                            </div>
+                            <span class="booking-status-badge status-completed">Completed</span>
+                        </div>
+
+                        <div class="booking-item-main">
+                            <div class="booking-car-col">
+                                <div class="booking-car-thumb">
+                                    <img src="images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4" alt="BYD Atto 3">
+                                </div>
+                                <div class="booking-car-meta">
+                                    <h4>BYD Atto 3</h4>
+                                    <p>SUV &middot; 5 Seats &middot; 60.5 kWh</p>
+                                </div>
+                            </div>
+
+                            <div class="booking-route-col">
+                                <div class="booking-route-point">
+                                    <span class="route-point-tag">PICKUP</span>
+                                    <strong class="route-point-loc">Orchard Central Car Park</strong>
+                                    <span class="route-point-date">02 Oct 2026 &middot; 09:00 AM</span>
+                                </div>
+                                <div class="booking-route-point">
+                                    <span class="route-point-tag">RETURN</span>
+                                    <strong class="route-point-loc">Orchard Central Car Park</strong>
+                                    <span class="route-point-date">04 Oct 2026 &middot; 06:00 PM</span>
+                                </div>
+                            </div>
+
+                            <div class="booking-price-col">
+                                <span class="booking-duration-tag">2 Days Rental</span>
+                                <span class="booking-total-price">S$216</span>
+                                <span class="booking-rate-note">S$108 / day</span>
+                            </div>
+                        </div>
+
+                        <div class="booking-item-footer">
+                            <button type="button" class="booking-action-btn btn-outline">View Receipt</button>
+                            <button type="button" class="booking-action-btn btn-solid">Rent Again</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top-Center Floating Toast Notification -->
+    <div id="auth-top-toast" class="auth-top-toast" role="status" aria-live="polite" aria-hidden="true">
+        <span class="auth-top-toast-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </span>
+        <span id="auth-top-toast-text">Registration successful! Please log in to your account.</span>
+    </div>
+
     <script src="js/app.js"></script>
 </body>
 </html>

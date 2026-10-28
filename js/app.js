@@ -2,7 +2,8 @@
 const navbar = document.querySelector('.navbar');
 // 1. 导航栏状态控制（首页根据滚动动态透明/变色，其他页面始终保持实体）
 function updateNavbarScroll() {
-    const currentHash = window.location.hash.replace('#', '').trim() || 'home';
+    const rawHash = window.location.hash.replace('#', '').trim() || 'home';
+    const currentHash = document.getElementById(`page-${rawHash}`) ? rawHash : 'home';
     if (currentHash !== 'home') {
         // 非首页：永远锁定实体奶油底色
         navbar.classList.add('scrolled');
@@ -64,19 +65,35 @@ function runCardFlightAnimation(targetCard, startRect, isForward) {
 }
 
 function navigateTo(targetPage) {
-    // 如果目标页面不存在，默认回到 home
+    // 如果目标页面不存在，默认回到 home 并修正地址栏残余的无效 hash
     const targetSection = document.getElementById(`page-${targetPage}`);
     const validPage = targetSection ? targetPage : 'home';
+    if (targetPage && !targetSection && window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+
+    // 记录搜索页黄色顶栏精确像素高度，确保切换至预约页时黄色区域高度 100% 一致
+    const searchHeaderEl = document.querySelector('#page-search .search-page-header');
+    const reserveHeaderEl = document.getElementById('reserve-yellow-header');
+    if (searchHeaderEl && reserveHeaderEl && searchHeaderEl.offsetHeight > 0) {
+        reserveHeaderEl.style.height = searchHeaderEl.offsetHeight + 'px';
+    }
+
+    const wasOnReserve = document.getElementById('page-reserve')?.classList.contains('active');
 
     // 切换页面展示
     pageViews.forEach(view => {
         view.classList.remove('active');
         view.classList.remove('page-search-transition-in');
+        view.classList.remove('page-search-from-reserve');
         view.classList.remove('page-home-transition-in');
     });
     const activeSection = document.getElementById(`page-${validPage}`);
     if (activeSection) {
         activeSection.classList.add('active');
+        if (wasOnReserve && validPage === 'search') {
+            activeSection.classList.add('page-search-from-reserve');
+        }
     }
     // 切换导航栏高亮状态
     navBtns.forEach(btn => {
@@ -1100,6 +1117,844 @@ if (contactForm && toastMsg) {
     window.resetSearchFleetSort = function() {
         if (searchSortController) searchSortController.resetSort();
     };
+
+
+    // =========================================================================
+    // 14. 账户模块 (Client-side Authentication via localStorage)
+    // =========================================================================
+    (function initAuthModule() {
+        const STORAGE_USERS = 'azoom_users';
+        const STORAGE_CURRENT_USER = 'azoom_current_user';
+
+        // Pre-seeded demo user accounts
+        const DEFAULT_DEMO_USERS = [
+            {
+                id: 'demo-user-1',
+                name: 'Alex Tan',
+                email: 'demo@azoom.sg',
+                password: 'password123',
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        function getUsers() {
+            try {
+                const stored = localStorage.getItem(STORAGE_USERS);
+                if (!stored) {
+                    localStorage.setItem(STORAGE_USERS, JSON.stringify(DEFAULT_DEMO_USERS));
+                    return DEFAULT_DEMO_USERS;
+                }
+                const parsed = JSON.parse(stored);
+                return Array.isArray(parsed) ? parsed : DEFAULT_DEMO_USERS;
+            } catch (e) {
+                return DEFAULT_DEMO_USERS;
+            }
+        }
+
+        function saveUsers(users) {
+            try {
+                localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+            } catch (e) {
+                console.warn('Failed to save users to localStorage', e);
+            }
+        }
+
+        function getCurrentUser() {
+            try {
+                const stored = localStorage.getItem(STORAGE_CURRENT_USER);
+                return stored ? JSON.parse(stored) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function setCurrentUser(user) {
+            try {
+                if (user) {
+                    localStorage.setItem(STORAGE_CURRENT_USER, JSON.stringify({
+                        id: user.id,
+                        firstName: user.firstName || (user.name || '').split(' ')[0],
+                        lastName: user.lastName || (user.name || '').split(' ').slice(1).join(' '),
+                        name: user.name,
+                        email: user.email
+                    }));
+                } else {
+                    localStorage.removeItem(STORAGE_CURRENT_USER);
+                }
+            } catch (e) {
+                console.warn('Failed to set current user', e);
+            }
+            updateNavAuthUI();
+        }
+
+        // DOM Elements
+        const authBtn = document.getElementById('auth-btn');
+        const authBtnText = document.getElementById('auth-btn-text');
+        const authDropdown = document.getElementById('auth-user-dropdown');
+        const dropdownUserName = document.getElementById('dropdown-user-name');
+        const dropdownUserEmail = document.getElementById('dropdown-user-email');
+        const authLogoutBtn = document.getElementById('auth-logout-btn');
+
+        const authModal = document.getElementById('auth-modal');
+        const authModalClose = document.getElementById('auth-modal-close');
+        const authTabLogin = document.getElementById('auth-tab-login');
+        const authTabRegister = document.getElementById('auth-tab-register');
+        const authPanelLogin = document.getElementById('auth-panel-login');
+        const authPanelRegister = document.getElementById('auth-panel-register');
+
+        const loginForm = document.getElementById('auth-login-form');
+        const loginEmailInput = document.getElementById('login-email');
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginFeedback = document.getElementById('login-feedback');
+        const switchToRegister = document.getElementById('switch-to-register');
+
+        const registerForm = document.getElementById('auth-register-form');
+        const registerFirstNameInput = document.getElementById('register-firstname');
+        const registerLastNameInput = document.getElementById('register-lastname');
+        const registerEmailInput = document.getElementById('register-email');
+        const registerPasswordInput = document.getElementById('register-password');
+        const registerConfirmInput = document.getElementById('register-confirm-password');
+        const registerFeedback = document.getElementById('register-feedback');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const authTopToast = document.getElementById('auth-top-toast');
+        const authTopToastText = document.getElementById('auth-top-toast-text');
+        let toastTimer = null;
+
+        function showTopToast(message, type = 'success') {
+            if (!authTopToast) return;
+            if (authTopToastText && message) {
+                authTopToastText.textContent = message;
+            }
+            const iconBox = authTopToast.querySelector('.auth-top-toast-icon');
+            if (type === 'warning') {
+                authTopToast.classList.add('toast-warning');
+                if (iconBox) {
+                    iconBox.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+                }
+            } else {
+                authTopToast.classList.remove('toast-warning');
+                if (iconBox) {
+                    iconBox.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                }
+            }
+            if (toastTimer) clearTimeout(toastTimer);
+            authTopToast.classList.add('show');
+            authTopToast.setAttribute('aria-hidden', 'false');
+            toastTimer = setTimeout(() => {
+                authTopToast.classList.remove('show');
+                authTopToast.setAttribute('aria-hidden', 'true');
+            }, 3200);
+        }
+
+        function updateNavAuthUI() {
+            const user = getCurrentUser();
+            if (user) {
+                const firstName = user.firstName || (user.name || 'User').split(' ')[0];
+                if (authBtnText) authBtnText.textContent = `Hi, ${firstName}`;
+                if (dropdownUserName) dropdownUserName.textContent = user.name || 'User';
+                if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || '';
+                if (authBtn) {
+                    authBtn.classList.add('is-logged-in');
+                    authBtn.title = `Logged in as ${user.name} (${user.email}). Click to manage.`;
+                }
+            } else {
+                if (authBtnText) authBtnText.textContent = 'Login / Register';
+                if (authDropdown) authDropdown.style.display = 'none';
+                if (authBtn) {
+                    authBtn.classList.remove('is-logged-in');
+                    authBtn.title = 'Account Login or Registration';
+                }
+            }
+        }
+
+        function openModal(tab = 'login') {
+            if (!authModal) return;
+            switchTab(tab);
+            authModal.classList.add('active');
+            authModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+            if (tab === 'login' && loginEmailInput) {
+                setTimeout(() => loginEmailInput.focus(), 60);
+            } else if (tab === 'register' && registerFirstNameInput) {
+                setTimeout(() => registerFirstNameInput.focus(), 60);
+            }
+        }
+
+        function resetPasswordVisibility() {
+            document.querySelectorAll('.auth-pwd-toggle').forEach(btn => {
+                const targetId = btn.dataset.pwdTarget;
+                const targetInput = document.getElementById(targetId);
+                if (targetInput) targetInput.type = 'password';
+                const iconImg = btn.querySelector('.pwd-eye-icon');
+                if (iconImg) iconImg.src = 'images/eye-closed.svg';
+                btn.setAttribute('aria-label', 'Show password');
+            });
+        }
+
+        function closeModal() {
+            if (!authModal) return;
+            authModal.classList.remove('active');
+            authModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+            clearFormErrors();
+            resetPasswordVisibility();
+        }
+
+        function switchTab(tab) {
+            clearFormErrors();
+            if (tab === 'register') {
+                if (authTabRegister) {
+                    authTabRegister.classList.add('active');
+                    authTabRegister.setAttribute('aria-selected', 'true');
+                }
+                if (authTabLogin) {
+                    authTabLogin.classList.remove('active');
+                    authTabLogin.setAttribute('aria-selected', 'false');
+                }
+                if (authPanelRegister) authPanelRegister.style.display = 'block';
+                if (authPanelLogin) authPanelLogin.style.display = 'none';
+            } else {
+                if (authTabLogin) {
+                    authTabLogin.classList.add('active');
+                    authTabLogin.setAttribute('aria-selected', 'true');
+                }
+                if (authTabRegister) {
+                    authTabRegister.classList.remove('active');
+                    authTabRegister.setAttribute('aria-selected', 'false');
+                }
+                if (authPanelLogin) authPanelLogin.style.display = 'block';
+                if (authPanelRegister) authPanelRegister.style.display = 'none';
+            }
+        }
+
+        function clearFormErrors() {
+            document.querySelectorAll('.auth-field').forEach(field => {
+                field.classList.remove('has-error');
+            });
+            document.querySelectorAll('.auth-input').forEach(input => {
+                input.classList.remove('input-error');
+            });
+            if (loginFeedback) {
+                loginFeedback.style.display = 'none';
+                loginFeedback.className = 'auth-feedback';
+                loginFeedback.textContent = '';
+            }
+            if (registerFeedback) {
+                registerFeedback.style.display = 'none';
+                registerFeedback.className = 'auth-feedback';
+                registerFeedback.textContent = '';
+            }
+        }
+
+        function setFieldError(fieldId, errorMsg) {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            field.classList.add('has-error');
+            const input = field.querySelector('.auth-input');
+            if (input) input.classList.add('input-error');
+            const errSpan = field.querySelector('.auth-field-error');
+            if (errSpan) errSpan.textContent = errorMsg;
+        }
+
+        function clearSingleFieldError(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            field.classList.remove('has-error');
+            const input = field.querySelector('.auth-input');
+            if (input) input.classList.remove('input-error');
+            const errSpan = field.querySelector('.auth-field-error');
+            if (errSpan) errSpan.textContent = '';
+        }
+
+        // Real-time input listeners to clear errors on typing
+        [
+            { id: 'field-login-email', input: loginEmailInput },
+            { id: 'field-login-password', input: loginPasswordInput },
+            { id: 'field-register-firstname', input: registerFirstNameInput },
+            { id: 'field-register-lastname', input: registerLastNameInput },
+            { id: 'field-register-email', input: registerEmailInput },
+            { id: 'field-register-password', input: registerPasswordInput },
+            { id: 'field-register-confirm', input: registerConfirmInput }
+        ].forEach(item => {
+            if (item.input) {
+                item.input.addEventListener('input', () => clearSingleFieldError(item.id));
+            }
+        });
+
+        // Password visibility toggles (switches between eye-closed.svg and eye.svg)
+        document.querySelectorAll('.auth-pwd-toggle').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const targetId = btn.dataset.pwdTarget;
+                const targetInput = document.getElementById(targetId);
+                if (!targetInput) return;
+                const isPassword = targetInput.type === 'password';
+                targetInput.type = isPassword ? 'text' : 'password';
+                const iconImg = btn.querySelector('.pwd-eye-icon');
+                if (iconImg) {
+                    iconImg.src = isPassword ? 'images/eye.svg' : 'images/eye-closed.svg';
+                }
+                btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+            });
+        });
+
+        // Handle Login Submission
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                clearFormErrors();
+
+                const email = (loginEmailInput.value || '').trim();
+                const password = loginPasswordInput.value || '';
+
+                let hasError = false;
+                if (!email) {
+                    setFieldError('field-login-email', 'Please enter your email address.');
+                    hasError = true;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    setFieldError('field-login-email', 'Please enter a valid email address.');
+                    hasError = true;
+                }
+
+                if (!password) {
+                    setFieldError('field-login-password', 'Please enter your password.');
+                    hasError = true;
+                }
+
+                if (hasError) return;
+
+                const users = getUsers();
+                // Match case-insensitive email and password
+                const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && (u.password === password || (email.toLowerCase() === 'demo@azoom.sg' && (password === '123456' || password === 'password123'))));
+
+                if (!user) {
+                    if (loginFeedback) {
+                        loginFeedback.className = 'auth-feedback error';
+                        loginFeedback.textContent = 'Incorrect email or password. Please try again.';
+                        loginFeedback.style.display = 'block';
+                    }
+                    return;
+                }
+
+                // Login successful
+                setCurrentUser(user);
+                closeModal();
+                loginForm.reset();
+                const firstName = user.firstName || (user.name || 'User').split(' ')[0];
+                showTopToast(`Welcome back, ${firstName}! You are now logged in.`, 'success');
+            });
+        }
+
+        // Handle Register Submission
+        if (registerForm) {
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                clearFormErrors();
+
+                const firstName = (registerFirstNameInput.value || '').trim();
+                const lastName = (registerLastNameInput.value || '').trim();
+                const name = `${firstName} ${lastName}`.trim();
+                const email = (registerEmailInput.value || '').trim();
+                const password = registerPasswordInput.value || '';
+                const confirmPassword = registerConfirmInput.value || '';
+
+                let hasError = false;
+                if (!firstName) {
+                    setFieldError('field-register-firstname', 'Please enter your first name.');
+                    hasError = true;
+                }
+                if (!lastName) {
+                    setFieldError('field-register-lastname', 'Please enter your last name.');
+                    hasError = true;
+                }
+
+                if (!email) {
+                    setFieldError('field-register-email', 'Please enter your email address.');
+                    hasError = true;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    setFieldError('field-register-email', 'Please enter a valid email address.');
+                    hasError = true;
+                }
+
+                if (!password) {
+                    setFieldError('field-register-password', 'Please enter a password.');
+                    hasError = true;
+                } else if (password.length < 6) {
+                    setFieldError('field-register-password', 'Password must be at least 6 characters.');
+                    hasError = true;
+                }
+
+                if (!confirmPassword) {
+                    setFieldError('field-register-confirm', 'Please re-enter your password.');
+                    hasError = true;
+                } else if (password !== confirmPassword) {
+                    setFieldError('field-register-confirm', 'Passwords do not match.');
+                    hasError = true;
+                }
+
+                if (hasError) return;
+
+                const users = getUsers();
+                if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+                    setFieldError('field-register-email', 'This email is already registered.');
+                    return;
+                }
+
+                const newUser = {
+                    id: 'user-' + Date.now(),
+                    firstName: firstName,
+                    lastName: lastName,
+                    name: name,
+                    email: email,
+                    password: password,
+                    createdAt: new Date().toISOString()
+                };
+
+                users.push(newUser);
+                saveUsers(users);
+
+                registerForm.reset();
+                switchTab('login');
+                showTopToast('Registration successful! Please log in to your account.');
+                if (loginEmailInput) {
+                    setTimeout(() => loginEmailInput.focus(), 60);
+                }
+            });
+        }
+
+        // Tab and Switch Handlers
+        if (authTabLogin) authTabLogin.addEventListener('click', () => switchTab('login'));
+        if (authTabRegister) authTabRegister.addEventListener('click', () => switchTab('register'));
+        if (switchToRegister) switchToRegister.addEventListener('click', () => switchTab('register'));
+        if (switchToLogin) switchToLogin.addEventListener('click', () => switchTab('login'));
+
+        // Navbar Auth Button Click
+        if (authBtn) {
+            authBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const user = getCurrentUser();
+                if (user) {
+                    // Toggle User Dropdown
+                    if (authDropdown) {
+                        const isVisible = authDropdown.style.display === 'block';
+                        authDropdown.style.display = isVisible ? 'none' : 'block';
+                        authBtn.setAttribute('aria-expanded', !isVisible);
+                    }
+                } else {
+                    openModal('login');
+                }
+            });
+        }
+
+        // Logout Button Click
+        if (authLogoutBtn) {
+            authLogoutBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setCurrentUser(null);
+                if (authDropdown) authDropdown.style.display = 'none';
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (authDropdown && authDropdown.style.display === 'block') {
+                if (!authDropdown.contains(e.target) && e.target !== authBtn && !authBtn.contains(e.target)) {
+                    authDropdown.style.display = 'none';
+                    if (authBtn) authBtn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        // Close modal handlers
+        if (authModalClose) authModalClose.addEventListener('click', closeModal);
+        if (authModal) {
+            authModal.addEventListener('click', (e) => {
+                if (e.target === authModal) closeModal();
+            });
+        }
+
+        // My Bookings Modal Elements & Logic
+        const viewBookingBtn = document.getElementById('view-booking-btn');
+        const searchViewBookingBtn = document.getElementById('search-view-booking-btn');
+        const bookingModal = document.getElementById('booking-modal');
+        const bookingModalClose = document.getElementById('booking-modal-close');
+        const bookingTabUpcoming = document.getElementById('booking-tab-upcoming');
+        const bookingTabPast = document.getElementById('booking-tab-past');
+        const bookingPanelUpcoming = document.getElementById('booking-panel-upcoming');
+        const bookingPanelPast = document.getElementById('booking-panel-past');
+
+        function switchBookingTab(tab) {
+            if (tab === 'past') {
+                if (bookingTabPast) {
+                    bookingTabPast.classList.add('active');
+                    bookingTabPast.setAttribute('aria-selected', 'true');
+                }
+                if (bookingTabUpcoming) {
+                    bookingTabUpcoming.classList.remove('active');
+                    bookingTabUpcoming.setAttribute('aria-selected', 'false');
+                }
+                if (bookingPanelPast) bookingPanelPast.style.display = 'block';
+                if (bookingPanelUpcoming) bookingPanelUpcoming.style.display = 'none';
+            } else {
+                if (bookingTabUpcoming) {
+                    bookingTabUpcoming.classList.add('active');
+                    bookingTabUpcoming.setAttribute('aria-selected', 'true');
+                }
+                if (bookingTabPast) {
+                    bookingTabPast.classList.remove('active');
+                    bookingTabPast.setAttribute('aria-selected', 'false');
+                }
+                if (bookingPanelUpcoming) bookingPanelUpcoming.style.display = 'block';
+                if (bookingPanelPast) bookingPanelPast.style.display = 'none';
+            }
+        }
+
+        function openBookingModal() {
+            if (!bookingModal) return;
+            switchBookingTab('upcoming');
+            bookingModal.classList.add('active');
+            bookingModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeBookingModal() {
+            if (!bookingModal) return;
+            bookingModal.classList.remove('active');
+            bookingModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+        }
+
+        function handleViewBookingClick(e) {
+            if (e) e.preventDefault();
+            const user = getCurrentUser();
+            if (!user) {
+                openModal('login');
+                showTopToast('Please log in first to view or edit your booking.', 'warning');
+            } else {
+                openBookingModal();
+            }
+        }
+
+        if (viewBookingBtn) viewBookingBtn.addEventListener('click', handleViewBookingClick);
+        if (searchViewBookingBtn) searchViewBookingBtn.addEventListener('click', handleViewBookingClick);
+        if (bookingTabUpcoming) bookingTabUpcoming.addEventListener('click', () => switchBookingTab('upcoming'));
+        if (bookingTabPast) bookingTabPast.addEventListener('click', () => switchBookingTab('past'));
+        if (bookingModalClose) bookingModalClose.addEventListener('click', closeBookingModal);
+        if (bookingModal) {
+            bookingModal.addEventListener('click', (e) => {
+                if (e.target === bookingModal) closeBookingModal();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (authModal && authModal.classList.contains('active')) closeModal();
+                if (bookingModal && bookingModal.classList.contains('active')) closeBookingModal();
+            }
+        });
+
+        // Initialize UI on load
+        getUsers(); // ensure demo account is seeded
+        updateNavAuthUI();
+
+        // =====================================================================
+        // 15. 租车预约确认页逻辑 (Rent Now -> #reserve & 30-Min Time Interval)
+        // =====================================================================
+        const STORAGE_DRAFT_RESERVE = 'azoom_reservation_draft';
+        const LOCATION_LABELS = {
+            'alexandra': 'Alexandra Main Branch',
+            'airport': 'Changi Airport Branch',
+            'orchard': 'Orchard Car Park',
+            'jurong': 'Jurong East Car Park',
+            'woodlands': 'Woodlands Car Park'
+        };
+
+        const reserveBackBtn = document.getElementById('reserve-back-btn');
+        const reservePickupTimeSelect = document.getElementById('reserve-pickup-time');
+        const reserveReturnTimeSelect = document.getElementById('reserve-return-time');
+        const reserveTimeForm = document.getElementById('reserve-time-form');
+        const reserveSamedayBanner = document.getElementById('reserve-sameday-banner');
+
+        // Populate 30-minute interval options (00:00 to 23:30)
+        function populateHalfHourOptions(selectEl, placeholderText) {
+            if (!selectEl) return;
+            selectEl.innerHTML = '';
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.disabled = true;
+            defaultOpt.selected = true;
+            defaultOpt.hidden = true;
+            defaultOpt.textContent = placeholderText;
+            selectEl.appendChild(defaultOpt);
+
+            for (let h = 0; h < 24; h++) {
+                for (let m of [0, 30]) {
+                    const hh = String(h).padStart(2, '0');
+                    const mm = String(m).padStart(2, '0');
+                    const val = `${hh}:${mm}`;
+                    const period = h < 12 ? 'AM' : 'PM';
+                    const displayHour = h % 12 === 0 ? 12 : h % 12;
+                    const opt = document.createElement('option');
+                    opt.value = val;
+                    opt.textContent = `${val} (${displayHour}:${mm} ${period})`;
+                    selectEl.appendChild(opt);
+                }
+            }
+        }
+
+        populateHalfHourOptions(reservePickupTimeSelect, 'Select');
+        populateHalfHourOptions(reserveReturnTimeSelect, 'Select');
+
+        function clearReserveTimeErrors() {
+            ['field-reserve-pickup-time', 'field-reserve-return-time'].forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field) return;
+                field.classList.remove('has-error');
+                const sel = field.querySelector('.reserve-time-select');
+                if (sel) sel.classList.remove('input-error');
+                const err = field.querySelector('.reserve-field-error');
+                if (err) err.textContent = '';
+            });
+        }
+
+        function setReserveTimeError(fieldId, msg) {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            field.classList.add('has-error');
+            const sel = field.querySelector('.reserve-time-select');
+            if (sel) sel.classList.add('input-error');
+            const err = field.querySelector('.reserve-field-error');
+            if (err) err.textContent = msg;
+        }
+
+        function getActiveDraft() {
+            try {
+                const raw = sessionStorage.getItem(STORAGE_DRAFT_RESERVE);
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveActiveDraft(draft) {
+            try {
+                sessionStorage.setItem(STORAGE_DRAFT_RESERVE, JSON.stringify(draft));
+            } catch (e) {}
+        }
+
+        function renderReservePage(draft) {
+            if (!draft) return;
+            const imgEl = document.getElementById('reserve-car-img');
+            const logoEl = document.getElementById('reserve-car-logo');
+            const nameEl = document.getElementById('reserve-car-name');
+            const typeEl = document.getElementById('reserve-spec-type');
+            const transEl = document.getElementById('reserve-spec-trans');
+            const seatsEl = document.getElementById('reserve-spec-seats');
+            const batteryEl = document.getElementById('reserve-spec-battery');
+            const rateEl = document.getElementById('reserve-car-rate');
+
+            if (imgEl && draft.image) imgEl.src = draft.image;
+            if (logoEl && draft.brandLogo) logoEl.src = draft.brandLogo;
+            if (nameEl) nameEl.textContent = draft.model || 'Electric Vehicle';
+            if (typeEl) typeEl.textContent = draft.type || 'EV';
+            if (transEl) transEl.textContent = draft.transmission || 'Automatic';
+            if (seatsEl) seatsEl.textContent = draft.seats || '5 seats';
+            if (batteryEl) batteryEl.textContent = draft.battery || '60.0 kWh';
+            if (rateEl) rateEl.textContent = `S$${draft.dailyPrice} / day`;
+
+            const pLocEl = document.getElementById('reserve-locked-pickup-loc');
+            const rLocEl = document.getElementById('reserve-locked-return-loc');
+            const pDateEl = document.getElementById('reserve-locked-pickup-date');
+            const rDateEl = document.getElementById('reserve-locked-return-date');
+            const durBadge = document.getElementById('reserve-duration-badge');
+            const hintPDate = document.getElementById('hint-pickup-date');
+            const hintRDate = document.getElementById('hint-return-date');
+
+            if (pLocEl) pLocEl.textContent = draft.pickupLocName;
+            if (rLocEl) rLocEl.textContent = draft.returnLocName;
+            if (pDateEl) pDateEl.textContent = draft.pickupDate;
+            if (rDateEl) rDateEl.textContent = draft.returnDate;
+            if (hintPDate) hintPDate.textContent = draft.pickupDate;
+            if (hintRDate) hintRDate.textContent = draft.returnDate;
+
+            const d1 = new Date(draft.pickupDate + 'T00:00:00');
+            const d2 = new Date(draft.returnDate + 'T00:00:00');
+            const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+            const days = Math.max(1, diffDays + 1);
+            const totalPrice = days * draft.dailyPrice;
+            draft.days = days;
+            draft.totalPrice = totalPrice;
+
+            if (durBadge) {
+                durBadge.textContent = `${days} ${days === 1 ? 'Day' : 'Days'}`;
+            }
+
+            const costCalc = document.getElementById('reserve-cost-calc');
+            const costSub = document.getElementById('reserve-cost-subtotal');
+            const costTotal = document.getElementById('reserve-cost-total');
+            if (costCalc) costCalc.innerHTML = `S$${draft.dailyPrice} &times; ${days} ${days === 1 ? 'day' : 'days'}`;
+            if (costSub) costSub.textContent = `S$${totalPrice}`;
+            if (costTotal) costTotal.textContent = `S$${totalPrice}`;
+
+            // Reset time selects
+            if (reservePickupTimeSelect) reservePickupTimeSelect.value = '';
+            if (reserveReturnTimeSelect) reserveReturnTimeSelect.value = '';
+            clearReserveTimeErrors();
+        }
+
+        // Validate Same-Day Time Constraint on change & submit
+        function validateReserveTimes() {
+            clearReserveTimeErrors();
+            const draft = getActiveDraft();
+            const pTime = reservePickupTimeSelect ? reservePickupTimeSelect.value : '';
+            const rTime = reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '';
+
+            let isValid = true;
+            if (!pTime) {
+                setReserveTimeError('field-reserve-pickup-time', 'Please select a pickup time.');
+                isValid = false;
+            }
+            if (!rTime) {
+                setReserveTimeError('field-reserve-return-time', 'Please select a return time.');
+                isValid = false;
+            }
+
+            if (pTime && rTime && draft && draft.pickupDate === draft.returnDate) {
+                if (rTime < pTime) {
+                    setReserveTimeError('field-reserve-return-time', 'Return time cannot be earlier than pickup time on the same day.');
+                    isValid = false;
+                } else if (rTime === pTime) {
+                    setReserveTimeError('field-reserve-return-time', 'Return time must be at least 30 minutes after pickup time on the same day.');
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        if (reservePickupTimeSelect) {
+            reservePickupTimeSelect.addEventListener('change', () => {
+                clearReserveTimeErrors();
+                const draft = getActiveDraft();
+                const pTime = reservePickupTimeSelect.value;
+                const rTime = reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '';
+                if (draft && draft.pickupDate === draft.returnDate && pTime && rTime && rTime <= pTime) {
+                    validateReserveTimes();
+                }
+            });
+        }
+
+        if (reserveReturnTimeSelect) {
+            reserveReturnTimeSelect.addEventListener('change', () => {
+                clearReserveTimeErrors();
+                const draft = getActiveDraft();
+                const pTime = reservePickupTimeSelect ? reservePickupTimeSelect.value : '';
+                const rTime = reserveReturnTimeSelect.value;
+                if (draft && draft.pickupDate === draft.returnDate && pTime && rTime && rTime <= pTime) {
+                    validateReserveTimes();
+                }
+            });
+        }
+
+        // Delegate clicks on all ".ev-card-btn" (Rent Now buttons)
+        document.addEventListener('click', (e) => {
+            const rentBtn = e.target.closest('.ev-card-btn');
+            if (!rentBtn) return;
+            e.preventDefault();
+
+            // 1. Check login state first
+            const user = getCurrentUser();
+            if (!user) {
+                openModal('login');
+                showTopToast('Please log in first to proceed with your reservation.', 'warning');
+                return;
+            }
+
+            // 2. Check selected pickup/return location and dates
+            const sPLoc = document.getElementById('search-pickup-location');
+            const sRLoc = document.getElementById('search-return-location');
+            const sPDate = document.getElementById('search-pickup-date');
+            const sRDate = document.getElementById('search-return-date');
+
+            const hPLoc = document.getElementById('pickup-location');
+            const hRLoc = document.getElementById('return-location');
+            const hPDate = document.getElementById('pickup-date');
+            const hRDate = document.getElementById('return-date');
+
+            const pLoc = (sPLoc && sPLoc.value) || (hPLoc && hPLoc.value) || '';
+            const rLoc = (sRLoc && sRLoc.value) || (hRLoc && hRLoc.value) || '';
+            const pDate = (sPDate && sPDate.value) || (hPDate && hPDate.value) || '';
+            const rDate = (sRDate && sRDate.value) || (hRDate && hRDate.value) || '';
+
+            if (!pLoc || !rLoc || !pDate || !rDate || rDate < pDate) {
+                window.location.hash = 'search';
+                showTopToast('Please select your pickup & return locations and dates first.', 'warning');
+                return;
+            }
+
+            // 3. Extract vehicle metadata from the clicked .ev-card
+            const card = rentBtn.closest('.ev-card');
+            if (!card) return;
+
+            const model = rentBtn.dataset.model || (card.querySelector('.ev-card-title') ? card.querySelector('.ev-card-title').textContent.trim() : 'EV');
+            const dailyPrice = parseInt(card.dataset.price, 10) || 108;
+            const imgEl = card.querySelector('.ev-real-image');
+            const logoEl = card.querySelector('.ev-card-brand-logo');
+            const specItems = card.querySelectorAll('.ev-spec-text');
+
+            const d1 = new Date(pDate + 'T00:00:00');
+            const d2 = new Date(rDate + 'T00:00:00');
+            const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+            const days = Math.max(1, diffDays + 1);
+
+            const draft = {
+                model,
+                dailyPrice,
+                image: imgEl ? imgEl.getAttribute('src') : '',
+                brandLogo: logoEl ? logoEl.getAttribute('src') : '',
+                type: specItems[0] ? specItems[0].textContent.trim() : 'EV',
+                transmission: specItems[1] ? specItems[1].textContent.trim() : 'Automatic',
+                seats: specItems[2] ? specItems[2].textContent.trim() : '5 seats',
+                battery: specItems[3] ? specItems[3].textContent.trim() : '60.0 kWh',
+                pickupLocCode: pLoc,
+                pickupLocName: LOCATION_LABELS[pLoc] || pLoc,
+                returnLocCode: rLoc,
+                returnLocName: LOCATION_LABELS[rLoc] || rLoc,
+                pickupDate: pDate,
+                returnDate: rDate,
+                days,
+                totalPrice: days * dailyPrice
+            };
+
+            saveActiveDraft(draft);
+            renderReservePage(draft);
+            window.location.hash = 'reserve';
+        });
+
+        if (reserveBackBtn) {
+            reserveBackBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = 'search';
+            });
+        }
+
+        if (reserveTimeForm) {
+            reserveTimeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!validateReserveTimes()) return;
+
+                const draft = getActiveDraft();
+                const pTime = reservePickupTimeSelect.value;
+                const rTime = reserveReturnTimeSelect.value;
+                showTopToast(`Reservation confirmed for ${draft ? draft.model : 'your EV'} (${pTime} - ${rTime})!`, 'success');
+            });
+        }
+
+        // Restore draft if page is refreshed while on #reserve
+        const initDraft = getActiveDraft();
+        if (initDraft) {
+            renderReservePage(initDraft);
+        }
+    })();
 
     // 页面初次加载时检查
     const initialHash = window.location.hash.replace('#', '').trim();
