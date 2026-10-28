@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZoom Car Rental</title>
+    <link rel="stylesheet" href="css/style.css?v=70">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span>AZoom</span>
+        </div>
+        <nav class="nav-links">
+            <button class="nav-btn active" data-target="home">Home</button>
+            <button class="nav-btn" data-target="evs">Our EVs</button>
+            <button class="nav-btn" data-target="locations">Our Locations</button>
+            <button class="nav-btn" data-target="about">About Us</button>
+        </nav>
+        <div class="nav-auth">
+            <button id="auth-btn" class="auth-btn">
+                <img src="images/user.svg" alt="Auth Icon" id="auth-icon" class="auth-icon">
+                <span id="auth-btn-text">Login / Register</span>
+            </button>
+        </div>
+    </header>
+
+
+
+    <section id="page-home" class="page-view active">
+
+        <div class="hero-visual">
+            <div class="hero-slogan">
+            <h1>Drive Green, Zoom Ahead.</h1>
+            <p>100% Electric Mobility for a Greener Singapore.</p>
+            </div>
+            <div class="hero-car-image">
+            <img src="images/pexels-nazar-kharin-2813332-39414339.jpg" alt="AZoom Electric Car">
+            </div>
+        </div>
+        
+        <div class="reservation-widget">
+            <div class="reservation-card">
+                <div class="widget-top-bar">
+                    <button type="button" id="view-booking-btn" class="link-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="booking-link-icon">
+                                <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        <span>View / edit my booking</span>
+                    </button>
+                </div>
+                
+                <div class="widget-inputs-row">
+                    <div class="widget-field">
+                        <label for="pickup-location">Pickup</label>
+                        <select id="pickup-location" required>
+                            <option value="" disabled selected hidden>Select</option>
+                            <option value="alexandra">Alexandra Main Branch</option>
+                            <option value="airport">Changi Airport Branch</option>
+                        </select>
+                    </div>
+                
+                    <div class="widget-field">
+                        <label for="return-location">Return</label>
+                        <select id="return-location" required>
+                            <option value="" disabled selected hidden>Select</option>
+                            <optgroup label="AZoom Branches">
+                                <option value="alexandra">Alexandra Main Branch</option>
+                                <option value="airport">Changi Airport Branch</option>
+                            </optgroup>
+                            <optgroup label="Designated Car Parks">
+                                <option value="orchard">Orchard Car Park</option>
+                                <option value="jurong">Jurong East Car Park</option>
+                                <option value="woodlands">Woodlands Car Park</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="widget-field">
+                        <label for="pickup-date">Pickup Date</label>
+                        <input type="date" id="pickup-date" required>
+                    </div>
+                    <div class="widget-field">
+                        <label for="return-date">Return Date</label>
+                        <input type="date" id="return-date" required>
+                    </div>
+
+                    <div class="widget-btn-box">
+                        <button type="button" id="home-search-btn" class="search-cars-btn">Find Cars</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="features-section">
+            <div class="features-header">
+                <span class="features-tag">ALL ELECTRIC, ZERO EMISSIONS</span>
+                <h2>Welcome to the Car Rental Experience of the Future</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-svg-icon">
+                            <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5"/>
+                            <path d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16"/>
+                            <path d="M2 21h13"/>
+                            <path d="M3 7h11"/>
+                            <path d="m9 11-2 3h3l-2 3"/>
+                        </svg>
+                    </div>
+                    <div class="feature-info">
+                        <h3>100% Electric. Charging Included.</h3>
+                        <p>Drive sustainably with zero tailpipe emissions. Every vehicle is thoroughly charged, inspected, and ready to explore Singapore.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-svg-icon">
+                            <path d="M16 2v3"/>
+                            <path d="M21 15V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h10v-5a1 1 0 011-1za2.4 2.4 0 01-.706 1.706l-3.588 3.588A2.4 2.4 0 0115 21"/>
+                            <path d="M3 9h18"/>
+                            <path d="M8 2v3"/>
+                        </svg>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Flexible Daily, Weekly & Monthly Rates</h3>
+                        <p>Rent for a single day, a week, or subscribe monthly. Enjoy tiered long-term discounts tailored to your travel plans.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-svg-icon">
+                            <path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 01-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0112 0"/>
+                            <path d="M4.474 15h-.197a1 1 0 00-.969.753l-1.097 4.35a1.5 1.5 0 001.444 1.898L20.344 22a1.5 1.5 0 001.446-1.897l-1.098-4.35a1 1 0 00-.969-.753h-.197"/>
+                            <circle cx="12" cy="8" r="2"/>
+                        </svg>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Strategic Hubs & Flexible Returns</h3>
+                        <p>Pickup at our Alexandra or Changi Airport branch, and easily drop off at strategic designated EV parking spots islandwide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="showcase-section">
+            <div class="showcase-image">
+                <img src="images/pexels-incusion-24566649-7521902.jpg" alt="Electric Car on Road">
+            </div>
+            
+            <div class="showcase-content">
+                <h2>The <span class="highlight-text">electric</span> revolution is here</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <img src="images/wind.svg" alt="Zero emissions" class="benefit-icon">
+                        <p>Zero tailpipe emissions on Singapore roads</p>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="images/zap.svg" alt="Fully charged" class="benefit-icon">
+                        <p>Fully charged & inspected before every pickup</p>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="images/credit-card.svg" alt="Credit Card" class="benefit-icon">
+                        <p>Hassle-free payment by Credit Card only</p>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="images/shield.svg" alt="Insurance" class="benefit-icon">
+                        <p>Comprehensive insurance & transparent damage policy</p>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="images/plug.svg" alt="Fast charging" class="benefit-icon">
+                        <p>Access to public fast-charging networks</p>
+                    </div>
+                    <div class="benefit-item">
+                        <img src="images/navigation.svg" alt="Designated car parks" class="benefit-icon">
+                        <p>Easy drop-off at designated EV car parks</p>
+                    </div>
+                </div>
+
+                <button type="button" class="explore-btn" data-target="evs">
+                    Explore Our EVs
+                </button>
+            </div>
+        </div>
+        
+
+
+        <div class="locations-banner">
+            <div class="banner-tower">
+                <img src="images/tower-control.svg" alt="Airport Tower" class="tower-icon">
+            </div>
+            <div class="banner-city">
+                <img src="images/building-complex.svg" alt="City Center" class="city-icon">
+            </div>
+            <div class="banner-car">
+                <img src="images/car.svg" alt="Driving Car" class="car-icon">
+            </div>
+            
+            <div class="locations-banner-content">
+                <div class="earth-badge">
+                    <img src="images/earth.svg" alt="Rotating Earth" class="rotating-earth">
+                </div>
+                <h2>The best airport & city center <span class="highlight-text">locations</span></h2>
+                <button type="button" class="banner-btn" data-target="locations">
+                    View car rental locations
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+
+            <section id="page-evs" class="page-view">
+        <!-- 1. Top Intro Hero Banner (Concise SIXT-inspired intro) -->
+        <div class="evs-hero">
+            <div class="evs-hero-container">
+                <h1 class="evs-hero-title">DISCOVER SINGAPORE'S FINEST ELECTRIC FLEET</h1>
+                <p class="evs-hero-desc">Drive the future with AZoom's 100% electric rental lineup. From agile city runabouts to long-range executive cruisers and spacious family 7-seaters, every vehicle comes fully charged, COE-inclusive, and backed by complimentary islandwide fast-charging network access.</p>
+            </div>
+        </div>
+
+        <!-- 2. Middle Filter Bar (Filter button placed between intro and fleet grid) -->
+        <div class="ev-filter-section">
+            <div class="ev-filter-container">
+                <div class="ev-filter-info">
+                    <span class="ev-filter-count">All EVs</span>
+                </div>
+                <div class="ev-filter-action">
+                    <div class="ev-sort-group" role="group" aria-label="Sort options">
+                        <button type="button" class="ev-sort-btn" id="ev-sort-price" data-sort="price" aria-label="Sort by Price: Low to High" title="Sort by Price">
+                            <span class="ev-sort-label">Price</span>
+                            <svg class="ev-sort-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path class="sort-arr-up" d="m7 9 5-5 5 5"/>
+                                <path class="sort-arr-down" d="m7 15 5 5 5-5"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="ev-sort-btn" id="ev-sort-name" data-sort="name" aria-label="Sort alphabetically: A to Z" title="Sort by Name (A-Z)">
+                            <span class="ev-sort-label">A-Z</span>
+                            <svg class="ev-sort-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path class="sort-arr-up" d="m7 9 5-5 5 5"/>
+                                <path class="sort-arr-down" d="m7 15 5 5 5-5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <button type="button" class="ev-filter-btn" id="ev-filter-trigger" aria-label="Filter Vehicles">
+                        <img src="images/sliders-horizontal.svg" alt="Filter" class="ev-filter-icon">
+                        <span>Filter</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. EV Vehicle Grid (9 curated Singapore market & high ROI EV models) -->
+        <div class="ev-fleet-section">
+            <div class="ev-fleet-container">
+                
+                <!-- Card 1: BYD Atto 3 -->
+                <div class="ev-card" data-brand="byd" data-type="suv" data-seats="5" data-price="108">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4" alt="BYD Atto 3" class="ev-real-image ev-img-atto3" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
+                            <h3 class="ev-card-title">BYD Atto 3</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">SUV</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">60.5 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$108</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="BYD Atto 3">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="BYD Atto 3">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Tesla Model 3 -->
+                <div class="ev-card" data-brand="tesla" data-type="sedan" data-seats="5" data-price="138">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/Tesla-Model_3-2018-Front_Three-Quarter.669d31aa.jpg?v=4" alt="Tesla Model 3" class="ev-real-image ev-img-model3" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/tesla.svg" alt="Tesla Logo" class="ev-card-brand-logo">
+                            <h3 class="ev-card-title">Tesla Model 3</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">Sedan</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">60.0 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$138</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="Tesla Model 3">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="Tesla Model 3">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: BYD Dolphin -->
+                <div class="ev-card" data-brand="byd" data-type="hatchback" data-seats="5" data-price="88">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/BYD-Dolphin-2024-HD-f6bb09f91c7f1266a9e34d3b3cecb14c4556f7d42.jpg?v=4" alt="BYD Dolphin" class="ev-real-image ev-img-dolphin" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
+                            <h3 class="ev-card-title">BYD Dolphin</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">Hatchback</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">44.9 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$88</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="BYD Dolphin">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="BYD Dolphin">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Hyundai Ioniq 5 -->
+                <div class="ev-card" data-brand="hyundai" data-type="suv" data-seats="5" data-price="118">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/Hyundai-Ioniq_5-2022-HD-f85146b11c7f96772e83d82bd50100b71d44c0d42.jpg?v=4" alt="Hyundai Ioniq 5" class="ev-real-image ev-img-ioniq5" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/hyundai.svg" alt="Hyundai Logo" class="ev-card-brand-logo">
+                            <h3 class="ev-card-title">Hyundai Ioniq 5</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">SUV</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">58.0 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$118</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="Hyundai Ioniq 5">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="Hyundai Ioniq 5">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: Tesla Model Y -->
+                <div class="ev-card" data-brand="tesla" data-type="suv" data-seats="5" data-price="158">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/Tesla-Model_Y-2025-HD-523e3c931c7f5d0a4f418b05a89600ac1ce5d0d44.jpg?v=4" alt="Tesla Model Y" class="ev-real-image ev-img-modely" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/tesla.svg" alt="Tesla Logo" class="ev-card-brand-logo">
+                            <h3 class="ev-card-title">Tesla Model Y</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">SUV</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">60.0 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$158</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="Tesla Model Y">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="Tesla Model Y">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: BYD Seal -->
+                <div class="ev-card" data-brand="byd" data-type="sedan" data-seats="5" data-price="128">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/BYD-Seal-2024-HD-00ff09881c7f376045ab7597d957e100f5eb9fd47.jpg?v=4" alt="BYD Seal" class="ev-real-image ev-img-seal" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
+                            <h3 class="ev-card-title">BYD Seal</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">Sedan</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">61.4 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$128</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="BYD Seal">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="BYD Seal">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7: Polestar 2 -->
+                <div class="ev-card" data-brand="polestar" data-type="sedan" data-seats="5" data-price="148">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/Polestar-2-2020-HD-c03bca271c7f8e347b951d849a45802675023dd47.jpg?v=4" alt="Polestar 2" class="ev-real-image ev-img-polestar2" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/polestar.svg" alt="Polestar Logo" class="ev-card-brand-logo">
+                            <h3 class="ev-card-title">Polestar 2</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">Sedan</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">69.0 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$148</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="Polestar 2">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="Polestar 2">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8: Mercedes-Benz EQB -->
+                <div class="ev-card" data-brand="mercedes-benz" data-type="suv" data-seats="7" data-price="188">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/Mercedes-Benz-EQB-2022-HD-3704759d1c7fcdc6a9716c21cacb91296b6934d48.jpg?v=4" alt="Mercedes-Benz EQB" class="ev-real-image ev-img-eqb" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/mercedes-benz.svg" alt="Mercedes-Benz Logo" class="ev-card-brand-logo">
+                            <h3 class="ev-card-title">Mercedes-Benz EQB</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">SUV</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">7 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">70.5 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$188</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="Mercedes-Benz EQB">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="Mercedes-Benz EQB">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9: BMW i4 -->
+                <div class="ev-card" data-brand="bmw" data-type="sedan" data-seats="5" data-price="178">
+                    <div class="ev-card-image-box">
+                        <img src="images/cars/BMW-i4-2022-HD-5d92bb5b1c7fd1d8f1e1dd85b83d01944cec19d4b.jpg?v=4" alt="BMW i4" class="ev-real-image ev-img-bmwi4" loading="lazy">
+                    </div>
+                    <div class="ev-card-body">
+                        <div class="ev-card-header">
+                            <img src="images/bmw.svg" alt="BMW Logo" class="ev-card-brand-logo">
+                            <h3 class="ev-card-title">BMW i4</h3>
+                        </div>
+                        <div class="ev-card-specs">
+                            <div class="ev-spec-item">
+                                <img src="images/steering-wheel.svg?v=3" alt="Body Type" class="ev-spec-icon">
+                                <span class="ev-spec-text">Sedan</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/transmission.svg?v=3" alt="Transmission" class="ev-spec-icon">
+                                <span class="ev-spec-text">Automatic</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/seat.svg?v=3" alt="Seats" class="ev-spec-icon">
+                                <span class="ev-spec-text">5 seats</span>
+                            </div>
+                            <div class="ev-spec-item">
+                                <img src="images/battery.svg?v=3" alt="Battery" class="ev-spec-icon">
+                                <span class="ev-spec-text">67.1 kWh</span>
+                            </div>
+                        </div>
+                        <div class="ev-card-footer">
+                            <div class="ev-price-box">
+                                <span class="ev-price-from">From</span>
+                                <span class="ev-price-amount">S$178</span>
+                                <span class="ev-price-period">/ day</span>
+                            </div>
+                            <button type="button" class="ev-card-details-btn" data-model="BMW i4">
+                                View Details
+                            </button>
+                            <button type="button" class="ev-card-btn" data-model="BMW i4">
+                                Rent Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State (Shown when 0 vehicles match filters) -->
+                <div class="ev-empty-state" id="ev-empty-state" style="display: none;">
+                    <div class="ev-empty-icon-box">
+                        <img src="images/car.svg" alt="No vehicles found" class="ev-empty-icon">
+                    </div>
+                    <h3 class="ev-empty-title">No matching electric vehicles</h3>
+                    <p class="ev-empty-desc">We couldn't find any vehicles matching your filter criteria. Try adjusting or resetting your filters to explore our full fleet.</p>
+                    <button type="button" class="ev-empty-reset-btn" id="ev-empty-reset-btn">Reset All Filters</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+        <section id="page-locations" class="page-view">
+        <!-- 1. Locations Hero Banner -->
+        <div class="locations-hero">
+            <div class="locations-hero-container">
+                <div class="locations-hero-text">
+                    <h1>Our Locations</h1>
+                    <p>Pick up your electric vehicle from our premier full-service showrooms,<br>or drop off 24/7 at automated smart charging return bays across Singapore.</p>
+                </div>
+                <div class="locations-hero-icon-box">
+                    <img src="images/map.svg" alt="Map Location Icon" class="locations-hero-map-icon">
+                </div>
+            </div>
+        </div>
+
+                                <!-- 2. Locations Main Content Wrapper (Unified 1200px Content Grid) -->
+        <div class="locations-content-wrapper">
+            <div class="locations-container">
+                
+                <!-- Row 1: Branches (2 Cards) -->
+                <div class="locations-row branches-row">
+                    <!-- Branch Card 1: Alexandra Main Branch -->
+                    <div class="location-card" data-loc-id="alexandra">
+                        <div class="loc-img-wrapper">
+                            <img src="images/image-asset.jpg" alt="Alexandra Main Branch">
+                        </div>
+                        <div class="loc-card-body">
+                            <h3>Alexandra Main Branch</h3>
+                            <button type="button" class="loc-details-btn" data-location="alexandra">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Branch Card 2: Changi Airport Branch -->
+                    <div class="location-card" data-loc-id="airport">
+                        <div class="loc-img-wrapper">
+                            <img src="images/shawn-lWFw6fGkadw-unsplash.jpg" alt="Changi Airport Branch">
+                        </div>
+                        <div class="loc-card-body">
+                            <h3>Changi Airport Branch</h3>
+                            <button type="button" class="loc-details-btn" data-location="airport">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Car Parks (3 Cards) -->
+                <div class="locations-row carparks-row">
+                    <!-- Card 3: Orchard Car Park -->
+                    <div class="location-card" data-loc-id="orchard">
+                        <div class="loc-img-wrapper">
+                            <img src="images/jie-yeu-teoh-dYjkroR6Mi4-unsplash.jpg" alt="Orchard Car Park">
+                        </div>
+                        <div class="loc-card-body">
+                            <h3>Orchard Car Park</h3>
+                            <button type="button" class="loc-details-btn" data-location="orchard">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Jurong East Car Park -->
+                    <div class="location-card" data-loc-id="jurong">
+                        <div class="loc-img-wrapper">
+                            <img src="images/shawn-31J1gazL5ro-unsplash.jpg" alt="Jurong East Car Park">
+                        </div>
+                        <div class="loc-card-body">
+                            <h3>Jurong East Car Park</h3>
+                            <button type="button" class="loc-details-btn" data-location="jurong">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Woodlands Car Park -->
+                    <div class="location-card" data-loc-id="woodlands">
+                        <div class="loc-img-wrapper">
+                            <img src="images/WoodsSquare_Masthead-20240515-min.jpg" alt="Woodlands Car Park">
+                        </div>
+                        <div class="loc-card-body">
+                            <h3>Woodlands Car Park</h3>
+                            <button type="button" class="loc-details-btn" data-location="woodlands">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section id="page-about" class="page-view">
+        <div class="about-hero-wrapper">
+        
+        <!-- 1. About Hero: 扎根狮城，绿色启�?-->
+        <div class="about-hero">
+            <div class="about-hero-media">
+                <img src="images/jeremy-kwok-nI7ClYyc4cY-unsplash.jpg" alt="Singapore Clean Mobility Streetscape">
+            </div>
+            <div class="about-hero-container">
+            <div class="about-hero-content">
+                <span class="about-tag">THE STORY BEHIND AZOOM</span>
+                <h1>Pioneering Singapore’s <span class="highlight-text">Clean</span> Mobility Revolution</h1>
+                <p>
+                    AZoom was born from a singular conviction: renting a car in Singapore should be whisper-quiet, entirely effortless, and 100% tailpipe-emission-free. Frustrated by outdated paper contracts, confusing fuel return policies, and noisy engines, we set out to build the island's first all-electric, zero-carbon rental experience.
+                </p>
+            </div>
+        </div>
+        </div>
+        <!-- 2. 生态背书栏 (Credentials Bar) -->
+        <div class="about-creds-bar">
+            <div class="about-creds-container">
+            <div class="cred-item">
+                <span class="cred-title">SG Green Plan 2030</span>
+                <span class="cred-sub">Aligned with National EV Goals</span>
+            </div>
+            <img src="images/award.svg" alt="Award" class="cred-divider-icon">
+            <div class="cred-item">
+                <span class="cred-title">SP Mobility Partner</span>
+                <span class="cred-sub">Complimentary Fast-Charging</span>
+            </div>
+            <img src="images/award.svg" alt="Award" class="cred-divider-icon">
+            <div class="cred-item">
+                <span class="cred-title">100% Zero Emissions</span>
+                <span class="cred-sub">Pure Electric Fleet Guarantee</span>
+            </div>
+            <img src="images/award.svg" alt="Award" class="cred-divider-icon">
+            <div class="cred-item">
+                <span class="cred-title">LTA Compliant</span>
+                <span class="cred-sub">Certified Green Rental Fleet</span>
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- 3. 故事第一�? 驱动未来 (Driving the Future - �?Zaptec 充电桩实�? -->
+        <div class="about-story-section">
+            <div class="story-grid">
+                <div class="story-text-col">
+                    <span class="section-kicker">DRIVING THE FUTURE</span>
+                    <div class="headline-zero-lockup">
+                        <span class="giant-zero">0</span>
+                        <h2 class="zero-headline-text">
+                            <span>Tailpipe Exhaust.</span>
+                            <span>Noise Pollution.</span>
+                        </h2>
+                    </div>
+                    <p>
+                        Singapore’s urban density demands a smarter, cleaner approach to road transportation. Internal combustion engines produce toxic tailpipe pollutants and mechanical racket that disrupt our living spaces.
+                    </p>
+                    <p>
+                        At AZoom, every vehicle we deploy is powered purely by electrons. By partnering with leading charging networks across the island, we ensure seamless energy access from Changi to Tuas, allowing you to travel sustainably without range anxiety.
+                    </p>
+                    <div class="story-highlight-box">
+                        <p class="highlight-quote">&ldquo;The transition to electric is not a distant vision&mdash;it is happening right now on Singapore's expressways.&rdquo;</p>
+                    </div>
+                </div>
+                <div class="story-image-col">
+                    <div class="story-img-card">
+                        <img src="images/zaptec-hKDUWDQTZMw-unsplash.jpg" alt="AZoom Clean EV Smart Charging">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 4. 故事第二�? 数字化无缝体�?(Drive With Us - �?Polestar 2 数字化中控特�? -->
+        <div class="about-story-section">
+            <div class="story-grid reverse">
+                <div class="story-image-col">
+                    <div class="story-img-card">
+                        <img src="images/patrick-langwallner-ebd97HAQbMI-unsplash.jpg" alt="AZoom Digital Smart Cockpit">
+                    </div>
+                </div>
+                <div class="story-text-col">
+                    <span class="section-kicker">FRICTIONLESS EXPERIENCE</span>
+                    <h2>No key fobs.<br>No counter queues.<br>Just seamless drive.</h2>
+                    <p>
+                        We dismantled the traditional car rental playbook. With AZoom, there are no hidden airport surcharges, no predatory fuel penalty fees, and zero lengthy paperwork.
+                    </p>
+                    <p>
+                        Book online in minutes, unlock your authenticated profile, and pick up your vehicle from our <strong>Alexandra flagship showroom</strong> or <strong>Changi Airport Terminal 3 hub</strong>. Drop off at any of our designated smart return bays in Orchard, Jurong East, or Woodlands at your convenience.
+                    </p>
+                    <button type="button" class="story-cta-btn" data-target="locations">View All Pickup Hubs</button>
+                </div>
+            </div>
+        </div>
+        <!-- 5. 绿色战绩量化�?(Impact Metrics Bar) -->
+        <div class="about-metrics-bar">
+            <div class="about-metrics-container">
+            <div class="metrics-header">
+                <span class="metrics-kicker">MEASURABLE SUSTAINABILITY</span>
+                <h3>Our Collective Singapore Impact</h3>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-num">100<span class="accent-symbol">%</span></div>
+                    <div class="metric-label">Electric Fleet</div>
+                    <p class="metric-desc">Zero internal combustion or hybrid compromises.</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-num">1.2<span class="accent-symbol">M+</span></div>
+                    <div class="metric-label">Clean Kilometers</div>
+                    <p class="metric-desc">Driven smoothly across Singapore’s road network.</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-num">3,800<span class="accent-symbol">+</span></div>
+                    <div class="metric-label">Islandwide Chargers</div>
+                    <p class="metric-desc">Integrated through our SP & Shell partner network.</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-num">280<span class="accent-symbol">T+</span></div>
+                    <div class="metric-label">CO<sub>2</sub> Prevented</div>
+                    <p class="metric-desc">Direct tailpipe carbon diverted from the urban air.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- 6. 联络与留言枢纽 (Get In Touch Today) -->
+        <div class="about-contact-section" id="about-contact-anchor">
+            <div class="contact-container">
+                <div class="contact-info-col">
+                    <span class="section-kicker">CONTACT US</span>
+                    <h2>Get in touch with our team</h2>
+                    <p>Have questions regarding fleet availability, corporate partnerships, or custom rental terms? Our support team is on standby 7 days a week.</p>
+                    
+                    <div class="contact-details-list">
+                        <div class="contact-item">
+                            <img src="images/mail.svg" alt="Email" class="contact-icon">
+                            <a href="mailto:contact@azoom.com.sg" class="contact-link">contact@azoom.com.sg</a>
+                        </div>
+                        <div class="contact-item">
+                            <img src="images/phone.svg" alt="Phone" class="contact-icon">
+                            <span class="contact-val">+65 6789 0000 (08:00 - 22:00 Daily)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-col">
+                    <div class="contact-form-card">
+                        <form id="about-contact-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="contact-first-name" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="contact-last-name" placeholder="Last Name" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="contact-phone" placeholder="Phone">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="contact-email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <select id="contact-subject" required>
+                                    <option value="" disabled selected hidden>How can we help you?</option>
+                                    <option value="rental">General EV Rental Inquiry</option>
+                                    <option value="corporate">Corporate & Fleet Subscription</option>
+                                    <option value="partnership">Charging & Location Partnership</option>
+                                    <option value="feedback">Customer Feedback / Support</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="contact-message" rows="4" placeholder="What’s your message?" required></textarea>
+                            </div>
+                            <div class="form-btn-row">
+                                <button type="submit" class="contact-submit-btn">Send message</button>
+                                <div class="form-toast-msg" id="form-toast-msg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="toast-check-icon">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                    <span>Message sent!</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Dedicated Search Results Page -->
+    <section id="page-search" class="page-view">
+        <div class="search-page-header">
+            <div class="search-page-container">
+                <div class="search-page-top-bar">
+                    <button type="button" id="search-back-btn" class="search-back-btn" data-target="home" aria-label="Back to Home">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="search-back-icon">
+                            <path d="m12 19-7-7 7-7"/>
+                            <path d="M19 12H5"/>
+                        </svg>
+                        <span>Back to Home</span>
+                    </button>
+                </div>
+                <div class="search-widget-card">
+                    <div class="widget-top-bar">
+                        <button type="button" id="search-view-booking-btn" class="link-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="booking-link-icon">
+                                <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            <span>View / edit my booking</span>
+                        </button>
+                    </div>
+                    <form id="search-page-form" class="search-page-form" onsubmit="return false;">
+                        <div class="widget-inputs-row search-widget-inputs-row">
+                            <div class="widget-field">
+                                <label for="search-pickup-location">Pickup</label>
+                                <select id="search-pickup-location" required>
+                                    <option value="" disabled selected hidden>Select</option>
+                                    <option value="alexandra">Alexandra Main Branch</option>
+                                    <option value="airport">Changi Airport Branch</option>
+                                </select>
+                            </div>
+                        
+                            <div class="widget-field">
+                                <label for="search-return-location">Return</label>
+                                <select id="search-return-location" required>
+                                    <option value="" disabled selected hidden>Select</option>
+                                    <optgroup label="AZoom Branches">
+                                        <option value="alexandra">Alexandra Main Branch</option>
+                                        <option value="airport">Changi Airport Branch</option>
+                                    </optgroup>
+                                    <optgroup label="Designated Car Parks">
+                                        <option value="orchard">Orchard Car Park</option>
+                                        <option value="jurong">Jurong East Car Park</option>
+                                        <option value="woodlands">Woodlands Car Park</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="widget-field">
+                                <label for="search-pickup-date">Pickup Date</label>
+                                <input type="date" id="search-pickup-date" required>
+                            </div>
+                            <div class="widget-field">
+                                <label for="search-return-date">Return Date</label>
+                                <input type="date" id="search-return-date" required>
+                            </div>
+
+                            <div class="widget-btn-box">
+                                <button type="button" id="search-page-submit-btn" class="search-cars-btn">Find Cars</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-results-section">
+            <div class="search-results-container">
+                <!-- Initial Empty State (Direct visit or no criteria submitted: pure white circle, no outer box) -->
+                <div id="search-empty-state" class="search-empty-circle-wrap">
+                    <div class="search-empty-circle">
+                        <img src="images/search.svg" alt="Search" class="search-empty-icon-img">
+                    </div>
+                </div>
+
+                <!-- Skeleton Loading State (Shown while querying available vehicles) -->
+                <div id="search-loading-state" class="search-skeleton-wrapper" style="display: none;" aria-live="polite">
+                    <div class="search-results-header search-skeleton-header">
+                        <div class="skeleton-bone skeleton-header-title"></div>
+                        <div class="search-filter-action search-skeleton-actions">
+                            <div class="ev-sort-group skeleton-sort-group">
+                                <div class="skeleton-bone skeleton-header-sort skeleton-sort-price" aria-hidden="true"></div>
+                                <div class="skeleton-bone skeleton-header-sort skeleton-sort-name" aria-hidden="true"></div>
+                            </div>
+                            <div class="skeleton-bone skeleton-header-filter" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <div class="ev-fleet-container search-fleet-container search-skeleton-fleet">
+                        <!-- Skeleton Card 1 -->
+                        <div class="search-skeleton-card">
+                            <div class="skeleton-bone skeleton-img-box"></div>
+                            <div class="skeleton-card-body">
+                                <div class="skeleton-card-header">
+                                    <div class="skeleton-bone skeleton-brand-logo"></div>
+                                    <div class="skeleton-bone skeleton-title skeleton-title-w1"></div>
+                                </div>
+                                <div class="skeleton-card-specs">
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-1"></div>
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-2"></div>
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-3"></div>
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-4"></div>
+                                </div>
+                                <div class="skeleton-card-footer">
+                                    <div class="skeleton-price-group">
+                                        <div class="skeleton-bone skeleton-price-small"></div>
+                                        <div class="skeleton-bone skeleton-price-large"></div>
+                                    </div>
+                                    <div class="skeleton-bone skeleton-btn"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skeleton Card 2 -->
+                        <div class="search-skeleton-card">
+                            <div class="skeleton-bone skeleton-img-box"></div>
+                            <div class="skeleton-card-body">
+                                <div class="skeleton-card-header">
+                                    <div class="skeleton-bone skeleton-brand-logo"></div>
+                                    <div class="skeleton-bone skeleton-title skeleton-title-w2"></div>
+                                </div>
+                                <div class="skeleton-card-specs">
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-1"></div>
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-2"></div>
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-3"></div>
+                                    <div class="skeleton-bone skeleton-spec-pill skeleton-pill-4"></div>
+                                </div>
+                                <div class="skeleton-card-footer">
+                                    <div class="skeleton-price-group">
+                                        <div class="skeleton-bone skeleton-price-small"></div>
+                                        <div class="skeleton-bone skeleton-price-large"></div>
+                                    </div>
+                                    <div class="skeleton-bone skeleton-btn"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Search Results (Hidden until search is triggered) -->
+                <div id="search-results-content" class="search-results-content" style="display: none;">
+                    <div class="search-results-header">
+                        <h2 class="search-results-title"><span id="search-available-count">9</span> Available Vehicles</h2>
+                        <div class="search-filter-action">
+                            <div class="ev-sort-group" role="group" aria-label="Sort options">
+                                <button type="button" class="ev-sort-btn" id="search-sort-price" data-sort="price" aria-label="Sort by Price: Low to High" title="Sort by Price">
+                                    <span class="ev-sort-label">Price</span>
+                                    <svg class="ev-sort-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path class="sort-arr-up" d="m7 9 5-5 5 5"/>
+                                        <path class="sort-arr-down" d="m7 15 5 5 5-5"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="ev-sort-btn" id="search-sort-name" data-sort="name" aria-label="Sort alphabetically: A to Z" title="Sort by Name (A-Z)">
+                                    <span class="ev-sort-label">A-Z</span>
+                                    <svg class="ev-sort-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path class="sort-arr-up" d="m7 9 5-5 5 5"/>
+                                        <path class="sort-arr-down" d="m7 15 5 5 5-5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <button type="button" class="ev-filter-btn search-filter-btn" id="search-filter-trigger" aria-label="Filter Vehicles">
+                                <img src="images/sliders-horizontal.svg" alt="Filter" class="ev-filter-icon">
+                                <span>Filter</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ev-fleet-container search-fleet-container" id="search-fleet-grid">
+                        <!-- Cloned 9 curated electric vehicles -->
+                    </div>
+
+                    <!-- Empty State for Search Filter (when 0 vehicles match filter criteria) -->
+                    <div class="ev-empty-state search-filter-empty-state" id="search-filter-empty-state" style="display: none;">
+                        <div class="ev-empty-icon-box">
+                            <img src="images/car.svg" alt="No vehicles found" class="ev-empty-icon">
+                        </div>
+                        <h3 class="ev-empty-title">No matching electric vehicles</h3>
+                        <p class="ev-empty-desc">We couldn't find any vehicles matching your filter criteria. Try adjusting or resetting your filters to explore our full fleet.</p>
+                        <button type="button" class="ev-empty-reset-btn" id="search-empty-reset-btn">Reset All Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <span>AZoom</span>
+                </div>
+                
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+                        <img src="images/facebook-round-svgrepo-com.svg" alt="Facebook" class="social-icon">
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                        <img src="images/instagram-round-svgrepo-com.svg" alt="Instagram" class="social-icon">
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                        <img src="images/linkedin-round-svgrepo-com.svg" alt="LinkedIn" class="social-icon">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; AZoom Car Rental 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- EV Filter Modal (Floating centered dialog with blurred backdrop) -->
+    <div id="ev-filter-modal" class="ev-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Filter Vehicles">
+        <div class="ev-modal-dialog">
+            <button type="button" class="ev-modal-close" id="ev-filter-close" aria-label="Close Filter">
+                <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
+            </button>
+            
+            <div class="ev-modal-body">
+                <!-- 1. Body Type -->
+                <div class="filter-group">
+                    <div class="filter-group-header">
+                        <span class="filter-group-label">Body Type</span>
+                    </div>
+                    <div class="filter-chips" data-filter-category="type">
+                        <button type="button" class="filter-chip active" data-filter-val="all">All Types</button>
+                        <button type="button" class="filter-chip" data-filter-val="suv">SUV</button>
+                        <button type="button" class="filter-chip" data-filter-val="sedan">Sedan</button>
+                        <button type="button" class="filter-chip" data-filter-val="hatchback">Hatchback</button>
+                    </div>
+                </div>
+
+                <!-- 2. Brand -->
+                <div class="filter-group">
+                    <div class="filter-group-header">
+                        <span class="filter-group-label">Brand</span>
+                    </div>
+                    <div class="filter-chips" data-filter-category="brand">
+                        <button type="button" class="filter-chip active" data-filter-val="all">All Brands</button>
+                        <button type="button" class="filter-chip" data-filter-val="byd">BYD</button>
+                        <button type="button" class="filter-chip" data-filter-val="tesla">Tesla</button>
+                        <button type="button" class="filter-chip" data-filter-val="hyundai">Hyundai</button>
+                        <button type="button" class="filter-chip" data-filter-val="polestar">Polestar</button>
+                        <button type="button" class="filter-chip" data-filter-val="mercedes-benz">Mercedes-Benz</button>
+                        <button type="button" class="filter-chip" data-filter-val="bmw">BMW</button>
+                    </div>
+                </div>
+
+                <!-- 3. Seating Capacity -->
+                <div class="filter-group">
+                    <div class="filter-group-header">
+                        <span class="filter-group-label">Seating Capacity</span>
+                    </div>
+                    <div class="filter-chips" data-filter-category="seats">
+                        <button type="button" class="filter-chip active" data-filter-val="all">All Seats</button>
+                        <button type="button" class="filter-chip" data-filter-val="5">5 Seats</button>
+                        <button type="button" class="filter-chip" data-filter-val="7">7 Seats</button>
+                    </div>
+                </div>
+
+                <!-- 4. Max Daily Rate -->
+                <div class="filter-group">
+                    <div class="filter-group-header">
+                        <span class="filter-group-label">Max Daily Rate</span>
+                    </div>
+                    <div class="filter-slider-wrap">
+                        <div class="filter-slider-range-labels">
+                            <span>S$88</span>
+                            <span>S$138</span>
+                            <span>S$188</span>
+                        </div>
+                        <input type="range" id="filter-price-slider" class="filter-slider" min="88" max="188" step="10" value="188" aria-label="Maximum Daily Rate">
+                        <div class="filter-price-tooltip" id="filter-price-tooltip" aria-hidden="true" data-align="right">Up to S$188 / day (All)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ev-modal-footer">
+                <button type="button" class="ev-modal-reset-btn" id="ev-filter-reset">Reset All</button>
+                <button type="button" class="ev-modal-apply-btn" id="ev-filter-apply">Show 9 Vehicles</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>

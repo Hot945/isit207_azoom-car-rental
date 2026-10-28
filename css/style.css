@@ -1,0 +1,3525 @@
+html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #AEAC78;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: transparent;
+    border-bottom: 10px solid transparent; 
+    box-shadow: none;
+
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: #FCF0DA;
+    border-bottom: 10px solid #AEAC78;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+    padding: 14px 40px;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #FCF0DA;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+}
+
+.navbar.scrolled .logo {
+    color: #4C4541;
+}
+
+.nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 28px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #FCF0DA;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.navbar.scrolled .nav-btn {
+    color: #4C4541;
+}
+
+.nav-btn:hover {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+.navbar.scrolled .nav-btn:hover {
+    color: #AEAC78;
+}
+
+.nav-btn.active {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.navbar.scrolled .nav-btn.active {
+    color: #AEAC78;
+    text-shadow: none;
+}
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+}
+
+.auth-btn {
+    background: transparent;
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    padding: 9px 22px 9px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1;  
+}
+.navbar.scrolled .auth-btn {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #ffffff;
+}
+
+.auth-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+.navbar.scrolled .auth-btn .auth-icon {
+    filter: brightness(0) invert(1);
+}
+
+.auth-btn:hover {
+    background-color: #FCF0DA;
+    border-color: #FCF0DA;
+    color: #4C4541;
+}
+
+.auth-btn:hover .auth-icon {
+    filter: brightness(0);
+}
+
+.navbar.scrolled .auth-btn:hover {
+    background-color: #AEAC78;
+    border-color: #AEAC78;
+    color: #ffffff;
+}
+
+.navbar.scrolled .auth-btn:hover .auth-icon {
+    filter: brightness(0) invert(1);
+}
+
+
+
+.hero-visual {
+    position: relative;
+    width: 100%;
+    background-color: #AEAC78;
+    overflow: hidden;
+}
+
+.hero-slogan {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
+
+.hero-slogan h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #FCF0DA;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    text-shadow: 0 14px 22px rgba(43, 39, 37, 0.24);
+}
+
+.hero-slogan p {
+    font-size: 1.15rem;
+    color: #FCF0DA;
+    margin-bottom: 36px;
+    text-shadow: 0 8px 14px rgba(43, 39, 37, 0.20);
+}
+
+.hero-car-image {
+    width: 100%;
+    height: 85vh;
+    position: relative;
+}
+
+.hero-car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+    display: block;
+}
+
+.hero-car-image::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 450px;
+    background: linear-gradient(
+        to bottom, 
+        rgba(174, 172, 120, 0) 0%, 
+        rgba(174, 172, 120, 0.3) 25%, 
+        rgba(174, 172, 120, 0.85) 50%,
+        #AEAC78 72%,
+        #AEAC78 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+
+.reservation-widget {
+    background-color: #AEAC78;
+    padding: 20px 40px 100px;
+    position: relative;
+    z-index: 10;
+    margin-top: -2px;
+}
+
+.reservation-card {
+    max-width: 1200px;
+    margin: -60px auto 0;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px 28px 24px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(76, 69, 65, 0.08);
+    position: relative;
+}
+
+.widget-top-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+}
+
+.link-btn {
+    background: transparent;
+    border: none;
+    color: #4C4541;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.link-btn span {
+    text-decoration: underline;
+}
+
+.link-btn:hover {
+    color: #AEAC78;
+}
+
+.booking-link-icon {
+    width: 15px;
+    height: 15px;
+    display: block;
+    transform: translateY(0.5px);
+}
+
+.widget-inputs-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.widget-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.widget-field label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #4C4541;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.widget-field select,
+.widget-field input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #4C4541;
+    background-color: #f8fafc;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.widget-field select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('../images/chevron-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 36px;
+}
+
+.widget-field select:invalid {
+    color: #78716c;
+}
+
+.widget-field select option {
+    color: #4C4541;
+}
+
+.widget-field input[type="date"] {
+    position: relative;
+    cursor: pointer;
+}
+
+.widget-field input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/calendar-fold.svg');
+    background-position: right 14px center;
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+}
+
+.widget-field input[type="date"]::-webkit-datetime-edit {
+    pointer-events: none;
+}
+
+.widget-field input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.widget-field input[type="date"]::-webkit-datetime-edit-text,
+.widget-field input[type="date"]::-webkit-datetime-edit-month-field,
+.widget-field input[type="date"]::-webkit-datetime-edit-day-field,
+.widget-field input[type="date"]::-webkit-datetime-edit-year-field {
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.widget-field input[type="date"]::-webkit-datetime-edit-month-field:focus,
+.widget-field input[type="date"]::-webkit-datetime-edit-day-field:focus,
+.widget-field input[type="date"]::-webkit-datetime-edit-year-field:focus {
+    background-color: transparent !important;
+    color: inherit !important;
+    outline: none !important;
+}
+
+.widget-field input[type="date"]::selection,
+.widget-field input[type="date"]::-webkit-datetime-edit-month-field::selection,
+.widget-field input[type="date"]::-webkit-datetime-edit-day-field::selection,
+.widget-field input[type="date"]::-webkit-datetime-edit-year-field::selection {
+    background-color: transparent !important;
+}
+
+.widget-field select:focus,
+.widget-field input:focus,
+.widget-field input:active,
+.widget-field input.is-focused {
+    border-color: #AEAC78;
+}
+
+
+/* Input Validation Error State */
+.widget-field input.input-error,
+.widget-field select.input-error {
+    border-color: #E0564C !important;
+    background-color: #FFF6F5 !important;
+    box-shadow: 0 0 0 3px rgba(224, 86, 76, 0.15) !important;
+}
+
+@keyframes inputShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+}
+
+.widget-field.shake {
+    animation: inputShake 0.38s ease-in-out;
+}
+
+.widget-btn-box {
+    flex-shrink: 0;
+}
+
+.search-cars-btn {
+    height: 46px;
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    background-color: #4C4541;
+    color: #ffffff;
+    border: none;
+    padding: 0 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.search-cars-btn:hover {
+    background-color: #AEAC78;
+}
+
+
+
+.features-section {
+    background-color: #FCF0DA;
+    padding: 90px 40px;
+}
+
+.features-header {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto 56px;
+}
+
+.features-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #AEAC78;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.features-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+}
+
+.features-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.feature-card {
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 18px;
+    padding: 36px 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    
+    color: #4C4541;
+    transition: all 0.3s ease;
+}
+
+.feature-icon svg {
+    display: block;
+    stroke-width: 1.5;
+}
+
+.feature-info h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #4C4541;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.feature-info p {
+    font-size: 0.95rem;
+    color: #78716c;
+    line-height: 1.6;
+}
+
+
+
+.showcase-section {
+    max-width: 1280px;
+    margin: 80px auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: stretch;
+    gap: 48px;
+}
+
+.showcase-image {
+    flex: 0 0 410px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+.showcase-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.showcase-image:hover img {
+    transform: scale(1.03);
+}
+
+.showcase-content {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 40px 44px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.showcase-content h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.showcase-content .highlight-text {
+    color: #AEAC78;
+}
+
+.benefits-grid {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 20px 0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.benefit-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    flex-shrink: 0;
+    transform: translateY(1px);
+}
+
+.benefit-item p {
+    font-size: 0.95rem;
+    color: #4C4541;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.explore-btn {
+    background-color: #4C4541;
+    color: #ffffff;
+    border: none;
+    padding: 14px 34px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.explore-btn:hover {
+    background-color: #AEAC78;
+}
+
+
+
+.locations-banner {
+    margin: 80px auto;
+    background-color: #F2C46A;
+    padding: 70px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    
+    overflow: hidden;
+}
+
+.banner-tower {
+    position: absolute;
+    left: 80px;                         
+    bottom: -50px;
+    width: 250px;
+    height: 250px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.banner-city {
+    position: absolute;
+    right: 80px;
+    bottom: -50px;
+    width: 250px;
+    height: 250px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tower-icon,
+.city-icon {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+.banner-car {
+    position: absolute;
+    left: -80px;
+    bottom: -15px;                  
+    width: 90px;
+    height: 90px;
+    z-index: 10;
+    pointer-events: none;
+    animation: drive-across 12s linear infinite;
+    will-change: transform;
+}
+
+.car-icon {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: brightness(0);
+    opacity: 0.7;
+}
+
+@keyframes drive-across {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(100vw + 120px));
+    }
+}
+
+.earth-badge {
+    width: 280px;
+    height: 280px;
+    
+    margin: -140px auto 20px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rotating-earth {
+    width: 100%;
+    height: 100%;
+    display: block;
+    
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+    animation: spin-earth 24s linear infinite;
+    will-change: transform;
+}
+
+@keyframes spin-earth {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.locations-banner-content {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.locations-banner-content h2 {
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+    margin-bottom: 32px;
+}
+
+.highlight-text {
+    color: #FCF0DA;
+}
+
+.banner-btn {
+    background: transparent;
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    padding: 14px 36px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.banner-btn:hover {
+    background-color: #FCF0DA;
+    color: #4C4541;
+    border-color: #FCF0DA;
+}
+
+
+
+.site-footer {
+    background-color: #2b2725;
+    padding: 44px 0 32px;
+}
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 26px;
+}
+.footer-logo {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+.footer-socials {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+.social-link {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    border: none;
+    background: transparent;
+}
+.social-icon {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: brightness(0) invert(0.85); 
+    transition: all 0.25s ease;
+}
+.social-link:hover .social-icon {
+    filter: brightness(0) invert(1);
+}
+
+.footer-divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 22px;
+}
+
+.footer-bottom {
+    text-align: center;
+}
+.copyright {
+    font-size: 0.8rem;
+    color: #a8a29e;
+    margin: 0;
+}
+
+.page-view {
+    display: none;
+}
+.page-view.active {
+    display: block;
+    animation: fadeInPage 0.25s ease-out;
+}
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+
+/* 1. About Hero 区域（新加坡街景大背景 + 深岩灰遮罩 + 统一1200px网格对齐） */
+.about-hero-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-hero {
+    position: relative;
+    flex: 1;
+    background-color: #4C4541;
+    display: flex;
+    align-items: center;
+    padding: 90px 0 30px;
+    overflow: hidden;
+}
+
+/* 右半区专属展示视口：严格贴住中轴线(50%)至屏幕右边缘(100%) */
+.about-hero-media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.about-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 左右两侧完美贴满可视边缘 */
+    object-position: center 32%; /* 垂直居中偏上，展示最完整的狮城街景全貌 */
+    display: block;
+}
+
+.about-hero-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.about-hero-content {
+    /* 严格控制宽度不超过左半区（中轴线前），留出右侧视觉呼吸空间 */
+    max-width: 480px;
+    width: 100%;
+    color: #FCF0DA;
+}
+
+.about-tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #F2C46A;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+}
+
+.about-hero-content h1 {
+    font-size: 3rem;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    color: #FCF0DA;
+}
+
+.about-hero-content .highlight-text {
+    color: #AEAC78;
+}
+
+.about-hero-content p {
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: rgba(252, 240, 218, 0.9);
+    margin-bottom: 0;
+}
+
+/* 2. 生态背书栏 (Credentials Bar - 统一1200px网格对齐) */
+.about-creds-bar {
+    flex-shrink: 0;
+    background-color: #2b2725;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px 0;
+}
+
+.about-creds-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+.cred-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.cred-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #FCF0DA;
+    margin-bottom: 4px;
+}
+
+.cred-sub {
+    font-size: 0.85rem;
+    color: #AEAC78;
+    font-weight: 500;
+}
+
+.cred-divider-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+    flex-shrink: 0;
+    filter: invert(76%) sepia(19%) saturate(530%) hue-rotate(34deg) brightness(92%) contrast(87%);
+    opacity: 0.8;
+    transition: opacity 0.25s ease;
+}
+
+.cred-divider-icon:hover {
+    opacity: 1;
+}
+
+/* 3 & 4. 故事板块 (Story Sections - 统一1200px网格对齐) */
+.about-story-section {
+    padding: 90px 0;
+    background-color: #ffffff;
+}
+
+/* 两个连续白底故事板块之间平滑衔接，避免上下间距叠加过大 */
+.about-story-section + .about-story-section {
+    padding-top: 20px;
+}
+
+.story-grid {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: stretch;
+}
+
+.story-grid.reverse {
+    grid-template-columns: 1fr 1fr;
+}
+
+.story-text-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.story-image-col {
+    display: flex;
+    height: 100%;
+}
+
+.section-kicker {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #AEAC78;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.headline-zero-lockup {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.giant-zero {
+    font-size: 5.2rem;
+    font-weight: 900;
+    line-height: 0.8;
+    color: #AEAC78;
+    letter-spacing: -3px;
+    flex-shrink: 0;
+    user-select: none;
+    margin-top: 0px;
+}
+
+.zero-headline-text {
+    font-size: 2.1rem;
+    line-height: 1.15;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+.zero-headline-text span {
+    display: block;
+    white-space: nowrap;
+}
+
+.story-text-col h2 {
+    font-size: 2.3rem;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+}
+
+.story-text-col p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #55504c;
+    margin-bottom: 18px;
+}
+
+.story-highlight-box {
+    margin-top: 24px;
+    padding: 18px 24px;
+    background-color: #FCF0DA;
+    border-left: 4px solid #AEAC78;
+    border-radius: 0 12px 12px 0;
+}
+
+.highlight-quote {
+    font-style: italic;
+    color: #4C4541;
+    font-weight: 600;
+    margin-bottom: 0 !important;
+}
+
+.story-cta-btn {
+    align-self: flex-start;
+    margin-top: 16px;
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border: none;
+    padding: 12px 28px;
+    font-size: 0.98rem;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.story-cta-btn:hover {
+    background-color: #AEAC78;
+    color: #ffffff;
+}
+
+.story-img-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 24px 0 0 24px; /* 右侧两角改为直角，左侧保持大圆角 */
+    border-right: 5px solid #AEAC78; /* 右侧专属生态绿竖线，呼应左侧引用框 */
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.story-grid.reverse .story-img-card {
+    border-radius: 0 24px 24px 0; /* 左侧两角改为直角，右侧保持圆角 */
+    border-right: none;
+    border-left: 5px solid #4C4541; /* 左侧专属竖线，与旁边按钮深炭灰色完全一致 */
+}
+
+.story-img-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.story-img-card:hover img {
+    transform: scale(1.03);
+}
+
+/* 5. 绿色战绩量化条 (Metrics Bar - 统一1200px网格对齐) */
+.about-metrics-bar {
+    background-color: #FCF0DA;
+    padding: 80px 0;
+    text-align: center;
+    border-top: 1px solid rgba(174, 172, 120, 0.3);
+}
+
+.about-metrics-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.metrics-kicker {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    color: #AEAC78;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.metrics-header h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    margin-bottom: 48px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.metric-card {
+    background: #ffffff;
+    padding: 32px 20px;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(76, 69, 65, 0.06);
+    border: 1px solid rgba(174, 172, 120, 0.25);
+    transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 12px 30px rgba(76, 69, 65, 0.12);
+}
+
+.metric-num {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #4C4541;
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+}
+
+.accent-symbol {
+    color: #AEAC78;
+}
+
+.metric-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #4C4541;
+    margin-bottom: 8px;
+}
+
+.metric-label sub {
+    font-size: 0.75em;
+    line-height: 0;
+    vertical-align: -0.2em;
+}
+
+.metric-desc {
+    font-size: 0.88rem;
+    color: #726b67;
+    line-height: 1.45;
+}
+
+/* 6. 联络与留言枢纽 (Contact Section - 中轴线左侧米黄/右侧深炭灰双拼，统一1200px网格对齐) */
+.about-contact-section {
+    background: linear-gradient(90deg, #FCF0DA 0%, #FCF0DA 50%, #4C4541 50%, #4C4541 100%);
+    padding: 90px 0;
+}
+
+.contact-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 56px;
+    align-items: flex-start;
+}
+
+.contact-info-col h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #4C4541;
+}
+
+.contact-info-col p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #55504c;
+    margin-bottom: 36px;
+}
+
+.contact-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    flex-shrink: 0;
+    opacity: 0.85;
+    transform: translateY(2.5px);
+}
+
+.contact-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7a784d;
+}
+
+.contact-val {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #4C4541;
+}
+
+.contact-link {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #4C4541;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+}
+
+.contact-link:hover {
+    color: #AEAC78;
+}
+.contact-form-card {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 42px 44px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+    color: #4C4541;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 15px 18px;
+    border: 1.5px solid #d8d3cb;
+    border-radius: 14px;
+    font-size: 0.98rem;
+    font-family: inherit;
+    color: #4C4541;
+    background-color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #78716c;
+    opacity: 0.9;
+}
+
+.form-group select:invalid {
+    color: #78716c;
+}
+
+.form-group select option {
+    color: #4C4541;
+}
+
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('../images/chevron-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 42px;
+    cursor: pointer;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #AEAC78;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(174, 172, 120, 0.25);
+}
+
+.form-btn-row {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.contact-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    background-color: #F2C46A;
+    color: #4C4541;
+    border: none;
+    padding: 14px 34px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.contact-submit-btn:hover {
+    background-color: #4C4541;
+    color: #F2C46A;
+}
+/* 提交成功提示文本（放置于按钮右侧，无边框纯文本对勾提示） */
+.form-toast-msg {
+    display: none;
+    align-items: center;
+    gap: 7px;
+    color: #2e6936;
+    font-size: 0.95rem;
+    font-weight: 600;
+    animation: fadeInPage 0.25s ease;
+}
+
+.form-toast-msg.show {
+    display: inline-flex;
+}
+
+.toast-check-icon {
+    width: 18px;
+    height: 18px;
+    stroke: #2e6936;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   6. OUR LOCATIONS PAGE (#page-locations)
+   - Branches: 2 Cards (Alexandra HQ & Changi Airport)
+   - Car Parks: 3 Cards (Orchard, Jurong East, Woodlands)
+   - Unified 1200px Content Grid & Brand System
+   ========================================================================== */
+
+.locations-hero {
+    background-color: #F2C46A;
+    padding: 130px 0 50px;
+    color: #4C4541;
+}
+
+.locations-hero-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.locations-hero-text {
+    max-width: 820px;
+}
+
+.locations-hero-text h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    margin-top: 0;
+    margin-bottom: 14px;
+    line-height: 1.15;
+}
+
+.locations-hero-text p {
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: #4C4541;
+    max-width: 820px;
+    margin: 0;
+}
+
+.locations-hero-icon-box {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.locations-hero-map-icon {
+    width: 125px;
+    height: 125px;
+    margin-top: -9px; /* 精确抵消字体内边距与SVG内部留白，使地图最高点与Our Locations大字严格水平平齐 */
+    opacity: 0.95;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.locations-hero-map-icon:hover {
+    transform: scale(1.05);
+}
+
+.locations-content-wrapper {
+    background-color: #FCF0DA;
+    padding: 60px 0 100px;
+}
+
+.locations-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.locations-section-header {
+    margin-bottom: 34px;
+}
+
+.loc-section-kicker {
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #AEAC78;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.locations-section-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.locations-section-header p {
+    font-size: 1.05rem;
+    color: #6e6763;
+    margin: 0;
+    max-width: 720px;
+    line-height: 1.6;
+}
+
+/* Locations Rows Layout (Row 1: Branches, Row 2: Car Parks) */
+.branches-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.carparks-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 36px;
+}
+
+.location-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(76, 69, 65, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s ease;
+}
+
+.location-card:hover {
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Image Wrapper */
+.loc-img-wrapper {
+    border-radius: 20px 20px 0 0;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #2b2725;
+}
+
+.branches-row .loc-img-wrapper {
+    height: 260px;
+}
+
+.carparks-row .loc-img-wrapper {
+    height: 215px;
+}
+
+.loc-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.location-card:hover .loc-img-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Corner tags removed per user request */
+/* Card Body (四角全圆角，顶部向上弧形覆盖于图片下方，与底部圆角呼应形成独立圆框) */
+.loc-card-body {
+    position: relative;
+    z-index: 2;
+    margin-top: -24px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.06);
+    padding: 24px 26px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+}
+
+.loc-card-body h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.3px;
+    margin: 0;
+    line-height: 1.25;
+}
+
+.loc-details-btn {
+    background: transparent;
+    border: none;
+    color: #78706A;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+    display: inline-block;
+    line-height: 1.2;
+}
+
+.loc-details-btn:hover {
+    color: #F2C46A;
+    background-color: transparent;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+    .branches-row {
+        grid-template-columns: 1fr;
+    }
+    .carparks-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .carparks-row {
+        grid-template-columns: 1fr;
+    }
+    .locations-hero h1 {
+        font-size: 2.2rem;
+    }
+    .locations-hero-map-icon {
+        width: 80px;
+        height: 80px;
+        margin-top: -6px;
+    }
+    .locations-hero-container,
+    .locations-container {
+        padding: 0 20px;
+    }
+}
+
+
+/* ==========================================================================
+   7. OUR EVS FLEET PAGE (#page-evs)
+   - Top Intro Hero (SIXT-inspired layout with concise copy)
+   - Middle Filter Bar (Filter trigger & fleet metadata)
+   - 9-Vehicle Responsive Grid (Singapore EV market selection)
+   - Image placeholder container & card layout
+   ========================================================================== */
+
+/* 7.1 Hero Section */
+.evs-hero {
+    background-color: #FF7F50;
+    padding: 130px 0 54px;
+    color: #2b2725;
+}
+
+.evs-hero-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    text-align: center;
+}
+
+.evs-hero-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #2b2725;
+    letter-spacing: -0.5px;
+    margin-top: 0;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.evs-hero-desc {
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: #383430;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+/* 7.2 Middle Filter Bar */
+.ev-filter-section {
+    background-color: #FAF7F0;
+    border-bottom: 1px solid rgba(76, 69, 65, 0.12);
+    padding: 22px 0;
+}
+
+.ev-filter-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.ev-filter-info {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ev-filter-count {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.3px;
+}
+
+.ev-filter-subtext {
+    font-size: 0.92rem;
+    color: #78706a;
+}
+
+.ev-filter-action {
+    display: flex;
+    align-items: center;
+}
+
+
+/* ==========================================================================
+   Sort Controls (Placed to the left of Filter button on Our EVs)
+   ========================================================================== */
+.ev-filter-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ev-sort-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ev-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background-color: transparent;
+    color: #4C4541;
+    border: 1.5px solid #4C4541;
+    border-radius: 24px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ev-sort-btn:hover {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+}
+
+.ev-sort-btn:active {
+    transform: scale(0.97);
+}
+
+.ev-sort-btn.is-active {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+}
+
+.ev-sort-icon {
+    width: 13px;
+    height: 13px;
+    display: block;
+    transform: translateY(0.5px);
+}
+
+.ev-sort-icon path {
+    stroke: currentColor;
+    transition: opacity 0.2s ease, stroke 0.2s ease;
+}
+
+/* Neutral state */
+.ev-sort-btn .sort-arr-up,
+.ev-sort-btn .sort-arr-down {
+    opacity: 0.45;
+}
+
+/* Hover on neutral */
+.ev-sort-btn:hover:not(.is-active) .sort-arr-up,
+.ev-sort-btn:hover:not(.is-active) .sort-arr-down {
+    opacity: 0.85;
+}
+
+/* Ascending state (Low to High / A to Z) */
+.ev-sort-btn.is-asc .sort-arr-up {
+    opacity: 1;
+}
+.ev-sort-btn.is-asc .sort-arr-down {
+    opacity: 0;
+}
+
+/* Descending state (High to Low / Z to A) */
+.ev-sort-btn.is-desc .sort-arr-up {
+    opacity: 0;
+}
+.ev-sort-btn.is-desc .sort-arr-down {
+    opacity: 1;
+}
+
+/* Smooth card reordering animation */
+@keyframes cardReorderIn {
+    0% {
+        opacity: 0.55;
+        transform: translateY(6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ev-card.is-reordered {
+    animation: cardReorderIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (max-width: 640px) {
+    .ev-filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .ev-filter-action {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .ev-sort-group {
+        gap: 8px;
+    }
+    .ev-sort-btn {
+        padding: 8px 14px;
+        font-size: 0.88rem;
+    }
+}
+
+.ev-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #4C4541;
+    border: 1.5px solid #4C4541;
+    border-radius: 24px;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.ev-filter-btn span {
+    line-height: 1;
+    display: inline-block;
+}
+
+.ev-filter-btn:hover {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+}
+
+.ev-filter-btn.is-filtered {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+}
+
+.ev-filter-icon {
+    width: 15px;
+    height: 15px;
+    display: block;
+    flex-shrink: 0;
+    transition: filter 0.25s ease;
+}
+
+.ev-filter-btn:hover .ev-filter-icon,
+.ev-filter-btn.is-filtered .ev-filter-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* 7.3 EV Fleet Grid Section */
+.ev-fleet-section {
+    background-color: #FCF0DA;
+    padding: 50px 0 90px;
+}
+
+.ev-fleet-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+/* 7.4 EV Card */
+.ev-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(76, 69, 65, 0.08);
+    transition: box-shadow 0.3s ease;
+    /* Hardware accelerated smooth antialiased clipping for rounded corners */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    transform: translateZ(0);
+}
+
+.ev-card:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Box (Photo Frame) */
+.ev-card-image-box {
+    height: 225px;
+    background-color: #F7F5F0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 20px 0 0;
+}
+
+.ev-card-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.ev-placeholder-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.35;
+    display: block;
+    filter: invert(30%) sepia(8%) saturate(500%) hue-rotate(345deg);
+}
+
+.ev-placeholder-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: #988f88;
+    text-transform: uppercase;
+}
+
+/* Real Image Support */
+.ev-card-image-box img.ev-real-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    image-rendering: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform 0.4s ease;
+}
+
+.ev-card:hover img.ev-real-image {
+    transform: scale(1.04) translateZ(0);
+}
+
+/* Individual Optical Alignments per Vehicle (Centered with Environmental Breathing Room) */
+.ev-img-atto3 {
+    object-position: 50% 48%;
+}
+
+.ev-img-model3 {
+    object-position: 50% 58%;
+}
+
+.ev-img-dolphin {
+    object-position: 46% 54%;
+}
+
+.ev-img-ioniq5 {
+    object-position: 50% 64%;
+}
+
+.ev-img-modely {
+    object-position: 50% 58%;
+}
+
+.ev-img-seal {
+    object-position: 50% 62%;
+}
+
+.ev-img-polestar2 {
+    object-position: 50% 64%;
+}
+
+.ev-img-eqb {
+    object-position: 50% 54%;
+}
+
+.ev-img-bmwi4 {
+    object-position: 50% 64%;
+}
+
+/* Card Body (Rounded Independent Container) */
+.ev-card-body {
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin-top: -16px;
+    position: relative;
+    z-index: 2;
+    padding: 24px 24px 22px;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.ev-card-header {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ev-card-brand-logo {
+    height: 22px;
+    max-width: 45px;
+    width: auto;
+    object-fit: contain;
+    object-position: left center;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.88;
+    transition: opacity 0.2s ease;
+}
+
+.ev-card-brand-logo.ev-logo-byd {
+    height: 12px;
+    max-width: 65px;
+    margin-left: 0;
+    margin-top: 3px;
+    margin-bottom: 16px;
+}
+
+.ev-card:hover .ev-card-brand-logo {
+    opacity: 1;
+}
+
+.ev-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #4C4541;
+    margin: 0;
+    line-height: 1.25;
+}
+
+/* Specifications Grid (2x2 with Icon Slots) */
+.ev-card-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 14px;
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    background-color: #FAF8F4;
+    border-radius: 12px;
+    border: 1px solid rgba(76, 69, 65, 0.05);
+}
+
+.ev-spec-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ev-spec-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+    background: transparent;
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
+}
+
+.ev-spec-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #4C4541;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Card Footer & Pricing */
+.ev-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid rgba(76, 69, 65, 0.08);
+}
+
+.ev-price-box {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+}
+
+.ev-price-from {
+    font-size: 0.8rem;
+    color: #8c837c;
+}
+
+.ev-price-amount {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+}
+
+.ev-price-period {
+    font-size: 0.82rem;
+    color: #8c837c;
+}
+
+.ev-card-btn {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border: 1.5px solid #4C4541;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.ev-card-btn:hover {
+    background-color: #AEAC78;
+    border-color: #AEAC78;
+    color: #ffffff;
+}
+
+/* Card Details Button (Underlined link-button matching modal Reset All style) */
+.ev-card-details-btn {
+    background: transparent;
+    border: none;
+    color: #78706A;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    display: inline-block;
+    line-height: 1.2;
+}
+
+.ev-card-details-btn:hover {
+    color: #FF7F50;
+    background-color: rgba(76, 69, 65, 0.06);
+}
+
+/* On Our EVs showcase page: show View Details in place of Rent Now */
+#page-evs .ev-card-btn {
+    display: none !important;
+}
+
+#page-evs .ev-card-details-btn {
+    display: inline-block !important;
+}
+
+/* On Search results page: hide View Details, keep primary Rent Now action */
+.search-fleet-container .ev-card-details-btn {
+    display: none !important;
+}
+
+.search-fleet-container .ev-card-btn {
+    display: inline-flex !important;
+}
+
+/* Modal Open Body Lock */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* 7.4 EV Filter Floating Modal & Backdrop Blur */
+.ev-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(40, 36, 34, 0.52);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ev-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.ev-modal-dialog {
+    position: relative;
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 540px;
+    max-height: calc(100vh - 48px);
+    border-radius: 24px;
+    border: 1px solid rgba(76, 69, 65, 0.12);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.96);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ev-modal-overlay.active .ev-modal-dialog {
+    transform: scale(1);
+}
+
+.ev-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    z-index: 10;
+    background: rgba(76, 69, 65, 0.06);
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.ev-modal-close:hover {
+    background-color: rgba(76, 69, 65, 0.14);
+}
+
+.ev-modal-close-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    opacity: 0.65;
+    transition: opacity 0.2s ease;
+}
+
+.ev-modal-close:hover .ev-modal-close-icon {
+    opacity: 0.95;
+}
+
+.ev-modal-body {
+    padding: 30px 28px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.ev-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.ev-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+.ev-modal-body::-webkit-scrollbar-thumb {
+    background: rgba(76, 69, 65, 0.18);
+    border-radius: 4px;
+}
+.ev-modal-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(76, 69, 65, 0.32);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-group-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #4C4541;
+}
+
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-chip {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(76, 69, 65, 0.18);
+    background-color: #FFFFFF;
+    color: #4C4541;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    line-height: 1.2;
+}
+
+.filter-chip:hover {
+    border-color: #4C4541;
+    background-color: #FAF7F0;
+}
+
+.filter-chip.active {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+    box-shadow: 0 2px 8px rgba(76, 69, 65, 0.18);
+}
+
+.filter-slider-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 2px 0 44px;
+}
+
+.filter-slider-range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #8C847E;
+    font-weight: 600;
+    margin-bottom: 2px;
+    padding: 0 11px;
+}
+
+.filter-price-tooltip {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    background-color: #FAF7F0;
+    color: #4C4541;
+    border: 1px solid rgba(76, 69, 65, 0.16);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(76, 69, 65, 0.12);
+    transform: translateY(-4px) scale(0.94);
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 5;
+    user-select: none;
+}
+
+.filter-price-tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.filter-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background: #E8E4DB;
+    outline: none;
+    accent-color: #4C4541;
+    cursor: pointer;
+}
+
+.filter-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background-color: #4C4541;
+    border: 2.5px solid #FFFFFF;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.filter-slider::-webkit-slider-thumb:hover {
+    background-color: #2D2926;
+}
+
+.filter-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background-color: #4C4541;
+    border: 2.5px solid #FFFFFF;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.ev-modal-footer {
+    padding: 18px 28px;
+    border-top: 1px solid rgba(76, 69, 65, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background-color: #FAF7F0;
+}
+
+.ev-modal-reset-btn {
+    background: transparent;
+    border: none;
+    color: #78706A;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.ev-modal-reset-btn:hover {
+    color: #FF7F50;
+    background-color: rgba(76, 69, 65, 0.06);
+}
+
+.ev-modal-apply-btn {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ev-modal-apply-btn:hover {
+    background-color: #AEAC78;
+    color: #ffffff;
+}
+
+.ev-modal-apply-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #4C4541;
+    color: #FCF0DA;
+}
+
+/* Fleet Empty State & Card Transitions */
+.ev-card.is-hidden {
+    display: none !important;
+}
+
+@keyframes evCardFade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ev-card.animate-in {
+    animation: evCardFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ev-empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    background: #FAF7F0;
+    border-radius: 20px;
+    border: 1.5px dashed rgba(76, 69, 65, 0.25);
+    margin: 10px 0;
+}
+
+.ev-empty-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(76, 69, 65, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.ev-empty-icon {
+    width: 30px;
+    height: 30px;
+    opacity: 0.65;
+}
+
+.ev-empty-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #4C4541;
+    margin: 0 0 10px;
+}
+
+.ev-empty-desc {
+    font-size: 0.95rem;
+    color: #78706A;
+    max-width: 440px;
+    margin: 0 0 22px;
+    line-height: 1.5;
+}
+
+.ev-empty-reset-btn {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.ev-empty-reset-btn:hover {
+    background-color: #AEAC78;
+    color: #ffffff;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .ev-fleet-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+@media (max-width: 680px) {
+    .evs-hero h1,
+    .evs-hero-title {
+        font-size: 2.1rem;
+    }
+    .evs-hero-container,
+    .ev-filter-container,
+    .ev-fleet-container {
+        padding: 0 20px;
+    }
+    .ev-filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .ev-fleet-container {
+        grid-template-columns: 1fr;
+    }
+    .ev-modal-overlay {
+        padding: 16px;
+    }
+    .ev-modal-dialog {
+        max-height: 88vh;
+        border-radius: 20px;
+    }
+    .ev-modal-close {
+        top: 14px;
+        right: 16px;
+    }
+    .ev-modal-body {
+        padding: 24px 20px 18px;
+        gap: 18px;
+    }
+    .ev-modal-footer {
+        padding: 16px 20px;
+    }
+}
+
+/* ==========================================================================
+   11. 独立搜索页面 (Dedicated Search Results Page)
+   ========================================================================== */
+#page-search {
+    background-color: #FCF0DA;
+}
+
+#page-search.active {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.search-page-header {
+    background-color: #F2C46A;
+    padding: 110px 0 36px;
+    border-bottom: 1px solid rgba(76, 69, 65, 0.08);
+}
+
+.search-page-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+/* Top-left Back to Home Action */
+.search-page-top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.search-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    background: transparent;
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.75);
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.search-back-btn:hover {
+    background-color: #FCF0DA;
+    color: #4C4541;
+    border-color: #FCF0DA;
+    transform: translateX(-3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.search-back-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    transform: translateY(0.5px);
+    transition: transform 0.2s ease;
+}
+
+.search-back-btn:hover .search-back-icon {
+    transform: translateX(-2px) translateY(0.5px);
+}
+
+.search-widget-card {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px 28px 24px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(76, 69, 65, 0.08);
+    position: relative;
+}
+
+.search-results-section {
+    background-color: #FCF0DA;
+    padding: 0;
+    scroll-margin-top: 85px;
+    min-height: 480px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-results-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Empty Initial State: Vertically & Horizontally centered in the space between search bar & footer */
+#search-empty-state,
+.search-empty-circle-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    min-height: 380px;
+    margin: auto 0;
+    padding: 40px 0;
+    width: 100%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: relative;
+    overflow: visible;
+}
+
+.search-empty-circle {
+    width: 96px;
+    height: 96px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(76, 69, 65, 0.06);
+    margin: 0 auto;
+    position: relative;
+    user-select: none;
+    pointer-events: none;
+}
+
+.search-empty-icon-img {
+    width: 44px;
+    height: 44px;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* When active results or skeleton are shown, restore top/bottom padding */
+.search-results-content,
+.search-skeleton-wrapper {
+    padding: 40px 0 90px;
+}
+
+/* Active Results Header (Title + Filter on the Same Row) */
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(76, 69, 65, 0.15);
+    gap: 20px;
+}
+
+.search-results-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #4C4541;
+    margin: 0;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+#search-available-count {
+    display: inline-block;
+    color: #4C4541;
+}
+
+.search-filter-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.search-results-header .ev-sort-btn {
+    background-color: transparent;
+    border: 1.5px solid #4C4541;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.search-results-header .ev-sort-btn:hover {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border-color: #4C4541;
+}
+
+.search-results-header .ev-sort-btn.is-active {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border-color: #4C4541;
+}
+
+.search-results-header .search-filter-btn {
+    background-color: transparent;
+    border: 1.5px solid #4C4541;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.search-results-header .search-filter-btn:hover {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border-color: #4C4541;
+}
+
+.search-results-header .search-filter-btn.is-filtered {
+    background-color: #4C4541;
+    color: #FCF0DA;
+    border-color: #4C4541;
+}
+
+.search-filter-empty-state {
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: 1.5px dashed rgba(76, 69, 65, 0.25);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    margin: 20px 0 40px;
+    width: 100%;
+}
+
+/* Skeleton Loading State (Two Car Cards Placeholder with Shimmer & Pulse) */
+.search-skeleton-wrapper {
+    width: 100%;
+    margin-bottom: 30px;
+    animation: searchFadeIn 0.3s ease-out;
+}
+
+.search-skeleton-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.skeleton-bone {
+    background-color: #E2E2E2;
+    background-image: linear-gradient(
+        90deg,
+        #DFDFDF 0%,
+        #DFDFDF 20%,
+        #F2F2F2 50%,
+        #DFDFDF 80%,
+        #DFDFDF 100%
+    );
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.35s ease-in-out infinite, skeletonPulse 1.35s ease-in-out infinite;
+    border-radius: 8px;
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes skeletonPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.52;
+    }
+}
+
+/* Skeleton Header */
+.skeleton-header-title {
+    width: 210px;
+    height: 32px;
+    border-radius: 10px;
+}
+
+.search-skeleton-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.search-skeleton-header .skeleton-header-sort,
+.search-skeleton-header .skeleton-header-filter {
+    background-color: transparent;
+    background-image: none;
+    animation: none;
+    border: 1.5px solid rgba(76, 69, 65, 0.35);
+    border-radius: 24px;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    height: 38px;
+    box-sizing: border-box;
+}
+
+.search-skeleton-header .skeleton-header-sort.skeleton-sort-price {
+    width: 84px;
+}
+
+.search-skeleton-header .skeleton-header-sort.skeleton-sort-name {
+    width: 78px;
+}
+
+.search-skeleton-header .skeleton-header-filter {
+    width: 92px;
+}
+
+/* Skeleton Fleet Container (Matches .search-fleet-container) */
+.search-skeleton-fleet {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Skeleton Card (Matches .search-fleet-container .ev-card) */
+.search-skeleton-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 200px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(76, 69, 65, 0.08);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+    transform: translateZ(0);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Left Image Box Skeleton */
+.search-skeleton-card .skeleton-img-box {
+    width: 330px;
+    min-width: 300px;
+    max-width: 350px;
+    min-height: 200px;
+    border-radius: 20px 0 0 20px;
+    flex-shrink: 0;
+}
+
+/* Right Body Skeleton */
+.search-skeleton-card .skeleton-card-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    grid-template-areas:
+        "header footer"
+        "specs  footer";
+    column-gap: 32px;
+    row-gap: 14px;
+    padding: 24px 32px;
+    align-items: center;
+}
+
+.search-skeleton-card .skeleton-card-header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+}
+
+.skeleton-brand-logo {
+    width: 44px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.skeleton-title {
+    height: 26px;
+    border-radius: 6px;
+}
+.skeleton-title-w1 {
+    width: 175px;
+}
+.skeleton-title-w2 {
+    width: 145px;
+}
+
+/* Specs Bar */
+.search-skeleton-card .skeleton-card-specs {
+    grid-area: specs;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 22px;
+    padding: 12px 20px;
+    background-color: #FAF8F4;
+    border-radius: 12px;
+    border: 1px solid rgba(76, 69, 65, 0.05);
+}
+
+.skeleton-spec-pill {
+    height: 16px;
+    border-radius: 4px;
+}
+.skeleton-pill-1 { width: 55px; }
+.skeleton-pill-2 { width: 75px; }
+.skeleton-pill-3 { width: 60px; }
+.skeleton-pill-4 { width: 70px; }
+
+/* Footer */
+.search-skeleton-card .skeleton-card-footer {
+    grid-area: footer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 14px;
+    border-left: 1px solid rgba(76, 69, 65, 0.08);
+    padding: 0 0 0 28px;
+    height: 100%;
+}
+
+.skeleton-price-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.skeleton-price-small {
+    width: 36px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.skeleton-price-large {
+    width: 82px;
+    height: 26px;
+    border-radius: 6px;
+}
+
+.skeleton-btn {
+    width: 140px;
+    height: 44px;
+    border-radius: 12px;
+}
+
+/* Responsive (Matching .search-fleet-container media queries) */
+@media (max-width: 992px) {
+    .search-skeleton-card {
+        flex-direction: column;
+    }
+    .search-skeleton-card .skeleton-img-box {
+        width: 100%;
+        max-width: none;
+        height: 220px;
+        border-radius: 20px 20px 0 0;
+    }
+    .search-skeleton-card .skeleton-card-body {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "specs"
+            "footer";
+        gap: 18px;
+        padding: 20px 24px;
+    }
+    .search-skeleton-card .skeleton-card-footer {
+        border-left: none;
+        border-top: 1px solid rgba(76, 69, 65, 0.08);
+        padding: 16px 0 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: auto;
+    }
+    .skeleton-price-group {
+        align-items: flex-start;
+    }
+}
+
+/* Results Content Fade-In Animation */
+.search-results-content {
+    animation: searchFadeIn 0.35s ease-out forwards;
+    scroll-margin-top: 85px;
+}
+
+@keyframes searchFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Horizontal Vehicle List Layout (One vehicle per row)
+   ========================================================================== */
+.search-fleet-container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.search-fleet-container .ev-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 200px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(76, 69, 65, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.search-fleet-container .ev-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
+    border-color: rgba(174, 172, 120, 0.45);
+}
+
+/* Left: Vehicle Image Frame */
+.search-fleet-container .ev-card-image-box {
+    width: 330px;
+    min-width: 300px;
+    max-width: 350px;
+    height: auto;
+    border-radius: 20px 0 0 20px;
+    background-color: #F7F5F0;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.search-fleet-container .ev-card-image-box img.ev-real-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+}
+
+/* Right: Card Body with 2-Column Grid (Info Left + Pricing Right) */
+.search-fleet-container .ev-card-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    grid-template-areas:
+        "header footer"
+        "specs  footer";
+    column-gap: 32px;
+    row-gap: 14px;
+    padding: 24px 32px;
+    align-items: center;
+}
+
+.search-fleet-container .ev-card-header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 0;
+}
+
+.search-fleet-container .ev-card-brand-logo {
+    height: 20px;
+    max-width: 48px;
+    margin-bottom: 0;
+    margin-top: 0;
+    transform: translateY(2px);
+}
+
+.search-fleet-container .ev-card-brand-logo.ev-logo-byd {
+    height: 13px;
+    max-width: 60px;
+    margin-bottom: 0;
+    margin-top: 0;
+    transform: translateY(1px);
+}
+
+.search-fleet-container .ev-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #4C4541;
+    line-height: 1.2;
+    margin: 0;
+}
+
+/* Middle-Bottom: Specs in horizontal pills */
+.search-fleet-container .ev-card-specs {
+    grid-area: specs;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 22px;
+    margin-bottom: 0;
+    padding: 12px 20px;
+    background-color: #FAF8F4;
+    border-radius: 12px;
+    border: 1px solid rgba(76, 69, 65, 0.05);
+}
+
+.search-fleet-container .ev-spec-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-fleet-container .ev-spec-icon {
+    width: 15px;
+    height: 15px;
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+    transform: none;
+}
+
+.search-fleet-container .ev-spec-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #4C4541;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Right Column: Pricing & Booking Action */
+.search-fleet-container .ev-card-footer {
+    grid-area: footer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 14px;
+    border-top: none;
+    border-left: 1px solid rgba(76, 69, 65, 0.08);
+    padding: 0 0 0 28px;
+    height: 100%;
+}
+
+.search-fleet-container .ev-price-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.search-fleet-container .ev-price-from {
+    font-size: 0.8rem;
+    color: #8c837c;
+}
+
+.search-fleet-container .ev-price-amount {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.search-fleet-container .ev-price-period {
+    font-size: 0.85rem;
+    color: #8c837c;
+}
+
+.search-fleet-container .ev-card-btn {
+    width: 100%;
+    min-width: 140px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background-color: #4C4541;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.search-fleet-container .ev-card-btn:hover {
+    background-color: #AEAC78;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+@media (max-width: 992px) {
+    .search-page-header {
+        padding: 95px 0 28px;
+    }
+    .search-page-container,
+    .search-results-container {
+        padding: 0 20px;
+    }
+    .search-widget-inputs-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-widget-inputs-row .widget-btn-box {
+        margin-top: 8px;
+    }
+    .search-widget-inputs-row .search-cars-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 860px) {
+    .search-fleet-container .ev-card {
+        flex-direction: column;
+    }
+    .search-fleet-container .ev-card-image-box {
+        width: 100%;
+        max-width: none;
+        height: 220px;
+        border-radius: 20px 20px 0 0;
+    }
+    .search-fleet-container .ev-card-body {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "specs"
+            "footer";
+        gap: 18px;
+        padding: 20px 24px;
+    }
+    .search-fleet-container .ev-card-footer {
+        border-left: none;
+        border-top: 1px solid rgba(76, 69, 65, 0.08);
+        padding: 16px 0 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: auto;
+    }
+    .search-fleet-container .ev-price-box {
+        align-items: flex-start;
+    }
+    .search-fleet-container .ev-card-btn {
+        width: auto;
+    }
+}
+
+/* ==========================================================================
+   12. 页面与搜索卡片平滑过渡动画 (Shared Element Card Flight & Page Fade)
+   ========================================================================== */
+.search-card-flying {
+    z-index: 100 !important;
+    will-change: transform;
+    pointer-events: none;
+}
+
+/* 1. Forward Transition: Entering Search Page */
+.page-search-transition-in {
+    animation: searchPageFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes searchPageFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.page-search-transition-in .search-page-top-bar,
+.page-search-transition-in .search-results-section {
+    animation: searchContentStagger 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+@keyframes searchContentStagger {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2. Reverse Transition: Entering Home Page from Search */
+.page-home-transition-in {
+    animation: homePageFadeIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes homePageFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.page-home-transition-in .hero-content,
+.page-home-transition-in .hero-car-image {
+    animation: homeContentStagger 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-home-transition-in .features-section {
+    animation: homeFeaturesStagger 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+@keyframes homeContentStagger {
+    from {
+        opacity: 0;
+        transform: translateY(-22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes homeFeaturesStagger {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
