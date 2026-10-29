@@ -3534,7 +3534,7 @@ body.modal-open {
 /* User Dropdown Menu */
 .auth-user-dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 14px);
     right: 0;
     min-width: 230px;
     background-color: #FFFFFF;
@@ -4245,11 +4245,15 @@ body.modal-open {
 }
 
 .reserve-header-hero-slot {
+    height: 147px;
     min-height: 147px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .reserve-page-wrapper {
@@ -4264,11 +4268,12 @@ body.modal-open {
 }
 
 .reserve-page-title {
-    font-size: 2.3rem;
+    font-size: 2.15rem;
     font-weight: 800;
     color: #4C4541;
     letter-spacing: -0.02em;
-    margin: 0;
+    line-height: 1;
+    margin: -2px 0 0 0;
     text-align: center;
 }
 
@@ -4610,6 +4615,11 @@ body.modal-open {
     font-weight: 600;
 }
 
+.reserve-time-select option:disabled {
+    color: #B8B2AC;
+    font-weight: 400;
+}
+
 .reserve-time-select:focus {
     outline: none;
     border-color: #4C4541;
@@ -4751,4 +4761,957 @@ body.modal-open {
         padding: 0 20px;
         gap: 16px;
     }
+}
+
+/* ==========================================================================
+   16. 3-STEP PROGRESS BAR, PAYMENT CARD & COMPLETED VIEW (#page-reserve)
+   ========================================================================== */
+#reserve-back-btn.is-hidden-step3 {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.reserve-stepper {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    user-select: none;
+}
+
+.reserve-step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 116px;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.25s ease;
+}
+
+.reserve-step-item.is-clickable {
+    cursor: pointer;
+}
+
+.reserve-step-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F6D58E;
+    border: 2.5px solid rgba(76, 69, 65, 0.38);
+    color: rgba(76, 69, 65, 0.7);
+    box-sizing: border-box;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.reserve-step-check {
+    display: none;
+}
+
+.reserve-step-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(76, 69, 65, 0.62);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    text-align: center;
+    transition: color 0.25s ease, font-weight 0.25s ease;
+    white-space: nowrap;
+}
+
+/* Active Step */
+.reserve-step-item.is-active .reserve-step-dot {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+    box-shadow: 0 0 0 4px rgba(76, 69, 65, 0.14);
+}
+
+.reserve-step-item.is-active .reserve-step-label {
+    color: #4C4541;
+    font-weight: 800;
+}
+
+/* Completed Step */
+.reserve-step-item.is-completed .reserve-step-dot {
+    background-color: #4C4541;
+    border-color: #4C4541;
+    color: #FCF0DA;
+}
+
+.reserve-step-item.is-completed .reserve-step-num {
+    display: none;
+}
+
+.reserve-step-item.is-completed .reserve-step-check {
+    display: block;
+}
+
+.reserve-step-item.is-completed .reserve-step-label {
+    color: #4C4541;
+    font-weight: 700;
+}
+
+/* Connecting Line between Step Dots (centered vertically with the 18px dot) */
+.reserve-step-line {
+    width: 195px;
+    height: 2.5px;
+    background-color: rgba(76, 69, 65, 0.24);
+    margin: 8px -40px 0;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.reserve-step-line-fill {
+    width: 0%;
+    height: 100%;
+    background-color: #4C4541;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reserve-step-line.is-filled .reserve-step-line-fill {
+    width: 100%;
+}
+
+/* Step Panel Animation */
+.reserve-step-panel {
+    animation: reserveInnerFadeSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Step 2: Payment Card Styles */
+.payment-secure-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #4C4541;
+    background-color: #FCF0DA;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.payment-secure-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+}
+
+.payment-schedule-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #F6F4F0;
+    border: 1px solid rgba(76, 69, 65, 0.12);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.payment-schedule-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.86rem;
+    color: #4C4541;
+    flex-wrap: wrap;
+}
+
+.payment-schedule-sep {
+    color: #AEAC78;
+    font-weight: 800;
+}
+
+.payment-edit-time-link {
+    background: none;
+    border: none;
+    color: #4C4541;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-family: inherit;
+}
+
+.payment-edit-time-link:hover {
+    color: #000000;
+}
+
+.reserve-payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.payment-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.payment-field.has-error .reserve-field-error {
+    display: block;
+}
+
+.payment-card-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.payment-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(76, 69, 65, 0.2);
+    background-color: #FFFFFF;
+    color: #4C4541;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-card-input-wrap .payment-input {
+    padding-right: 42px;
+    letter-spacing: 0.04em;
+}
+
+.payment-input-card-icon {
+    position: absolute;
+    right: 14px;
+    width: 18px;
+    height: 18px;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.payment-input::placeholder {
+    color: #9C948E;
+    font-weight: 500;
+    letter-spacing: normal;
+}
+
+.payment-input:focus {
+    outline: none;
+    border-color: #4C4541;
+    box-shadow: 0 0 0 3px rgba(76, 69, 65, 0.08);
+}
+
+.payment-input.input-error {
+    border-color: #D32F2F;
+    background-color: #FFFBFB;
+}
+
+.payment-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.payment-actions-row {
+    display: grid;
+    grid-template-columns: 0.38fr 0.62fr;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.payment-back-btn {
+    height: 52px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(76, 69, 65, 0.22);
+    background-color: #FFFFFF;
+    color: #4C4541;
+    font-size: 0.96rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.payment-back-btn:hover {
+    background-color: #F6F4F0;
+    border-color: #4C4541;
+}
+
+/* Step 3: Completed View */
+.reserve-workspace.is-step-completed {
+    grid-template-columns: 1fr;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.reserve-completed-col {
+    width: 100%;
+    animation: reserveInnerFadeSlide 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reserve-completed-card {
+    padding: 36px 34px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.completed-hero-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.completed-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #4C4541;
+    margin: 0 0 10px 0;
+}
+
+.completed-ref-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #FCF0DA;
+    color: #4C4541;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+}
+
+.completed-summary-box {
+    width: 100%;
+    background-color: #FAF8F4;
+    border: 1px solid rgba(76, 69, 65, 0.1);
+    border-radius: 16px;
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.completed-summary-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 0.9rem;
+}
+
+.completed-summary-label {
+    color: #8C837C;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.completed-summary-val {
+    color: #4C4541;
+    font-weight: 700;
+    text-align: right;
+}
+
+.completed-summary-divider {
+    height: 1px;
+    background-color: rgba(76, 69, 65, 0.1);
+    margin: 2px 0;
+}
+
+.completed-total-row {
+    font-size: 1.05rem;
+}
+
+.completed-summary-total {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #4C4541;
+}
+
+.completed-actions-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Empty State inside My Bookings Modal */
+.booking-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 64px 24px;
+    background-color: #FAF8F4;
+    border: 1.5px dashed rgba(76, 69, 65, 0.16);
+    border-radius: 18px;
+    color: #8C837C;
+}
+
+.booking-empty-icon {
+    width: 44px;
+    height: 44px;
+    opacity: 0.4;
+    margin-bottom: 12px;
+}
+
+.booking-empty-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #4C4541;
+    margin: 0 0 6px 0;
+}
+
+.booking-empty-desc {
+    font-size: 0.88rem;
+    color: #8C837C;
+    margin: 0;
+}
+
+.reserve-workspace.is-step-payment {
+    grid-template-columns: 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.reserve-payment-split {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: 28px;
+    align-items: start;
+}
+
+/* Left Side: Itemized Bill Card */
+.payment-bill-body {
+    padding: 26px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.payment-bill-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 20px;
+    background-color: #FAF8F4;
+    border: 1px solid rgba(76, 69, 65, 0.1);
+    border-radius: 16px;
+}
+
+.payment-bill-hero-label {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #8C837C;
+}
+
+.payment-bill-hero-amount {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.payment-bill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.payment-bill-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    color: #6E665F;
+    font-weight: 600;
+}
+
+.payment-bill-row strong {
+    color: #4C4541;
+    font-weight: 700;
+}
+
+.payment-bill-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.payment-bill-item-main strong {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #4C4541;
+}
+
+.payment-bill-item-main span {
+    font-size: 0.84rem;
+    color: #8C837C;
+    font-weight: 600;
+}
+
+.payment-bill-divider {
+    height: 1px;
+    background-color: rgba(76, 69, 65, 0.1);
+    margin: 2px 0;
+}
+
+.payment-bill-total-row {
+    font-size: 1.05rem;
+    color: #4C4541;
+}
+
+.payment-bill-total-row strong {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #4C4541;
+}
+
+.payment-bill-back-btn {
+    width: 100%;
+    height: 46px;
+    margin-top: 2px;
+}
+
+/* Right Side: Standalone Embedded Third-Party Card Verification Gateway Module */
+.gateway-module-shell {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    border: 2px solid #3E3A37;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.10);
+    overflow: hidden;
+}
+
+.gateway-module-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 24px;
+    background-color: #2F2B28;
+    color: #FCF0DA;
+}
+
+.gateway-lock-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.gateway-card-brands {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gateway-brand-logo-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 22px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    padding: 2px 4px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.gateway-brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.gateway-module-body {
+    padding: 26px 28px 24px;
+    background-color: #FCFBFA;
+}
+
+.gateway-field-label {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #3E3A37;
+}
+
+.gateway-input {
+    background-color: #FFFFFF;
+    border: 1.5px solid rgba(47, 43, 40, 0.22);
+    border-radius: 10px;
+}
+
+.gateway-input:focus {
+    border-color: #2F2B28;
+    box-shadow: 0 0 0 3px rgba(47, 43, 40, 0.1);
+}
+
+.gateway-pay-btn {
+    width: 100%;
+    height: 52px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 12px;
+    background-color: #2F2B28;
+    color: #FCF0DA;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.gateway-pay-btn:hover {
+    background-color: #1E1B19;
+}
+
+.gateway-pay-btn:active {
+    transform: scale(0.99);
+}
+
+.gateway-security-footnote {
+    text-align: center;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #8C837C;
+    margin-top: 4px;
+}
+
+@media (max-width: 960px) {
+    .reserve-payment-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+.payment-top-amount-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background-color: #FAF8F4;
+    border: 1.5px solid rgba(76, 69, 65, 0.12);
+    border-radius: 16px;
+    margin-bottom: 22px;
+}
+
+.payment-top-amount-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #4C4541;
+}
+
+.payment-top-amount-val {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #4C4541;
+}
+
+.payment-bill-actions {
+    display: grid;
+    grid-template-columns: 0.38fr 0.62fr;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.bill-card-status {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.bill-card-status.is-pending {
+    background-color: rgba(76, 69, 65, 0.08);
+    color: #8C837C;
+}
+
+.bill-card-status.is-verified {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+.bill-pay-btn.is-unverified {
+    background-color: #B8B2AC;
+    color: #FAF8F4;
+    cursor: not-allowed;
+}
+
+.bill-pay-btn.is-unverified:hover {
+    background-color: #B8B2AC;
+}
+
+.gateway-verify-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.gateway-pay-btn {
+    margin-top: 0;
+    flex: 1;
+}
+
+.gateway-pay-btn.is-verified {
+    background-color: #2E7D32;
+    color: #FFFFFF;
+    cursor: default;
+}
+
+.gateway-change-card-btn {
+    height: 52px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(47, 43, 40, 0.22);
+    background-color: #FFFFFF;
+    color: #3E3A37;
+    font-size: 0.86rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.gateway-change-card-btn:hover {
+    background-color: #F4F2EE;
+    border-color: #2F2B28;
+}
+
+.gateway-input[readonly] {
+    background-color: #F4F2EE;
+    color: #6E665F;
+    cursor: default;
+}
+
+.gateway-brand-logo-box {
+    transition: opacity 0.2s ease;
+}
+
+.gateway-brand-logo-box.is-dimmed {
+    opacity: 0.25;
+}
+
+.gateway-brand-logo-box.is-matched {
+    opacity: 1;
+}
+
+@keyframes gatewaySpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.gateway-btn-spinner {
+    display: none;
+    width: 19px;
+    height: 19px;
+    border: 2.5px solid rgba(252, 240, 218, 0.28);
+    border-top-color: #FCF0DA;
+    border-radius: 50%;
+    animation: gatewaySpin 0.65s linear infinite;
+}
+
+.gateway-pay-btn.is-verifying {
+    cursor: wait;
+    opacity: 0.92;
+}
+
+.gateway-pay-btn.is-verifying .gateway-btn-spinner {
+    display: inline-block;
+}
+
+.gateway-pay-btn.is-verifying #reserve-payment-submit-text {
+    display: none;
+}
+
+@keyframes gatewayCheckPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes gatewayCheckDraw {
+    from {
+        stroke-dashoffset: 24;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.gateway-btn-check {
+    display: none;
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    position: relative;
+    top: 1.5px;
+}
+
+.gateway-pay-btn.is-verified .gateway-btn-check {
+    display: inline-block;
+    animation: gatewayCheckPop 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.gateway-pay-btn.is-verified .gateway-check-path {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+    animation: gatewayCheckDraw 0.34s 0.05s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+/* Stage 1: 3-Dot Loading Animation inside Make Payment Button */
+@keyframes billDotBounce {
+    0%, 80%, 100% {
+        transform: scale(0.55);
+        opacity: 0.45;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.bill-pay-dots {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 18px;
+}
+
+.bill-pay-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #FCF0DA;
+    display: inline-block;
+    animation: billDotBounce 1.15s infinite ease-in-out both;
+}
+
+.bill-pay-dots span:nth-child(1) {
+    animation-delay: -0.28s;
+}
+
+.bill-pay-dots span:nth-child(2) {
+    animation-delay: -0.14s;
+}
+
+.bill-pay-dots span:nth-child(3) {
+    animation-delay: 0s;
+}
+
+.bill-pay-btn.is-paying {
+    cursor: wait;
+    pointer-events: none;
+}
+
+.bill-pay-btn.is-paying .bill-pay-dots {
+    display: inline-flex;
+}
+
+.bill-pay-btn.is-paying #bill-make-payment-text {
+    display: none;
+}
+
+/* Stage 2: Full-Screen Circular Spinner Overlay */
+.payment-processing-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: rgba(47, 43, 40, 0.46);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.payment-processing-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.payment-processing-box {
+    background-color: #FFFFFF;
+    border-radius: 22px;
+    padding: 32px 42px;
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transform: translateY(8px) scale(0.96);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.payment-processing-overlay.active .payment-processing-box {
+    transform: translateY(0) scale(1);
+}
+
+.payment-processing-spinner {
+    width: 46px;
+    height: 46px;
+    border: 4px solid rgba(76, 69, 65, 0.14);
+    border-top-color: #4C4541;
+    border-radius: 50%;
+    animation: gatewaySpin 0.75s linear infinite;
+}
+
+.payment-processing-label {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #4C4541;
+    letter-spacing: -0.01em;
+}
+
+/* Stage 3: Completed View Checkmark Drawing Animation */
+.reserve-workspace.is-step-completed .completed-hero-badge {
+    animation: gatewayCheckPop 0.38s 0.08s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reserve-workspace.is-step-completed .completed-check-path {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+    animation: gatewayCheckDraw 0.44s 0.18s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }

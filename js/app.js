@@ -1573,7 +1573,8 @@ if (contactForm && toastMsg) {
             });
         }
 
-        // My Bookings Modal Elements & Logic
+        // My Bookings Modal Elements & Logic (Account-Bound Persistent Bookings)
+        const STORAGE_BOOKINGS = 'azoom_account_bookings_v1';
         const viewBookingBtn = document.getElementById('view-booking-btn');
         const searchViewBookingBtn = document.getElementById('search-view-booking-btn');
         const bookingModal = document.getElementById('booking-modal');
@@ -1582,6 +1583,185 @@ if (contactForm && toastMsg) {
         const bookingTabPast = document.getElementById('booking-tab-past');
         const bookingPanelUpcoming = document.getElementById('booking-panel-upcoming');
         const bookingPanelPast = document.getElementById('booking-panel-past');
+
+        function getAllBookings() {
+            try {
+                const raw = localStorage.getItem(STORAGE_BOOKINGS);
+                const parsed = raw ? JSON.parse(raw) : [];
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveAllBookings(list) {
+            try {
+                localStorage.setItem(STORAGE_BOOKINGS, JSON.stringify(list));
+            } catch (e) {
+                console.warn('Failed to save bookings', e);
+            }
+        }
+
+        function getBookingsForCurrentUser() {
+            const user = getCurrentUser();
+            if (!user) return [];
+            const emailLower = (user.email || '').toLowerCase();
+            return getAllBookings().filter(b =>
+                (b.userEmail && b.userEmail.toLowerCase() === emailLower) ||
+                (b.userId && b.userId === user.id)
+            );
+        }
+
+        function addBookingForCurrentUser(bookingData) {
+            const all = getAllBookings();
+            all.unshift(bookingData);
+            saveAllBookings(all);
+        }
+
+        function formatDisplayDate(isoDate) {
+            if (!isoDate) return '';
+            const parts = isoDate.split('-');
+            if (parts.length !== 3) return isoDate;
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const mIdx = parseInt(parts[1], 10) - 1;
+            return `${parts[2]} ${months[mIdx] || parts[1]} ${parts[0]}`;
+        }
+
+        function formatDisplayTime(hhmm) {
+            if (!hhmm) return '';
+            const [hStr, mStr] = hhmm.split(':');
+            const h = parseInt(hStr, 10);
+            if (isNaN(h)) return hhmm;
+            const period = h < 12 ? 'AM' : 'PM';
+            const h12 = h % 12 === 0 ? 12 : h % 12;
+            return `${String(h12).padStart(2, '0')}:${mStr || '00'} ${period}`;
+        }
+
+        function buildBookingCardHTML(b) {
+            const isCompleted = b.status === 'completed';
+            const statusClass = isCompleted ? 'status-completed' : 'status-confirmed';
+            const statusLabel = isCompleted ? 'Completed' : 'In Progress';
+            const durText = `${b.days} ${b.days === 1 ? 'Day' : 'Days'}`;
+            const pDateFormatted = `${formatDisplayDate(b.pickupDate)} · ${formatDisplayTime(b.pickupTime)}`;
+            const rDateFormatted = `${formatDisplayDate(b.returnDate)} · ${formatDisplayTime(b.returnTime)}`;
+
+            const footerBtns = isCompleted
+                ? `<button type="button" class="booking-action-btn btn-solid" data-booking-action="rent-again" data-booking-id="${b.id}">Rent Again</button>`
+                : `<button type="button" class="booking-action-btn btn-outline" data-booking-action="cancel" data-booking-id="${b.id}">Cancel Booking</button>
+                   <button type="button" class="booking-action-btn btn-solid" data-booking-action="complete" data-booking-id="${b.id}">Mark as Completed</button>`;
+
+            return `
+                <div class="booking-item-card ${isCompleted ? 'past-card' : ''}" data-booking-card-id="${b.id}">
+                    <div class="booking-item-topbar">
+                        <div class="booking-ref-group">
+                            <span class="booking-ref-label">Booking Ref</span>
+                            <span class="booking-ref-code">${b.ref}</span>
+                        </div>
+                        <span class="booking-status-badge ${statusClass}">${statusLabel}</span>
+                    </div>
+
+                    <div class="booking-item-main">
+                        <div class="booking-car-col">
+                            <div class="booking-car-thumb">
+                                <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4'}" alt="${b.model}">
+                            </div>
+                            <div class="booking-car-meta">
+                                <h4>${b.model}</h4>
+                                <p>${b.type || 'EV'} &middot; ${b.seats || '5 seats'} &middot; ${b.battery || '60.0 kWh'}</p>
+                            </div>
+                        </div>
+
+                        <div class="booking-route-col">
+                            <div class="booking-route-point">
+                                <span class="route-point-tag">Pickup</span>
+                                <strong class="route-point-loc">${b.pickupLocName}</strong>
+                                <span class="route-point-date">${pDateFormatted}</span>
+                            </div>
+                            <div class="booking-route-point">
+                                <span class="route-point-tag">Return</span>
+                                <strong class="route-point-loc">${b.returnLocName}</strong>
+                                <span class="route-point-date">${rDateFormatted}</span>
+                            </div>
+                        </div>
+
+                        <div class="booking-price-col">
+                            <span class="booking-duration-tag">${durText}</span>
+                            <span class="booking-total-price">S$${b.totalPrice}</span>
+                            <span class="booking-rate-note">S$${b.dailyPrice} / day</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-item-footer">
+                        ${footerBtns}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderUserBookings() {
+            const userBookings = getBookingsForCurrentUser();
+            const upcomingList = userBookings.filter(b => b.status !== 'completed');
+            const pastList = userBookings.filter(b => b.status === 'completed');
+
+            if (bookingPanelUpcoming) {
+                if (upcomingList.length === 0) {
+                    bookingPanelUpcoming.innerHTML = `
+                        <div class="booking-empty-state">
+                            <img src="images/car.svg" alt="" class="booking-empty-icon">
+                            <h4 class="booking-empty-title">No bookings in progress</h4>
+                            <p class="booking-empty-desc">You don't have any active reservations under this account yet.</p>
+                        </div>
+                    `;
+                } else {
+                    bookingPanelUpcoming.innerHTML = upcomingList.map(buildBookingCardHTML).join('');
+                }
+            }
+
+            if (bookingPanelPast) {
+                if (pastList.length === 0) {
+                    bookingPanelPast.innerHTML = `
+                        <div class="booking-empty-state">
+                            <img src="images/car.svg" alt="" class="booking-empty-icon">
+                            <h4 class="booking-empty-title">No completed bookings</h4>
+                            <p class="booking-empty-desc">Your completed rental history will appear here.</p>
+                        </div>
+                    `;
+                } else {
+                    bookingPanelPast.innerHTML = pastList.map(buildBookingCardHTML).join('');
+                }
+            }
+        }
+
+        // Handle actions inside My Bookings modal (Cancel / Mark as Completed / Rent Again)
+        if (bookingModal) {
+            bookingModal.addEventListener('click', (e) => {
+                const actionBtn = e.target.closest('[data-booking-action]');
+                if (!actionBtn) return;
+                const action = actionBtn.dataset.bookingAction;
+                const bookingId = actionBtn.dataset.bookingId;
+                if (!bookingId) return;
+
+                if (action === 'cancel') {
+                    const updated = getAllBookings().filter(b => b.id !== bookingId);
+                    saveAllBookings(updated);
+                    renderUserBookings();
+                    showTopToast('Booking has been cancelled.', 'success');
+                } else if (action === 'complete') {
+                    const all = getAllBookings();
+                    const target = all.find(b => b.id === bookingId);
+                    if (target) {
+                        target.status = 'completed';
+                        saveAllBookings(all);
+                        renderUserBookings();
+                        switchBookingTab('past');
+                        showTopToast('Booking marked as completed.', 'success');
+                    }
+                } else if (action === 'rent-again') {
+                    closeBookingModal();
+                    window.location.hash = 'search';
+                }
+            });
+        }
 
         function switchBookingTab(tab) {
             if (tab === 'past') {
@@ -1611,6 +1791,7 @@ if (contactForm && toastMsg) {
 
         function openBookingModal() {
             if (!bookingModal) return;
+            renderUserBookings();
             switchBookingTab('upcoming');
             bookingModal.classList.add('active');
             bookingModal.setAttribute('aria-hidden', 'false');
@@ -1658,7 +1839,7 @@ if (contactForm && toastMsg) {
         updateNavAuthUI();
 
         // =====================================================================
-        // 15. 租车预约确认页逻辑 (Rent Now -> #reserve & 30-Min Time Interval)
+        // 15. 租车预约 3 步流程 (1. Confirm Time -> 2. Make Payment -> 3. Completed)
         // =====================================================================
         const STORAGE_DRAFT_RESERVE = 'azoom_reservation_draft';
         const LOCATION_LABELS = {
@@ -1669,11 +1850,181 @@ if (contactForm && toastMsg) {
             'woodlands': 'Woodlands Car Park'
         };
 
+        let currentReserveStep = 1;
+
         const reserveBackBtn = document.getElementById('reserve-back-btn');
+        const reserveBackBtnText = document.getElementById('reserve-back-btn-text');
+        const reserveWorkspace = document.getElementById('reserve-workspace');
+        const reserveSummaryCol = document.getElementById('reserve-summary-col');
+        const reserveActionCol = document.getElementById('reserve-action-col');
+
+        const stepNode1 = document.getElementById('reserve-step-node-1');
+        const stepNode2 = document.getElementById('reserve-step-node-2');
+        const stepNode3 = document.getElementById('reserve-step-node-3');
+        const stepLine1 = document.getElementById('reserve-step-line-1');
+        const stepLine2 = document.getElementById('reserve-step-line-2');
+
+        const stepPanel1 = document.getElementById('reserve-step-panel-1');
+        const stepPanel2 = document.getElementById('reserve-step-panel-2');
+        const stepPanel3 = document.getElementById('reserve-step-panel-3');
+
         const reservePickupTimeSelect = document.getElementById('reserve-pickup-time');
         const reserveReturnTimeSelect = document.getElementById('reserve-return-time');
         const reserveTimeForm = document.getElementById('reserve-time-form');
-        const reserveSamedayBanner = document.getElementById('reserve-sameday-banner');
+
+        // Payment Step Elements
+        const reservePaymentForm = document.getElementById('reserve-payment-form');
+        const payCardNameInput = document.getElementById('pay-card-name');
+        const payCardNumberInput = document.getElementById('pay-card-number');
+        const payCardExpiryInput = document.getElementById('pay-card-expiry');
+        const payCardCvvInput = document.getElementById('pay-card-cvv');
+        const payEditTimeBtn = document.getElementById('pay-edit-time-btn');
+        const reservePaymentBackBtn = document.getElementById('reserve-payment-back-btn');
+        const payTotalAmount = document.getElementById('pay-total-amount');
+        const reservePaymentSubmitBtn = document.getElementById('reserve-payment-submit-btn');
+        const reservePaymentSubmitText = document.getElementById('reserve-payment-submit-text');
+        const gatewayChangeCardBtn = document.getElementById('gateway-change-card-btn');
+        const gatewayModuleShell = document.getElementById('gateway-module-shell');
+        const billCardStatusText = document.getElementById('bill-card-status-text');
+        const billMakePaymentBtn = document.getElementById('bill-make-payment-btn');
+        const billMakePaymentText = document.getElementById('bill-make-payment-text');
+
+        let isCardVerified = false;
+        let isCardVerifying = false;
+        let verifyTimer = null;
+        let verifiedCardLast4 = '';
+
+        function setCardVerifiedState(verified, last4 = '') {
+            if (verifyTimer) {
+                clearTimeout(verifyTimer);
+                verifyTimer = null;
+            }
+            isCardVerifying = false;
+            isCardVerified = verified;
+            verifiedCardLast4 = last4;
+
+            if (reservePaymentSubmitBtn) {
+                reservePaymentSubmitBtn.classList.remove('is-verifying');
+            }
+
+            if (verified) {
+                if (gatewayModuleShell) gatewayModuleShell.classList.add('is-verified');
+                if (reservePaymentSubmitBtn) {
+                    reservePaymentSubmitBtn.classList.add('is-verified');
+                    reservePaymentSubmitBtn.disabled = true;
+                }
+                if (reservePaymentSubmitText) reservePaymentSubmitText.textContent = 'Verified';
+                if (billMakePaymentBtn) billMakePaymentBtn.classList.remove('is-unverified');
+            } else {
+                if (gatewayModuleShell) gatewayModuleShell.classList.remove('is-verified');
+                if (reservePaymentSubmitBtn) {
+                    reservePaymentSubmitBtn.classList.remove('is-verified');
+                    reservePaymentSubmitBtn.disabled = false;
+                }
+                if (reservePaymentSubmitText) reservePaymentSubmitText.textContent = 'Verify';
+                if (billMakePaymentBtn) billMakePaymentBtn.classList.add('is-unverified');
+            }
+        }
+
+        // Completed Step Elements
+        const completedBookingRef = document.getElementById('completed-booking-ref');
+        const completedCarName = document.getElementById('completed-car-name');
+        const completedPickupInfo = document.getElementById('completed-pickup-info');
+        const completedReturnInfo = document.getElementById('completed-return-info');
+        const completedCardInfo = document.getElementById('completed-card-info');
+        const completedTotalPaid = document.getElementById('completed-total-paid');
+        const completedViewBookingsBtn = document.getElementById('completed-view-bookings-btn');
+        const completedHomeBtn = document.getElementById('completed-home-btn');
+
+        function setReserveStep(step) {
+            currentReserveStep = step;
+
+            // Reset classes on stepper nodes & lines
+            [stepNode1, stepNode2, stepNode3].forEach(node => {
+                if (!node) return;
+                node.classList.remove('is-active', 'is-completed', 'is-clickable');
+            });
+            [stepLine1, stepLine2].forEach(line => {
+                if (!line) return;
+                line.classList.remove('is-filled');
+            });
+
+            if (step === 1) {
+                if (stepNode1) stepNode1.classList.add('is-active');
+                if (reserveBackBtn) reserveBackBtn.classList.remove('is-hidden-step3');
+                if (reserveBackBtnText) reserveBackBtnText.textContent = 'Back to Vehicle Selection';
+                if (reserveWorkspace) reserveWorkspace.classList.remove('is-step-completed', 'is-step-payment');
+                if (reserveSummaryCol) reserveSummaryCol.style.display = '';
+                if (reserveActionCol) reserveActionCol.style.display = '';
+                if (stepPanel1) stepPanel1.style.display = 'block';
+                if (stepPanel2) stepPanel2.style.display = 'none';
+                if (stepPanel3) stepPanel3.style.display = 'none';
+            } else if (step === 2) {
+                if (stepNode1) {
+                    stepNode1.classList.add('is-completed', 'is-clickable');
+                }
+                if (stepLine1) stepLine1.classList.add('is-filled');
+                if (stepNode2) stepNode2.classList.add('is-active');
+
+                if (reserveBackBtn) reserveBackBtn.classList.remove('is-hidden-step3');
+                if (reserveBackBtnText) reserveBackBtnText.textContent = 'Back to Confirm Time';
+                if (reserveWorkspace) {
+                    reserveWorkspace.classList.remove('is-step-completed');
+                    reserveWorkspace.classList.add('is-step-payment');
+                }
+                if (reserveSummaryCol) reserveSummaryCol.style.display = 'none';
+                if (reserveActionCol) reserveActionCol.style.display = '';
+                if (stepPanel1) stepPanel1.style.display = 'none';
+                if (stepPanel2) stepPanel2.style.display = 'grid';
+                if (stepPanel3) stepPanel3.style.display = 'none';
+
+                const draft = getActiveDraft();
+                if (draft) {
+                    const pTime = reservePickupTimeSelect ? reservePickupTimeSelect.value : (draft.pickupTime || '');
+                    const rTime = reserveReturnTimeSelect ? reserveReturnTimeSelect.value : (draft.returnTime || '');
+                    const days = draft.days || 1;
+                    if (payTotalAmount) payTotalAmount.textContent = `S$${draft.totalPrice}`;
+                    if (billMakePaymentText) billMakePaymentText.textContent = `Make Payment`;
+                    const billCarName = document.getElementById('pay-bill-car-name');
+                    const billSchedule = document.getElementById('pay-bill-schedule');
+                    const billCalc = document.getElementById('pay-bill-calc');
+                    const billSub = document.getElementById('pay-bill-subtotal');
+                    const billTotalBottom = document.getElementById('pay-bill-total-bottom');
+                    if (billCarName) billCarName.textContent = draft.model || 'Electric Vehicle';
+                    if (billSchedule) billSchedule.innerHTML = `${draft.pickupDate} ${pTime} &rarr; ${draft.returnDate} ${rTime}`;
+                    if (billCalc) billCalc.innerHTML = `S$${draft.dailyPrice} &times; ${days} ${days === 1 ? 'day' : 'days'}`;
+                    if (billSub) billSub.textContent = `S$${draft.totalPrice}`;
+                    if (billTotalBottom) billTotalBottom.textContent = `S$${draft.totalPrice}`;
+                }
+            } else if (step === 3) {
+                // All 3 steps completed, no going back allowed
+                if (stepNode1) stepNode1.classList.add('is-completed');
+                if (stepLine1) stepLine1.classList.add('is-filled');
+                if (stepNode2) stepNode2.classList.add('is-completed');
+                if (stepLine2) stepLine2.classList.add('is-filled');
+                if (stepNode3) stepNode3.classList.add('is-completed', 'is-active');
+
+                if (reserveBackBtn) reserveBackBtn.classList.add('is-hidden-step3');
+                if (reserveWorkspace) {
+                    reserveWorkspace.classList.remove('is-step-payment');
+                    reserveWorkspace.classList.add('is-step-completed');
+                }
+                if (reserveSummaryCol) reserveSummaryCol.style.display = 'none';
+                if (reserveActionCol) reserveActionCol.style.display = 'none';
+                if (stepPanel1) stepPanel1.style.display = 'none';
+                if (stepPanel2) stepPanel2.style.display = 'none';
+                if (stepPanel3) stepPanel3.style.display = 'block';
+            }
+        }
+
+        // Allow clicking Step 1 dot ONLY when on Step 2 (never on Step 3)
+        if (stepNode1) {
+            stepNode1.addEventListener('click', () => {
+                if (currentReserveStep === 2) {
+                    setReserveStep(1);
+                }
+            });
+        }
 
         // Populate 30-minute interval options (00:00 to 23:30)
         function populateHalfHourOptions(selectEl, placeholderText) {
@@ -1727,18 +2078,207 @@ if (contactForm && toastMsg) {
             if (err) err.textContent = msg;
         }
 
+        function clearPaymentErrors() {
+            ['field-pay-name', 'field-pay-number', 'field-pay-expiry', 'field-pay-cvv'].forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field) return;
+                field.classList.remove('has-error');
+                const inp = field.querySelector('.payment-input');
+                if (inp) inp.classList.remove('input-error');
+                const err = field.querySelector('.reserve-field-error');
+                if (err) err.textContent = '';
+            });
+        }
+
+        function setPaymentError(fieldId, msg) {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            field.classList.add('has-error');
+            const inp = field.querySelector('.payment-input');
+            if (inp) inp.classList.add('input-error');
+            const err = field.querySelector('.reserve-field-error');
+            if (err) err.textContent = msg;
+        }
+
+        // Detect card network from leading digits (Visa, Mastercard, Amex, Discover, JCB)
+        function detectCardBrand(digits) {
+            if (!digits) return null;
+            if (/^4/.test(digits)) return 'visa';
+            if (/^3[47]/.test(digits)) return 'amex';
+            if (/^35/.test(digits)) return 'jcb';
+            if (/^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[01]|2720)/.test(digits)) return 'mastercard';
+            if (/^(6011|65|64[4-9])/.test(digits)) return 'discover';
+            return null;
+        }
+
+        function updateCardBrandLogos(brand) {
+            const boxes = document.querySelectorAll('#gateway-card-brands .gateway-brand-logo-box');
+            boxes.forEach(box => {
+                box.classList.remove('is-dimmed', 'is-matched');
+                if (brand) {
+                    if (box.dataset.cardBrand === brand) {
+                        box.classList.add('is-matched');
+                    } else {
+                        box.classList.add('is-dimmed');
+                    }
+                }
+            });
+
+            if (payCardCvvInput) {
+                if (brand === 'amex') {
+                    payCardCvvInput.placeholder = '4 digits';
+                    payCardCvvInput.maxLength = 4;
+                } else {
+                    payCardCvvInput.placeholder = '3 digits';
+                    payCardCvvInput.maxLength = 3;
+                    if (payCardCvvInput.value.length > 3) {
+                        payCardCvvInput.value = payCardCvvInput.value.slice(0, 3);
+                    }
+                }
+            }
+        }
+
+        // Format Card Number (Amex 4-6-5 [15 digits] vs Standard 4-4-4-4 [16 digits]), Expiry (MM/YY), and CVV in real time
+        if (payCardNumberInput) {
+            payCardNumberInput.addEventListener('input', () => {
+                let rawDigits = payCardNumberInput.value.replace(/\D/g, '');
+                const brand = detectCardBrand(rawDigits);
+                updateCardBrandLogos(brand);
+
+                if (brand === 'amex') {
+                    rawDigits = rawDigits.slice(0, 15);
+                    const p1 = rawDigits.slice(0, 4);
+                    const p2 = rawDigits.slice(4, 10);
+                    const p3 = rawDigits.slice(10, 15);
+                    payCardNumberInput.value = [p1, p2, p3].filter(Boolean).join(' ');
+                } else {
+                    rawDigits = rawDigits.slice(0, 16);
+                    const groups = rawDigits.match(/.{1,4}/g);
+                    payCardNumberInput.value = groups ? groups.join(' ') : '';
+                }
+
+                if (isCardVerified || isCardVerifying) setCardVerifiedState(false);
+                const field = document.getElementById('field-pay-number');
+                if (field) field.classList.remove('has-error');
+                payCardNumberInput.classList.remove('input-error');
+            });
+        }
+
+        function validateExpiryInstant() {
+            if (!payCardExpiryInput) return;
+            const field = document.getElementById('field-pay-expiry');
+            const err = document.getElementById('pay-expiry-error');
+            const digits = payCardExpiryInput.value.replace(/\D/g, '').slice(0, 4);
+
+            // Clear first
+            if (field) field.classList.remove('has-error');
+            payCardExpiryInput.classList.remove('input-error');
+            if (err) err.textContent = '';
+
+            if (digits.length >= 2) {
+                const expMonth = parseInt(digits.slice(0, 2), 10);
+                if (expMonth < 1 || expMonth > 12) {
+                    setPaymentError('field-pay-expiry', 'Enter a valid month (01–12).');
+                    return;
+                }
+                if (digits.length === 4) {
+                    const expYear = 2000 + parseInt(digits.slice(2, 4), 10);
+                    const now = new Date();
+                    const curYear = now.getFullYear();
+                    const curMonth = now.getMonth() + 1;
+                    if (expYear < curYear || (expYear === curYear && expMonth < curMonth)) {
+                        setPaymentError('field-pay-expiry', 'This card has expired.');
+                    }
+                }
+            }
+        }
+
+        if (payCardExpiryInput) {
+            payCardExpiryInput.addEventListener('input', () => {
+                if (isCardVerified || isCardVerifying) setCardVerifiedState(false);
+                const digits = payCardExpiryInput.value.replace(/\D/g, '').slice(0, 4);
+                if (digits.length >= 3) {
+                    payCardExpiryInput.value = digits.slice(0, 2) + '/' + digits.slice(2);
+                } else {
+                    payCardExpiryInput.value = digits;
+                }
+                validateExpiryInstant();
+            });
+        }
+
+        if (payCardCvvInput) {
+            payCardCvvInput.addEventListener('input', () => {
+                if (isCardVerified || isCardVerifying) setCardVerifiedState(false);
+                payCardCvvInput.value = payCardCvvInput.value.replace(/\D/g, '').slice(0, 4);
+                const field = document.getElementById('field-pay-cvv');
+                if (field) field.classList.remove('has-error');
+                payCardCvvInput.classList.remove('input-error');
+            });
+        }
+
+        if (payCardNameInput) {
+            payCardNameInput.addEventListener('input', () => {
+                if (isCardVerified || isCardVerifying) setCardVerifiedState(false);
+                const field = document.getElementById('field-pay-name');
+                if (field) field.classList.remove('has-error');
+                payCardNameInput.classList.remove('input-error');
+            });
+        }
+
         function getActiveDraft() {
             try {
-                const raw = sessionStorage.getItem(STORAGE_DRAFT_RESERVE);
-                return raw ? JSON.parse(raw) : null;
-            } catch (e) {
-                return null;
-            }
+                const raw = sessionStorage.getItem(STORAGE_DRAFT_RESERVE) || localStorage.getItem(STORAGE_DRAFT_RESERVE);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed === 'object') return parsed;
+                }
+            } catch (e) {}
+
+            // Fallback: reconstruct from #page-reserve DOM so getActiveDraft() is never null
+            const imgEl = document.getElementById('reserve-car-img');
+            const logoEl = document.getElementById('reserve-car-logo');
+            const nameEl = document.getElementById('reserve-car-name');
+            const rateEl = document.getElementById('reserve-car-rate');
+            const pLocEl = document.getElementById('reserve-locked-pickup-loc');
+            const rLocEl = document.getElementById('reserve-locked-return-loc');
+            const pDateEl = document.getElementById('reserve-locked-pickup-date');
+            const rDateEl = document.getElementById('reserve-locked-return-date');
+
+            const dailyPrice = rateEl ? (parseInt(rateEl.textContent.replace(/\D/g, ''), 10) || 108) : 108;
+            const pickupDate = (pDateEl && pDateEl.textContent.trim()) || '2026-10-28';
+            const returnDate = (rDateEl && rDateEl.textContent.trim()) || '2026-10-29';
+            const d1 = new Date(pickupDate + 'T00:00:00');
+            const d2 = new Date(returnDate + 'T00:00:00');
+            const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+            const days = Math.max(1, (isNaN(diffDays) ? 0 : diffDays) + 1);
+
+            return {
+                model: (nameEl && nameEl.textContent.trim()) || 'BYD Atto 3',
+                dailyPrice,
+                image: imgEl ? imgEl.getAttribute('src') : 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4',
+                brandLogo: logoEl ? logoEl.getAttribute('src') : 'images/byd-seeklogo.svg?v=6',
+                type: 'EV',
+                transmission: 'Automatic',
+                seats: '5 seats',
+                battery: '60.0 kWh',
+                pickupLocCode: 'alexandra',
+                pickupLocName: (pLocEl && pLocEl.textContent.trim()) || 'Alexandra Main Branch',
+                returnLocCode: 'airport',
+                returnLocName: (rLocEl && rLocEl.textContent.trim()) || 'Changi Airport Branch',
+                pickupDate,
+                returnDate,
+                pickupTime: reservePickupTimeSelect ? reservePickupTimeSelect.value : '10:00',
+                returnTime: reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '10:00',
+                days,
+                totalPrice: days * dailyPrice
+            };
         }
 
         function saveActiveDraft(draft) {
             try {
-                sessionStorage.setItem(STORAGE_DRAFT_RESERVE, JSON.stringify(draft));
+                const str = JSON.stringify(draft);
+                sessionStorage.setItem(STORAGE_DRAFT_RESERVE, str);
+                localStorage.setItem(STORAGE_DRAFT_RESERVE, str);
             } catch (e) {}
         }
 
@@ -1747,19 +2287,11 @@ if (contactForm && toastMsg) {
             const imgEl = document.getElementById('reserve-car-img');
             const logoEl = document.getElementById('reserve-car-logo');
             const nameEl = document.getElementById('reserve-car-name');
-            const typeEl = document.getElementById('reserve-spec-type');
-            const transEl = document.getElementById('reserve-spec-trans');
-            const seatsEl = document.getElementById('reserve-spec-seats');
-            const batteryEl = document.getElementById('reserve-spec-battery');
             const rateEl = document.getElementById('reserve-car-rate');
 
             if (imgEl && draft.image) imgEl.src = draft.image;
             if (logoEl && draft.brandLogo) logoEl.src = draft.brandLogo;
             if (nameEl) nameEl.textContent = draft.model || 'Electric Vehicle';
-            if (typeEl) typeEl.textContent = draft.type || 'EV';
-            if (transEl) transEl.textContent = draft.transmission || 'Automatic';
-            if (seatsEl) seatsEl.textContent = draft.seats || '5 seats';
-            if (batteryEl) batteryEl.textContent = draft.battery || '60.0 kWh';
             if (rateEl) rateEl.textContent = `S$${draft.dailyPrice} / day`;
 
             const pLocEl = document.getElementById('reserve-locked-pickup-loc');
@@ -1767,15 +2299,11 @@ if (contactForm && toastMsg) {
             const pDateEl = document.getElementById('reserve-locked-pickup-date');
             const rDateEl = document.getElementById('reserve-locked-return-date');
             const durBadge = document.getElementById('reserve-duration-badge');
-            const hintPDate = document.getElementById('hint-pickup-date');
-            const hintRDate = document.getElementById('hint-return-date');
 
             if (pLocEl) pLocEl.textContent = draft.pickupLocName;
             if (rLocEl) rLocEl.textContent = draft.returnLocName;
             if (pDateEl) pDateEl.textContent = draft.pickupDate;
             if (rDateEl) rDateEl.textContent = draft.returnDate;
-            if (hintPDate) hintPDate.textContent = draft.pickupDate;
-            if (hintRDate) hintRDate.textContent = draft.returnDate;
 
             const d1 = new Date(draft.pickupDate + 'T00:00:00');
             const d2 = new Date(draft.returnDate + 'T00:00:00');
@@ -1796,16 +2324,67 @@ if (contactForm && toastMsg) {
             if (costSub) costSub.textContent = `S$${totalPrice}`;
             if (costTotal) costTotal.textContent = `S$${totalPrice}`;
 
-            // Reset time selects
-            if (reservePickupTimeSelect) reservePickupTimeSelect.value = '';
-            if (reserveReturnTimeSelect) reserveReturnTimeSelect.value = '';
+            // Reset time selects & payment inputs for fresh reservation
+            if (reservePickupTimeSelect) reservePickupTimeSelect.value = draft.pickupTime || '';
+            if (reserveReturnTimeSelect) reserveReturnTimeSelect.value = draft.returnTime || '';
+            syncSameDayTimeOptions();
             clearReserveTimeErrors();
+            clearPaymentErrors();
+            if (reservePaymentForm) reservePaymentForm.reset();
+            updateCardBrandLogos(null);
+            setCardVerifiedState(false);
+            setReserveStep(1);
         }
 
-        // Validate Same-Day Time Constraint on change & submit
+        function getTodayDateAndTime() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            return {
+                todayStr: `${yyyy}-${mm}-${dd}`,
+                currentHHMM: `${hh}:${min}`
+            };
+        }
+
+        // Dynamically gray out / disable past times (if date is today) and invalid same-day times
+        function syncSameDayTimeOptions() {
+            const draft = getActiveDraft();
+            const { todayStr, currentHHMM } = getTodayDateAndTime();
+            const isSameDay = Boolean(draft && draft.pickupDate && draft.returnDate && draft.pickupDate === draft.returnDate);
+            const isPickupToday = Boolean(draft && draft.pickupDate === todayStr);
+            const isReturnToday = Boolean(draft && draft.returnDate === todayStr);
+
+            const pTime = reservePickupTimeSelect ? reservePickupTimeSelect.value : '';
+            const rTime = reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '';
+
+            if (reservePickupTimeSelect) {
+                Array.from(reservePickupTimeSelect.options).forEach(opt => {
+                    if (!opt.value) return; // keep placeholder disabled
+                    const isPastToday = isPickupToday && opt.value <= currentHHMM;
+                    const isInvalidSameDay = isSameDay && (opt.value === '23:30' || (rTime && opt.value >= rTime));
+                    opt.disabled = Boolean(isPastToday || isInvalidSameDay);
+                });
+            }
+
+            if (reserveReturnTimeSelect) {
+                Array.from(reserveReturnTimeSelect.options).forEach(opt => {
+                    if (!opt.value) return; // keep placeholder disabled
+                    const isPastToday = isReturnToday && opt.value <= currentHHMM;
+                    const isInvalidSameDay = isSameDay && (opt.value === '00:00' || (pTime && opt.value <= pTime));
+                    opt.disabled = Boolean(isPastToday || isInvalidSameDay);
+                });
+            }
+        }
+
+        // Validate Same-Day & Today Past-Time Constraints on change & submit
         function validateReserveTimes() {
             clearReserveTimeErrors();
+            syncSameDayTimeOptions();
             const draft = getActiveDraft();
+            const { todayStr, currentHHMM } = getTodayDateAndTime();
             const pTime = reservePickupTimeSelect ? reservePickupTimeSelect.value : '';
             const rTime = reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '';
 
@@ -1813,9 +2392,16 @@ if (contactForm && toastMsg) {
             if (!pTime) {
                 setReserveTimeError('field-reserve-pickup-time', 'Please select a pickup time.');
                 isValid = false;
+            } else if (draft && draft.pickupDate === todayStr && pTime <= currentHHMM) {
+                setReserveTimeError('field-reserve-pickup-time', 'Selected pickup time has already passed today.');
+                isValid = false;
             }
+
             if (!rTime) {
                 setReserveTimeError('field-reserve-return-time', 'Please select a return time.');
+                isValid = false;
+            } else if (draft && draft.returnDate === todayStr && rTime <= currentHHMM) {
+                setReserveTimeError('field-reserve-return-time', 'Selected return time has already passed today.');
                 isValid = false;
             }
 
@@ -1832,26 +2418,18 @@ if (contactForm && toastMsg) {
         }
 
         if (reservePickupTimeSelect) {
+            reservePickupTimeSelect.addEventListener('focus', syncSameDayTimeOptions);
             reservePickupTimeSelect.addEventListener('change', () => {
                 clearReserveTimeErrors();
-                const draft = getActiveDraft();
-                const pTime = reservePickupTimeSelect.value;
-                const rTime = reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '';
-                if (draft && draft.pickupDate === draft.returnDate && pTime && rTime && rTime <= pTime) {
-                    validateReserveTimes();
-                }
+                syncSameDayTimeOptions();
             });
         }
 
         if (reserveReturnTimeSelect) {
+            reserveReturnTimeSelect.addEventListener('focus', syncSameDayTimeOptions);
             reserveReturnTimeSelect.addEventListener('change', () => {
                 clearReserveTimeErrors();
-                const draft = getActiveDraft();
-                const pTime = reservePickupTimeSelect ? reservePickupTimeSelect.value : '';
-                const rTime = reserveReturnTimeSelect.value;
-                if (draft && draft.pickupDate === draft.returnDate && pTime && rTime && rTime <= pTime) {
-                    validateReserveTimes();
-                }
+                syncSameDayTimeOptions();
             });
         }
 
@@ -1930,22 +2508,221 @@ if (contactForm && toastMsg) {
             window.location.hash = 'reserve';
         });
 
+        // Top-left Back Button behavior depends on currentReserveStep (disabled on Step 3)
         if (reserveBackBtn) {
             reserveBackBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.hash = 'search';
+                if (currentReserveStep === 3) return; // Cannot go back from Step 3
+                if (currentReserveStep === 2) {
+                    setReserveStep(1);
+                } else {
+                    window.location.hash = 'search';
+                }
             });
         }
 
+        // Step 2 -> Step 1 Back buttons inside payment card
+        if (reservePaymentBackBtn) {
+            reservePaymentBackBtn.addEventListener('click', () => {
+                if (currentReserveStep === 2) setReserveStep(1);
+            });
+        }
+        if (payEditTimeBtn) {
+            payEditTimeBtn.addEventListener('click', () => {
+                if (currentReserveStep === 2) setReserveStep(1);
+            });
+        }
+
+        // Step 1 Submit -> Advance to Step 2 (Make Payment)
         if (reserveTimeForm) {
             reserveTimeForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (!validateReserveTimes()) return;
 
                 const draft = getActiveDraft();
-                const pTime = reservePickupTimeSelect.value;
-                const rTime = reserveReturnTimeSelect.value;
-                showTopToast(`Reservation confirmed for ${draft ? draft.model : 'your EV'} (${pTime} - ${rTime})!`, 'success');
+                if (draft) {
+                    draft.pickupTime = reservePickupTimeSelect.value;
+                    draft.returnTime = reserveReturnTimeSelect.value;
+                    saveActiveDraft(draft);
+                }
+                setReserveStep(2);
+            });
+        }
+
+        // Right Gateway Module Submit -> Verify Card Only
+        if (reservePaymentForm) {
+            reservePaymentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (isCardVerified || isCardVerifying) return;
+                clearPaymentErrors();
+
+                const holderName = (payCardNameInput ? payCardNameInput.value : '').trim();
+                const rawCardDigits = (payCardNumberInput ? payCardNumberInput.value : '').replace(/\D/g, '');
+                const expiryVal = (payCardExpiryInput ? payCardExpiryInput.value : '').trim();
+                const cvvDigits = (payCardCvvInput ? payCardCvvInput.value : '').replace(/\D/g, '');
+
+                let isValid = true;
+                if (!holderName) {
+                    setPaymentError('field-pay-name', 'Please enter the cardholder name.');
+                    isValid = false;
+                }
+                const detectedBrand = detectCardBrand(rawCardDigits);
+                const expectedLen = detectedBrand === 'amex' ? 15 : 16;
+                if (!detectedBrand) {
+                    setPaymentError('field-pay-number', 'Unsupported card network. Use Visa, Mastercard, Amex, Discover, or JCB.');
+                    isValid = false;
+                } else if (rawCardDigits.length !== expectedLen) {
+                    setPaymentError('field-pay-number', `Please enter a valid ${expectedLen}-digit card number.`);
+                    isValid = false;
+                }
+                if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryVal)) {
+                    setPaymentError('field-pay-expiry', 'Enter a valid expiry (MM/YY).');
+                    isValid = false;
+                } else {
+                    const [mmStr, yyStr] = expiryVal.split('/');
+                    const expMonth = parseInt(mmStr, 10);
+                    const expYear = 2000 + parseInt(yyStr, 10);
+                    const now = new Date();
+                    const curYear = now.getFullYear();
+                    const curMonth = now.getMonth() + 1;
+                    if (expYear < curYear || (expYear === curYear && expMonth < curMonth)) {
+                        setPaymentError('field-pay-expiry', 'This card has expired.');
+                        isValid = false;
+                    }
+                }
+                const expectedCvvLen = detectedBrand === 'amex' ? 4 : 3;
+                if (cvvDigits.length !== expectedCvvLen) {
+                    setPaymentError('field-pay-cvv', `Enter a valid ${expectedCvvLen}-digit CVV.`);
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                const cardLast4 = rawCardDigits.slice(-4);
+                isCardVerifying = true;
+                if (reservePaymentSubmitBtn) {
+                    reservePaymentSubmitBtn.classList.add('is-verifying');
+                    reservePaymentSubmitBtn.disabled = true;
+                }
+                verifyTimer = setTimeout(() => {
+                    setCardVerifiedState(true, cardLast4);
+                }, 750);
+            });
+        }
+
+        // Left Billing Summary -> Standalone Make Payment Button (3-Dots -> Full-Screen Spinner -> Completed + Check Animation)
+        const paymentProcessingOverlay = document.getElementById('payment-processing-overlay');
+        let isProcessingPayment = false;
+
+        if (billMakePaymentBtn) {
+            billMakePaymentBtn.addEventListener('click', () => {
+                if (isProcessingPayment) return;
+                if (!isCardVerified) {
+                    showTopToast('Please verify your credit card first.', 'warning');
+                    if (payCardNameInput && !payCardNameInput.value.trim()) {
+                        payCardNameInput.focus();
+                    } else if (payCardNumberInput) {
+                        payCardNumberInput.focus();
+                    }
+                    return;
+                }
+
+                const user = getCurrentUser();
+                if (!user) {
+                    openModal('login');
+                    showTopToast('Please log in first to complete your payment.', 'warning');
+                    return;
+                }
+                const draft = getActiveDraft();
+                if (!draft) return;
+
+                isProcessingPayment = true;
+
+                // Stage 1: Button shows 3 bouncing dots
+                billMakePaymentBtn.classList.add('is-paying');
+                billMakePaymentBtn.disabled = true;
+                if (reservePaymentBackBtn) reservePaymentBackBtn.disabled = true;
+
+                setTimeout(() => {
+                    // Stage 2: Full-screen circular spinner overlay
+                    if (paymentProcessingOverlay) {
+                        paymentProcessingOverlay.classList.add('active');
+                        paymentProcessingOverlay.setAttribute('aria-hidden', 'false');
+                    }
+
+                    setTimeout(() => {
+                        const bookingRef = '#AZ-' + Math.floor(10000 + Math.random() * 90000);
+                        const cardLast4 = verifiedCardLast4 || '4242';
+                        const pTime = draft.pickupTime || (reservePickupTimeSelect ? reservePickupTimeSelect.value : '10:00');
+                        const rTime = draft.returnTime || (reserveReturnTimeSelect ? reserveReturnTimeSelect.value : '10:00');
+
+                        const newBooking = {
+                            id: 'bk-' + Date.now(),
+                            ref: bookingRef,
+                            userId: user.id,
+                            userEmail: user.email,
+                            status: 'upcoming',
+                            model: draft.model,
+                            dailyPrice: draft.dailyPrice,
+                            image: draft.image,
+                            brandLogo: draft.brandLogo,
+                            type: draft.type,
+                            transmission: draft.transmission,
+                            seats: draft.seats,
+                            battery: draft.battery,
+                            pickupLocCode: draft.pickupLocCode,
+                            pickupLocName: draft.pickupLocName,
+                            returnLocCode: draft.returnLocCode,
+                            returnLocName: draft.returnLocName,
+                            pickupDate: draft.pickupDate,
+                            returnDate: draft.returnDate,
+                            pickupTime: pTime,
+                            returnTime: rTime,
+                            days: draft.days,
+                            totalPrice: draft.totalPrice,
+                            cardLast4: cardLast4,
+                            createdAt: new Date().toISOString()
+                        };
+
+                        // Write booking into current user's account
+                        addBookingForCurrentUser(newBooking);
+
+                        // Populate Step 3 Completed UI
+                        if (completedBookingRef) completedBookingRef.textContent = bookingRef;
+                        if (completedCarName) completedCarName.textContent = newBooking.model;
+                        if (completedPickupInfo) completedPickupInfo.textContent = `${newBooking.pickupLocName} · ${newBooking.pickupDate} ${pTime}`;
+                        if (completedReturnInfo) completedReturnInfo.textContent = `${newBooking.returnLocName} · ${newBooking.returnDate} ${rTime}`;
+                        if (completedCardInfo) completedCardInfo.textContent = `Card ending in •••• ${cardLast4}`;
+                        if (completedTotalPaid) completedTotalPaid.textContent = `S${newBooking.totalPrice}`;
+
+                        // Hide full-screen spinner & reset button state
+                        if (paymentProcessingOverlay) {
+                            paymentProcessingOverlay.classList.remove('active');
+                            paymentProcessingOverlay.setAttribute('aria-hidden', 'true');
+                        }
+                        billMakePaymentBtn.classList.remove('is-paying');
+                        billMakePaymentBtn.disabled = false;
+                        if (reservePaymentBackBtn) reservePaymentBackBtn.disabled = false;
+                        isProcessingPayment = false;
+
+                        // Stage 3: Advance to Step 3 (Completed) & replay checkmark draw animation
+                        setReserveStep(3);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        showTopToast(`Payment completed! Booking ${bookingRef} has been saved to your account.`, 'success');
+                    }, 1150);
+                }, 700);
+            });
+        }
+
+        // Step 3 Action Buttons
+        if (completedViewBookingsBtn) {
+            completedViewBookingsBtn.addEventListener('click', () => {
+                openBookingModal();
+            });
+        }
+        if (completedHomeBtn) {
+            completedHomeBtn.addEventListener('click', () => {
+                window.location.hash = 'home';
             });
         }
 

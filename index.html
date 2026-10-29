@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AZoom Car Rental</title>
-    <link rel="stylesheet" href="css/style.css?v=87">
+    <link rel="stylesheet" href="css/style.css?v=107">
 </head>
 <body>
 
@@ -1153,16 +1153,53 @@
         <div class="search-page-header reserve-yellow-header" id="reserve-yellow-header">
             <div class="search-page-container">
                 <div class="search-page-top-bar">
-                    <button type="button" id="reserve-back-btn" class="search-back-btn" aria-label="Back to Search Results">
+                    <button type="button" id="reserve-back-btn" class="search-back-btn" aria-label="Back">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="search-back-icon">
                             <path d="m12 19-7-7 7-7"/>
                             <path d="M19 12H5"/>
                         </svg>
-                        <span>Back to Vehicle Selection</span>
+                        <span id="reserve-back-btn-text">Back to Vehicle Selection</span>
                     </button>
                 </div>
                 <div class="reserve-header-hero-slot">
                     <h1 class="reserve-page-title">Complete Your Reservation</h1>
+                    <!-- 3-Step Connected Progress Bar -->
+                    <div class="reserve-stepper" id="reserve-stepper" role="navigation" aria-label="Reservation Steps">
+                        <div class="reserve-step-item is-active" id="reserve-step-node-1" data-step="1">
+                            <div class="reserve-step-dot">
+                                <svg class="reserve-step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <span class="reserve-step-label">Confirm Time</span>
+                        </div>
+
+                        <div class="reserve-step-line" id="reserve-step-line-1">
+                            <div class="reserve-step-line-fill"></div>
+                        </div>
+
+                        <div class="reserve-step-item" id="reserve-step-node-2" data-step="2">
+                            <div class="reserve-step-dot">
+                                <svg class="reserve-step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <span class="reserve-step-label">Make Payment</span>
+                        </div>
+
+                        <div class="reserve-step-line" id="reserve-step-line-2">
+                            <div class="reserve-step-line-fill"></div>
+                        </div>
+
+                        <div class="reserve-step-item" id="reserve-step-node-3" data-step="3">
+                            <div class="reserve-step-dot">
+                                <svg class="reserve-step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <span class="reserve-step-label">Completed</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1170,9 +1207,9 @@
         <div class="reserve-page-wrapper">
             <div class="reserve-page-container">
 
-                <div class="reserve-workspace">
-                    <!-- Left Column: Selected Vehicle Information Only -->
-                    <div class="reserve-summary-col">
+                <div class="reserve-workspace" id="reserve-workspace">
+                    <!-- Left Column: Selected Vehicle Information (Shown on Step 1 & Step 2) -->
+                    <div class="reserve-summary-col" id="reserve-summary-col">
                         <div class="reserve-card reserve-vehicle-card">
                             <div class="reserve-card-topbar">
                                 <span class="reserve-card-tag">SELECTED VEHICLE</span>
@@ -1192,9 +1229,10 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: All Other Rental Details (Itinerary, Dates, Time Selection & Total) -->
-                    <div class="reserve-action-col">
-                        <div class="reserve-card reserve-details-card">
+                    <!-- Right Column: Step 1 (Confirm Time) & Step 2 (Make Payment) -->
+                    <div class="reserve-action-col" id="reserve-action-col">
+                        <!-- STEP 1 PANEL: Confirm Time -->
+                        <div class="reserve-card reserve-details-card reserve-step-panel" id="reserve-step-panel-1">
                             <div class="reserve-card-topbar">
                                 <span class="reserve-card-tag">YOUR RESERVATION DETAILS</span>
                             </div>
@@ -1270,13 +1308,179 @@
                                     </div>
 
                                     <button type="submit" id="reserve-confirm-btn" class="reserve-confirm-btn">
-                                        <span>Confirm Reservation</span>
+                                        <span>Continue to Payment</span>
                                     </button>
                                 </form>
                             </div>
                         </div>
+
+                        <!-- STEP 2 PANEL: Make Payment (Left: Itemized Bill & Make Payment | Right: Standalone Card Verification Gateway) -->
+                        <div class="reserve-payment-split reserve-step-panel" id="reserve-step-panel-2" style="display: none;">
+                            <!-- Left Side: Itemized Bill & Standalone Make Payment Button -->
+                            <div class="reserve-card payment-bill-card">
+                                <div class="reserve-card-topbar">
+                                    <span class="reserve-card-tag">BILLING SUMMARY</span>
+                                </div>
+                                <div class="payment-bill-body">
+                                    <div class="payment-bill-hero">
+                                        <span class="payment-bill-hero-label">Amount Due</span>
+                                        <strong class="payment-bill-hero-amount" id="pay-total-amount">S$216</strong>
+                                    </div>
+
+                                    <div class="payment-bill-list">
+                                        <div class="payment-bill-row">
+                                            <div class="payment-bill-item-main">
+                                                <strong id="pay-bill-car-name">BYD Atto 3</strong>
+                                                <span id="pay-bill-schedule">2026-10-28 10:00 &rarr; 2026-10-29 10:00</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="payment-bill-divider"></div>
+
+                                        <div class="payment-bill-row">
+                                            <span id="pay-bill-calc">S$108 &times; 2 days</span>
+                                            <strong id="pay-bill-subtotal">S$216</strong>
+                                        </div>
+                                        <div class="payment-bill-row">
+                                            <span>EV Charging &amp; Basic Insurance</span>
+                                            <span class="cost-free-tag">Included</span>
+                                        </div>
+
+                                        <div class="payment-bill-divider"></div>
+
+                                        <div class="payment-bill-row payment-bill-total-row">
+                                            <span>Total Amount</span>
+                                            <strong id="pay-bill-total-bottom">S$216</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-bill-actions">
+                                        <button type="button" id="reserve-payment-back-btn" class="payment-back-btn">
+                                            <span>Back</span>
+                                        </button>
+                                        <button type="button" id="bill-make-payment-btn" class="reserve-confirm-btn bill-pay-btn is-unverified">
+                                            <span class="bill-pay-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                                            <span id="bill-make-payment-text">Make Payment</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Side: Standalone Embedded Bank Card Verification Gateway Module -->
+                            <div class="gateway-module-shell" id="gateway-module-shell">
+                                <div class="gateway-module-topbar">
+                                    <div class="gateway-lock-title">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                        </svg>
+                                        <span>Card Verification</span>
+                                    </div>
+                                    <div class="gateway-card-brands" id="gateway-card-brands" aria-label="Accepted Cards: Visa, Mastercard, American Express, Discover, JCB">
+                                        <span class="gateway-brand-logo-box" data-card-brand="visa"><img src="images/visa.svg" alt="Visa" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="mastercard"><img src="images/mastercard.svg" alt="Mastercard" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="amex"><img src="images/americanexpress.svg" alt="American Express" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="discover"><img src="images/discover.svg" alt="Discover" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="jcb"><img src="images/jcb.svg" alt="JCB" class="gateway-brand-logo"></span>
+                                    </div>
+                                </div>
+
+                                <div class="gateway-module-body">
+                                    <form id="reserve-payment-form" class="reserve-payment-form" onsubmit="return false;" novalidate>
+                                        <div class="payment-field" id="field-pay-name">
+                                            <label for="pay-card-name" class="gateway-field-label">Cardholder Name</label>
+                                            <input type="text" id="pay-card-name" class="payment-input gateway-input" placeholder="Name on card" autocomplete="cc-name" required>
+                                            <span class="reserve-field-error" id="pay-name-error"></span>
+                                        </div>
+
+                                        <div class="payment-field" id="field-pay-number">
+                                            <label for="pay-card-number" class="gateway-field-label">Card Number</label>
+                                            <div class="payment-card-input-wrap">
+                                                <input type="text" id="pay-card-number" class="payment-input gateway-input" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" autocomplete="cc-number" required>
+                                                <img src="images/credit-card.svg" alt="" class="payment-input-card-icon">
+                                            </div>
+                                            <span class="reserve-field-error" id="pay-number-error"></span>
+                                        </div>
+
+                                        <div class="payment-row-grid">
+                                            <div class="payment-field" id="field-pay-expiry">
+                                                <label for="pay-card-expiry" class="gateway-field-label">Expiry Date</label>
+                                                <input type="text" id="pay-card-expiry" class="payment-input gateway-input" placeholder="MM/YY" inputmode="numeric" maxlength="5" autocomplete="cc-exp" required>
+                                                <span class="reserve-field-error" id="pay-expiry-error"></span>
+                                            </div>
+
+                                            <div class="payment-field" id="field-pay-cvv">
+                                                <label for="pay-card-cvv" class="gateway-field-label">CVV / CVC</label>
+                                                <input type="password" id="pay-card-cvv" class="payment-input gateway-input" placeholder="3 digits" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
+                                                <span class="reserve-field-error" id="pay-cvv-error"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="gateway-verify-actions">
+                                            <button type="submit" id="reserve-payment-submit-btn" class="gateway-pay-btn">
+                                                <span class="gateway-btn-spinner" aria-hidden="true"></span>
+                                                <svg class="gateway-btn-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polyline class="gateway-check-path" points="4 12 9 17 20 6"></polyline>
+                                                </svg>
+                                                <span id="reserve-payment-submit-text">Verify</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>            </div>
+
+                    <!-- STEP 3 PANEL: Completed (Full-Width Centered Card, No Back Allowed) -->
+                    <div class="reserve-completed-col" id="reserve-step-panel-3" style="display: none;">
+                        <div class="reserve-card reserve-completed-card">
+                            <div class="completed-hero-badge" aria-hidden="true">
+                                <svg class="completed-hero-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+                                    <polyline class="completed-check-path" points="4 12 9 17 20 6"></polyline>
+                                </svg>
+                            </div>
+                            <h2 class="completed-title">Reservation Completed</h2>
+                            <div class="completed-ref-pill">
+                                <span>Booking Ref:</span>
+                                <strong id="completed-booking-ref">#AZ-84920</strong>
+                            </div>
+
+                            <div class="completed-summary-box">
+                                <div class="completed-summary-row">
+                                    <span class="completed-summary-label">Vehicle</span>
+                                    <strong class="completed-summary-val" id="completed-car-name">BYD Atto 3</strong>
+                                </div>
+                                <div class="completed-summary-row">
+                                    <span class="completed-summary-label">Pickup</span>
+                                    <strong class="completed-summary-val" id="completed-pickup-info">Alexandra Main Branch &middot; 2026-10-28 10:00</strong>
+                                </div>
+                                <div class="completed-summary-row">
+                                    <span class="completed-summary-label">Return</span>
+                                    <strong class="completed-summary-val" id="completed-return-info">Changi Airport Branch &middot; 2026-10-29 10:00</strong>
+                                </div>
+                                <div class="completed-summary-row">
+                                    <span class="completed-summary-label">Payment Method</span>
+                                    <strong class="completed-summary-val" id="completed-card-info">Card ending in &bull;&bull;&bull;&bull; 4242</strong>
+                                </div>
+                                <div class="completed-summary-divider"></div>
+                                <div class="completed-summary-row completed-total-row">
+                                    <span class="completed-summary-label">Total Paid</span>
+                                    <strong class="completed-summary-total" id="completed-total-paid">S$216</strong>
+                                </div>
+                            </div>
+
+                            <div class="completed-actions-row">
+                                <button type="button" id="completed-view-bookings-btn" class="reserve-confirm-btn completed-primary-btn">
+                                    <span>View My Bookings</span>
+                                </button>
+                                <button type="button" id="completed-home-btn" class="payment-back-btn completed-secondary-btn">
+                                    <span>Back to Home</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1520,103 +1724,11 @@
                 </aside>
 
                 <div class="booking-modal-body">
-                <!-- Panel 1: Upcoming & Active -->
-                <div id="booking-panel-upcoming" class="booking-panel active" role="tabpanel">
-                    <div class="booking-item-card">
-                        <div class="booking-item-topbar">
-                            <div class="booking-ref-group">
-                                <span class="booking-ref-label">BOOKING REF</span>
-                                <span class="booking-ref-code">#AZ-84920</span>
-                            </div>
-                            <span class="booking-status-badge status-confirmed">Confirmed</span>
-                        </div>
+                    <!-- Panel 1: In Progress (Dynamically rendered from account bookings) -->
+                    <div id="booking-panel-upcoming" class="booking-panel active" role="tabpanel"></div>
 
-                        <div class="booking-item-main">
-                            <div class="booking-car-col">
-                                <div class="booking-car-thumb">
-                                    <img src="images/cars/Tesla-Model_3-2018-Front_Three-Quarter.669d31aa.jpg?v=4" alt="Tesla Model 3">
-                                </div>
-                                <div class="booking-car-meta">
-                                    <h4>Tesla Model 3</h4>
-                                    <p>Sedan &middot; 5 Seats &middot; 60.0 kWh</p>
-                                </div>
-                            </div>
-
-                            <div class="booking-route-col">
-                                <div class="booking-route-point">
-                                    <span class="route-point-tag">PICKUP</span>
-                                    <strong class="route-point-loc">Alexandra Branch (HQ)</strong>
-                                    <span class="route-point-date">15 Nov 2026 &middot; 10:00 AM</span>
-                                </div>
-                                <div class="booking-route-point">
-                                    <span class="route-point-tag">RETURN</span>
-                                    <strong class="route-point-loc">Changi Airport T3</strong>
-                                    <span class="route-point-date">18 Nov 2026 &middot; 10:00 AM</span>
-                                </div>
-                            </div>
-
-                            <div class="booking-price-col">
-                                <span class="booking-duration-tag">3 Days Rental</span>
-                                <span class="booking-total-price">S$414</span>
-                                <span class="booking-rate-note">S$138 / day</span>
-                            </div>
-                        </div>
-
-                        <div class="booking-item-footer">
-                            <button type="button" class="booking-action-btn btn-outline">Cancel Booking</button>
-                            <button type="button" class="booking-action-btn btn-solid">Edit / Modify Booking</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Panel 2: Past Rentals -->
-                <div id="booking-panel-past" class="booking-panel" role="tabpanel" style="display: none;">
-                    <div class="booking-item-card past-card">
-                        <div class="booking-item-topbar">
-                            <div class="booking-ref-group">
-                                <span class="booking-ref-label">BOOKING REF</span>
-                                <span class="booking-ref-code">#AZ-71045</span>
-                            </div>
-                            <span class="booking-status-badge status-completed">Completed</span>
-                        </div>
-
-                        <div class="booking-item-main">
-                            <div class="booking-car-col">
-                                <div class="booking-car-thumb">
-                                    <img src="images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4" alt="BYD Atto 3">
-                                </div>
-                                <div class="booking-car-meta">
-                                    <h4>BYD Atto 3</h4>
-                                    <p>SUV &middot; 5 Seats &middot; 60.5 kWh</p>
-                                </div>
-                            </div>
-
-                            <div class="booking-route-col">
-                                <div class="booking-route-point">
-                                    <span class="route-point-tag">PICKUP</span>
-                                    <strong class="route-point-loc">Orchard Central Car Park</strong>
-                                    <span class="route-point-date">02 Oct 2026 &middot; 09:00 AM</span>
-                                </div>
-                                <div class="booking-route-point">
-                                    <span class="route-point-tag">RETURN</span>
-                                    <strong class="route-point-loc">Orchard Central Car Park</strong>
-                                    <span class="route-point-date">04 Oct 2026 &middot; 06:00 PM</span>
-                                </div>
-                            </div>
-
-                            <div class="booking-price-col">
-                                <span class="booking-duration-tag">2 Days Rental</span>
-                                <span class="booking-total-price">S$216</span>
-                                <span class="booking-rate-note">S$108 / day</span>
-                            </div>
-                        </div>
-
-                        <div class="booking-item-footer">
-                            <button type="button" class="booking-action-btn btn-outline">View Receipt</button>
-                            <button type="button" class="booking-action-btn btn-solid">Rent Again</button>
-                        </div>
-                    </div>
-                </div>
+                    <!-- Panel 2: Completed (Dynamically rendered from account bookings) -->
+                    <div id="booking-panel-past" class="booking-panel" role="tabpanel" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -1632,6 +1744,14 @@
         <span id="auth-top-toast-text">Registration successful! Please log in to your account.</span>
     </div>
 
-    <script src="js/app.js"></script>
+    <!-- Full-Screen Payment Processing Spinner Overlay -->
+    <div id="payment-processing-overlay" class="payment-processing-overlay" aria-hidden="true">
+        <div class="payment-processing-box">
+            <span class="payment-processing-spinner" aria-hidden="true"></span>
+            <span class="payment-processing-label">Processing Payment...</span>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=107"></script>
 </body>
 </html>
