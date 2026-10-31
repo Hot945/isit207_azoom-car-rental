@@ -4850,6 +4850,7 @@ if (contactForm) {
                 </div>
             `;
 
+            contentBox.scrollTop = 0;
             modal.classList.add('active');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
