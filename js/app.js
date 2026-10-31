@@ -1648,7 +1648,7 @@ if (contactForm) {
                     <div class="booking-item-main">
                         <div class="booking-car-col">
                             <div class="booking-car-thumb">
-                                <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4'}" alt="${b.model}">
+                                <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg'}" alt="${b.model}">
                             </div>
                             <div class="booking-car-meta">
                                 <h4>${b.model}</h4>
@@ -1850,7 +1850,7 @@ if (contactForm) {
                         <h4 class="bdetail-card-title">Vehicle &amp; Itinerary</h4>
                         <div class="bdetail-car-header">
                             <div class="bdetail-car-thumb">
-                                <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4'}" alt="${b.model}">
+                                <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg'}" alt="${b.model}">
                             </div>
                             <div class="bdetail-car-info">
                                 <h4>${b.model}</h4>
@@ -3927,8 +3927,8 @@ if (contactForm) {
             return {
                 model: (nameEl && nameEl.textContent.trim()) || 'BYD Atto 3',
                 dailyPrice,
-                image: imgEl ? imgEl.getAttribute('src') : 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4',
-                brandLogo: logoEl ? logoEl.getAttribute('src') : 'images/logos/byd-seeklogo.svg?v=6',
+                image: imgEl ? imgEl.getAttribute('src') : 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg',
+                brandLogo: logoEl ? logoEl.getAttribute('src') : 'images/logos/byd-seeklogo.svg',
                 type: 'EV',
                 transmission: 'Automatic',
                 seats: '5 seats',
@@ -4488,8 +4488,8 @@ if (contactForm) {
             'BYD Atto 3': {
                 model: 'BYD Atto 3',
                 brand: 'BYD',
-                brandLogo: 'images/logos/byd-seeklogo.svg?v=6',
-                image: 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4',
+                brandLogo: 'images/logos/byd-seeklogo.svg',
+                image: 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg',
                 type: 'Compact SUV',
                 dailyPrice: 108,
                 tagline: 'Dynamic Electric Crossover',
@@ -4509,8 +4509,8 @@ if (contactForm) {
             'Tesla Model 3': {
                 model: 'Tesla Model 3',
                 brand: 'Tesla',
-                brandLogo: 'images/logos/tesla.svg?v=2',
-                image: 'images/cars/Tesla-Model_3-2018-Front_Three-Quarter.669d31aa.jpg?v=2',
+                brandLogo: 'images/logos/tesla.svg',
+                image: 'images/cars/Tesla-Model_3-2018-Front_Three-Quarter.669d31aa.jpg',
                 type: 'Premium Sedan',
                 dailyPrice: 138,
                 tagline: 'Benchmark Electric Sport Sedan',
@@ -4530,8 +4530,8 @@ if (contactForm) {
             'BYD Dolphin': {
                 model: 'BYD Dolphin',
                 brand: 'BYD',
-                brandLogo: 'images/logos/byd-seeklogo.svg?v=6',
-                image: 'images/cars/BYD-Dolphin-2024-HD-f6bb09f91c7f1266a9e34d3b3cecb14c4556f7d42.jpg?v=4',
+                brandLogo: 'images/logos/byd-seeklogo.svg',
+                image: 'images/cars/BYD-Dolphin-2024-HD-f6bb09f91c7f1266a9e34d3b3cecb14c4556f7d42.jpg',
                 type: 'Urban Hatchback',
                 dailyPrice: 88,
                 tagline: 'Agile & Efficient City Hatchback',
@@ -4551,8 +4551,8 @@ if (contactForm) {
             'Hyundai Ioniq 5': {
                 model: 'Hyundai Ioniq 5',
                 brand: 'Hyundai',
-                brandLogo: 'images/logos/hyundai.svg?v=2',
-                image: 'images/cars/Hyundai-Ioniq_5-2022-HD-f85146b11c7f96772e83d82bd50100b71d44c0d42.jpg?v=4',
+                brandLogo: 'images/logos/hyundai.svg',
+                image: 'images/cars/Hyundai-Ioniq_5-2022-HD-f85146b11c7f96772e83d82bd50100b71d44c0d42.jpg',
                 type: 'Crossover SUV',
                 dailyPrice: 118,
                 tagline: 'Futuristic 800V Retro-Pixel EV',
@@ -4572,8 +4572,8 @@ if (contactForm) {
             'Tesla Model Y': {
                 model: 'Tesla Model Y',
                 brand: 'Tesla',
-                brandLogo: 'images/logos/tesla.svg?v=2',
-                image: 'images/cars/Tesla-Model_Y-2025-HD-523e3c931c7f5d0a4f418b05a89600ac1ce5d0d44.jpg?v=4',
+                brandLogo: 'images/logos/tesla.svg',
+                image: 'images/cars/Tesla-Model_Y-2025-HD-523e3c931c7f5d0a4f418b05a89600ac1ce5d0d44.jpg',
                 type: 'Mid-Size SUV',
                 dailyPrice: 158,
                 tagline: 'Maximum Utility & Cutting-Edge Tech',
@@ -4593,8 +4593,8 @@ if (contactForm) {
             'BYD Seal': {
                 model: 'BYD Seal',
                 brand: 'BYD',
-                brandLogo: 'images/logos/byd-seeklogo.svg?v=6',
-                image: 'images/cars/BYD-Seal-2024-HD-00ff09881c7f376045ab7597d957e100f5eb9fd47.jpg?v=4',
+                brandLogo: 'images/logos/byd-seeklogo.svg',
+                image: 'images/cars/BYD-Seal-2024-HD-00ff09881c7f376045ab7597d957e100f5eb9fd47.jpg',
                 type: 'Performance Sedan',
                 dailyPrice: 128,
                 tagline: 'Ocean Aesthetics Electric Fastback',
@@ -4614,8 +4614,8 @@ if (contactForm) {
             'Polestar 2': {
                 model: 'Polestar 2',
                 brand: 'Polestar',
-                brandLogo: 'images/logos/polestar.svg?v=2',
-                image: 'images/cars/Polestar-2-2020-HD-c03bca271c7f8e347b951d849a45802675023dd47.jpg?v=4',
+                brandLogo: 'images/logos/polestar.svg',
+                image: 'images/cars/Polestar-2-2020-HD-c03bca271c7f8e347b951d849a45802675023dd47.jpg',
                 type: 'Fastback Sedan',
                 dailyPrice: 148,
                 tagline: 'Scandinavian Electric Performance',
@@ -4635,8 +4635,8 @@ if (contactForm) {
             'Mercedes-Benz EQB': {
                 model: 'Mercedes-Benz EQB',
                 brand: 'Mercedes-Benz',
-                brandLogo: 'images/logos/mercedes-benz.svg?v=2',
-                image: 'images/cars/Mercedes-Benz-EQB-2022-HD-3704759d1c7fcdc6a9716c21cacb91296b6934d48.jpg?v=4',
+                brandLogo: 'images/logos/mercedes-benz.svg',
+                image: 'images/cars/Mercedes-Benz-EQB-2022-HD-3704759d1c7fcdc6a9716c21cacb91296b6934d48.jpg',
                 type: '7-Seater Luxury SUV',
                 dailyPrice: 188,
                 tagline: 'Executive Electric Space & Comfort',
@@ -4656,8 +4656,8 @@ if (contactForm) {
             'BMW i4': {
                 model: 'BMW i4',
                 brand: 'BMW',
-                brandLogo: 'images/logos/bmw.svg?v=2',
-                image: 'images/cars/BMW-i4-2022-HD-5d92bb5b1c7fd1d8f1e1dd85b83d01944cec19d4b.jpg?v=4',
+                brandLogo: 'images/logos/bmw.svg',
+                image: 'images/cars/BMW-i4-2022-HD-5d92bb5b1c7fd1d8f1e1dd85b83d01944cec19d4b.jpg',
                 type: 'Gran Coupé Sedan',
                 dailyPrice: 178,
                 tagline: 'The Ultimate Electric Driving Machine',

@@ -322,7 +322,7 @@
                 <div class="md-booking-body">
                     <div class="md-car-col">
                         <div class="md-car-thumb">
-                            <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4'}" alt="${b.model}">
+                            <img src="${b.image || 'images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg'}" alt="${b.model}">
                         </div>
                         <div class="md-car-info">
                             <h4>${b.model}</h4>
