@@ -5,50 +5,7 @@
     const STORAGE_CURRENT_USER = 'azoom_current_user';
     const STORAGE_FEEDBACKS = 'azoom_customer_feedbacks_v1';
 
-    const DEFAULT_FEEDBACKS = [
-        {
-            id: 'fb_seed_001',
-            firstName: 'Marcus',
-            lastName: 'Tan',
-            fullName: 'Marcus Tan',
-            phone: '+65 9123 4567',
-            email: 'marcus.tan@singnet.com.sg',
-            subjectCode: 'rental',
-            subject: 'General EV Rental Inquiry',
-            message: 'Hi AZoom team, I am planning a 5-day family trip across Singapore and Malaysia next weekend. Are your BYD Atto 3 models equipped with an active Autopass/RFID tag for cross-border tolls?',
-            createdAt: '2026-10-30 09:42',
-            timestamp: 1793324520000,
-            status: 'unread'
-        },
-        {
-            id: 'fb_seed_002',
-            firstName: 'Elena',
-            lastName: 'Rostova',
-            fullName: 'Elena Rostova',
-            phone: '+65 8234 5678',
-            email: 'elena.rostova@techsolutions.sg',
-            subjectCode: 'corporate',
-            subject: 'Corporate & Fleet Subscription',
-            message: 'Good morning! Our company is looking to subscribe to 4 executive EVs (Tesla Model 3 or BYD Seal) for senior consultants on a 6-month corporate lease. Could someone send across your corporate rate card and fleet servicing terms?',
-            createdAt: '2026-10-30 11:15',
-            timestamp: 1793330100000,
-            status: 'unread'
-        },
-        {
-            id: 'fb_seed_003',
-            firstName: 'David',
-            lastName: 'Lim',
-            fullName: 'David Lim',
-            phone: '+65 9876 5432',
-            email: 'david.lim@gmail.com',
-            subjectCode: 'feedback',
-            subject: 'Customer Feedback / Support',
-            message: 'Seamless pickup experience at the Alexandra Flagship branch yesterday. The NFC smart unlock worked instantly, and the vehicle was thoroughly cleaned with 95% battery charge. Keep up the great work!',
-            createdAt: '2026-10-29 16:30',
-            timestamp: 1793262600000,
-            status: 'read'
-        }
-    ];
+    const DEFAULT_FEEDBACKS = [];
 
     function escapeHTML(str) {
         if (!str) return '';
@@ -227,13 +184,19 @@
         try {
             const raw = localStorage.getItem(STORAGE_FEEDBACKS);
             if (raw === null) {
-                localStorage.setItem(STORAGE_FEEDBACKS, JSON.stringify(DEFAULT_FEEDBACKS));
-                return DEFAULT_FEEDBACKS.slice();
+                return [];
             }
             const parsed = JSON.parse(raw);
-            return Array.isArray(parsed) ? parsed : [];
+            if (Array.isArray(parsed)) {
+                const cleaned = parsed.filter(item => item && item.id && !String(item.id).startsWith('fb_seed_'));
+                if (cleaned.length !== parsed.length) {
+                    saveAllFeedbacks(cleaned);
+                }
+                return cleaned;
+            }
+            return [];
         } catch (e) {
-            return DEFAULT_FEEDBACKS.slice();
+            return [];
         }
     }
 
