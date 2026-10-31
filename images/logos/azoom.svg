@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_2" data-name="图层 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.44 145">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="_图层_1-2" data-name="图层 1">
+    <rect class="cls-1" x="72.72" y="9.5" width="18" height="126"/>
+    <rect class="cls-1" x="18.72" y="63.5" width="54" height="18"/>
+    <polygon class="cls-1" points="72.72 .5 54.72 .5 .72 144.5 18.72 144.5 72.72 .5"/>
+    <polygon class="cls-1" points="171.72 .5 153.72 .5 99.72 144.5 117.72 144.5 171.72 .5"/>
+    <rect class="cls-1" x="99.72" y="9.5" width="72" height="18"/>
+    <rect class="cls-1" x="63.72" y="117.5" width="108" height="18"/>
+    <rect class="cls-1" x="198.72" y="45.5" width="54" height="18"/>
+    <rect class="cls-1" x="225.72" y="54.5" width="18" height="63"/>
+    <rect class="cls-1" x="189.72" y="117.5" width="54" height="18"/>
+    <rect class="cls-1" x="288.72" y="45.5" width="54" height="18"/>
+    <rect class="cls-1" x="315.72" y="54.5" width="18" height="63"/>
+    <rect class="cls-1" x="279.72" y="117.5" width="54" height="18"/>
+    <polygon class="cls-1" points="405.72 .5 387.72 .5 333.72 144.5 351.72 144.5 405.72 .5"/>
+    <polygon class="cls-1" points="243.72 135.5 270.72 63.5 288.72 63.5 261.72 135.5 243.72 135.5"/>
+    <polygon class="cls-1" points="153.72 135.5 180.72 63.5 198.72 63.5 171.72 135.5 153.72 135.5"/>
+    <rect class="cls-1" x="387.72" y="45.5" width="18" height="99"/>
+    <polygon class="cls-1" points="459.72 .5 441.72 .5 387.72 144.5 405.72 144.5 459.72 .5"/>
+    <rect class="cls-1" x="441.72" y="45.5" width="18" height="99"/>
+  </g>
+</svg>

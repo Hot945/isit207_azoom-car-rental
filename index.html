@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AZoom Car Rental</title>
-    <link rel="stylesheet" href="css/style.css?v=107">
+    <link rel="icon" type="image/svg+xml" href="images/logos/azoom_favicon.svg">
+    <link rel="apple-touch-icon" href="images/logos/azoom_favicon.svg">
+    <link rel="stylesheet" href="css/style.css?v=171">
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">
-            <span>AZoom</span>
+        <div class="logo" role="button" aria-label="AZoom Home">
+            <img src="images/logos/azoom.svg" alt="AZoom" class="navbar-logo-img">
         </div>
         <nav class="nav-links">
             <button class="nav-btn active" data-target="home">Home</button>
@@ -23,12 +25,21 @@
                 <img src="images/user.svg" alt="Auth Icon" id="auth-icon" class="auth-icon">
                 <span id="auth-btn-text">Login / Register</span>
             </button>
-            <!-- User Profile Dropdown (Toggled when logged in) -->
+
             <div id="auth-user-dropdown" class="auth-user-dropdown" style="display: none;">
                 <div class="auth-dropdown-user-info">
                     <span class="dropdown-user-name" id="dropdown-user-name">Alex Tan</span>
                     <span class="dropdown-user-email" id="dropdown-user-email">demo@azoom.sg</span>
                 </div>
+                <div class="auth-dropdown-divider"></div>
+                <button type="button" class="auth-dropdown-item-btn" id="dropdown-manage-account-btn">
+                    <img src="images/user.svg" alt="" class="auth-dropdown-item-icon">
+                    <span>Manage Account</span>
+                </button>
+                <button type="button" class="auth-dropdown-item-btn" id="dropdown-manage-bookings-btn">
+                    <img src="images/calendar.svg" alt="" class="auth-dropdown-item-icon">
+                    <span>Manage Bookings</span>
+                </button>
                 <div class="auth-dropdown-divider"></div>
                 <button type="button" class="auth-dropdown-logout-btn" id="auth-logout-btn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -42,8 +53,6 @@
         </div>
     </header>
 
-
-
     <section id="page-home" class="page-view active">
 
         <div class="hero-visual">
@@ -52,21 +61,19 @@
             <p>100% Electric Mobility for a Greener Singapore.</p>
             </div>
             <div class="hero-car-image">
-            <img src="images/pexels-nazar-kharin-2813332-39414339.jpg" alt="AZoom Electric Car">
+            <img src="images/bg/pexels-nazar-kharin-2813332-39414339.jpg" alt="AZoom Electric Car">
             </div>
         </div>
-        
+
         <div class="reservation-widget">
             <div class="reservation-card">
                 <div class="widget-top-bar">
                     <button type="button" id="view-booking-btn" class="link-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="booking-link-icon">
-                                <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
-                            </svg>
+                        <img src="images/calendar.svg" alt="" class="booking-link-icon">
                         <span>View / edit my booking</span>
                     </button>
                 </div>
-                
+
                 <div class="widget-inputs-row">
                     <div class="widget-field">
                         <label for="pickup-location">Pickup</label>
@@ -76,7 +83,7 @@
                             <option value="airport">Changi Airport Branch</option>
                         </select>
                     </div>
-                
+
                     <div class="widget-field">
                         <label for="return-location">Return</label>
                         <select id="return-location" required>
@@ -109,8 +116,6 @@
             </div>
         </div>
 
-
-
         <div class="features-section">
             <div class="features-header">
                 <span class="features-tag">ALL ELECTRIC, ZERO EMISSIONS</span>
@@ -133,7 +138,7 @@
                         <p>Drive sustainably with zero tailpipe emissions. Every vehicle is thoroughly charged, inspected, and ready to explore Singapore.</p>
                     </div>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-svg-icon">
@@ -148,7 +153,7 @@
                         <p>Rent for a single day, a week, or subscribe monthly. Enjoy tiered long-term discounts tailored to your travel plans.</p>
                     </div>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feature-svg-icon">
@@ -165,13 +170,11 @@
             </div>
         </div>
 
-
-
         <div class="showcase-section">
             <div class="showcase-image">
-                <img src="images/pexels-incusion-24566649-7521902.jpg" alt="Electric Car on Road">
+                <img src="images/bg/pexels-incusion-24566649-7521902.jpg" alt="Electric Car on Road">
             </div>
-            
+
             <div class="showcase-content">
                 <h2>The <span class="highlight-text">electric</span> revolution is here</h2>
                 <div class="benefits-grid">
@@ -206,8 +209,6 @@
                 </button>
             </div>
         </div>
-        
-
 
         <div class="locations-banner">
             <div class="banner-tower">
@@ -219,7 +220,7 @@
             <div class="banner-car">
                 <img src="images/car.svg" alt="Driving Car" class="car-icon">
             </div>
-            
+
             <div class="locations-banner-content">
                 <div class="earth-badge">
                     <img src="images/earth.svg" alt="Rotating Earth" class="rotating-earth">
@@ -232,10 +233,8 @@
         </div>
     </section>
 
-
-
             <section id="page-evs" class="page-view">
-        <!-- 1. Top Intro Hero Banner (Concise SIXT-inspired intro) -->
+
         <div class="evs-hero">
             <div class="evs-hero-container">
                 <h1 class="evs-hero-title">DISCOVER SINGAPORE'S FINEST ELECTRIC FLEET</h1>
@@ -243,7 +242,6 @@
             </div>
         </div>
 
-        <!-- 2. Middle Filter Bar (Filter button placed between intro and fleet grid) -->
         <div class="ev-filter-section">
             <div class="ev-filter-container">
                 <div class="ev-filter-info">
@@ -274,18 +272,16 @@
             </div>
         </div>
 
-        <!-- 3. EV Vehicle Grid (9 curated Singapore market & high ROI EV models) -->
         <div class="ev-fleet-section">
             <div class="ev-fleet-container">
-                
-                <!-- Card 1: BYD Atto 3 -->
+
                 <div class="ev-card" data-brand="byd" data-type="suv" data-seats="5" data-price="108">
                     <div class="ev-card-image-box">
                         <img src="images/cars/BYD-Atto_3-2023-HD-c6d412e81c7fb2f19f29fc71c801a09828a964d3f.jpg?v=4" alt="BYD Atto 3" class="ev-real-image ev-img-atto3" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
+                            <img src="images/logos/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
                             <h3 class="ev-card-title">BYD Atto 3</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -322,14 +318,13 @@
                     </div>
                 </div>
 
-                <!-- Card 2: Tesla Model 3 -->
                 <div class="ev-card" data-brand="tesla" data-type="sedan" data-seats="5" data-price="138">
                     <div class="ev-card-image-box">
                         <img src="images/cars/Tesla-Model_3-2018-Front_Three-Quarter.669d31aa.jpg?v=4" alt="Tesla Model 3" class="ev-real-image ev-img-model3" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/tesla.svg" alt="Tesla Logo" class="ev-card-brand-logo">
+                            <img src="images/logos/tesla.svg" alt="Tesla Logo" class="ev-card-brand-logo">
                             <h3 class="ev-card-title">Tesla Model 3</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -366,14 +361,13 @@
                     </div>
                 </div>
 
-                <!-- Card 3: BYD Dolphin -->
                 <div class="ev-card" data-brand="byd" data-type="hatchback" data-seats="5" data-price="88">
                     <div class="ev-card-image-box">
                         <img src="images/cars/BYD-Dolphin-2024-HD-f6bb09f91c7f1266a9e34d3b3cecb14c4556f7d42.jpg?v=4" alt="BYD Dolphin" class="ev-real-image ev-img-dolphin" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
+                            <img src="images/logos/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
                             <h3 class="ev-card-title">BYD Dolphin</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -410,14 +404,13 @@
                     </div>
                 </div>
 
-                <!-- Card 4: Hyundai Ioniq 5 -->
                 <div class="ev-card" data-brand="hyundai" data-type="suv" data-seats="5" data-price="118">
                     <div class="ev-card-image-box">
                         <img src="images/cars/Hyundai-Ioniq_5-2022-HD-f85146b11c7f96772e83d82bd50100b71d44c0d42.jpg?v=4" alt="Hyundai Ioniq 5" class="ev-real-image ev-img-ioniq5" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/hyundai.svg" alt="Hyundai Logo" class="ev-card-brand-logo">
+                            <img src="images/logos/hyundai.svg" alt="Hyundai Logo" class="ev-card-brand-logo">
                             <h3 class="ev-card-title">Hyundai Ioniq 5</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -454,14 +447,13 @@
                     </div>
                 </div>
 
-                <!-- Card 5: Tesla Model Y -->
                 <div class="ev-card" data-brand="tesla" data-type="suv" data-seats="5" data-price="158">
                     <div class="ev-card-image-box">
                         <img src="images/cars/Tesla-Model_Y-2025-HD-523e3c931c7f5d0a4f418b05a89600ac1ce5d0d44.jpg?v=4" alt="Tesla Model Y" class="ev-real-image ev-img-modely" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/tesla.svg" alt="Tesla Logo" class="ev-card-brand-logo">
+                            <img src="images/logos/tesla.svg" alt="Tesla Logo" class="ev-card-brand-logo">
                             <h3 class="ev-card-title">Tesla Model Y</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -498,14 +490,13 @@
                     </div>
                 </div>
 
-                <!-- Card 6: BYD Seal -->
                 <div class="ev-card" data-brand="byd" data-type="sedan" data-seats="5" data-price="128">
                     <div class="ev-card-image-box">
                         <img src="images/cars/BYD-Seal-2024-HD-00ff09881c7f376045ab7597d957e100f5eb9fd47.jpg?v=4" alt="BYD Seal" class="ev-real-image ev-img-seal" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
+                            <img src="images/logos/byd-seeklogo.svg?v=6" alt="BYD Logo" class="ev-card-brand-logo ev-logo-byd">
                             <h3 class="ev-card-title">BYD Seal</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -542,14 +533,13 @@
                     </div>
                 </div>
 
-                <!-- Card 7: Polestar 2 -->
                 <div class="ev-card" data-brand="polestar" data-type="sedan" data-seats="5" data-price="148">
                     <div class="ev-card-image-box">
                         <img src="images/cars/Polestar-2-2020-HD-c03bca271c7f8e347b951d849a45802675023dd47.jpg?v=4" alt="Polestar 2" class="ev-real-image ev-img-polestar2" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/polestar.svg" alt="Polestar Logo" class="ev-card-brand-logo">
+                            <img src="images/logos/polestar.svg" alt="Polestar Logo" class="ev-card-brand-logo">
                             <h3 class="ev-card-title">Polestar 2</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -586,14 +576,13 @@
                     </div>
                 </div>
 
-                <!-- Card 8: Mercedes-Benz EQB -->
                 <div class="ev-card" data-brand="mercedes-benz" data-type="suv" data-seats="7" data-price="188">
                     <div class="ev-card-image-box">
                         <img src="images/cars/Mercedes-Benz-EQB-2022-HD-3704759d1c7fcdc6a9716c21cacb91296b6934d48.jpg?v=4" alt="Mercedes-Benz EQB" class="ev-real-image ev-img-eqb" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/mercedes-benz.svg" alt="Mercedes-Benz Logo" class="ev-card-brand-logo">
+                            <img src="images/logos/mercedes-benz.svg" alt="Mercedes-Benz Logo" class="ev-card-brand-logo">
                             <h3 class="ev-card-title">Mercedes-Benz EQB</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -630,14 +619,13 @@
                     </div>
                 </div>
 
-                <!-- Card 9: BMW i4 -->
                 <div class="ev-card" data-brand="bmw" data-type="sedan" data-seats="5" data-price="178">
                     <div class="ev-card-image-box">
                         <img src="images/cars/BMW-i4-2022-HD-5d92bb5b1c7fd1d8f1e1dd85b83d01944cec19d4b.jpg?v=4" alt="BMW i4" class="ev-real-image ev-img-bmwi4" loading="lazy">
                     </div>
                     <div class="ev-card-body">
                         <div class="ev-card-header">
-                            <img src="images/bmw.svg" alt="BMW Logo" class="ev-card-brand-logo">
+                            <img src="images/logos/bmw.svg" alt="BMW Logo" class="ev-card-brand-logo">
                             <h3 class="ev-card-title">BMW i4</h3>
                         </div>
                         <div class="ev-card-specs">
@@ -674,7 +662,6 @@
                     </div>
                 </div>
 
-                <!-- Empty State (Shown when 0 vehicles match filters) -->
                 <div class="ev-empty-state" id="ev-empty-state" style="display: none;">
                     <div class="ev-empty-icon-box">
                         <img src="images/car.svg" alt="No vehicles found" class="ev-empty-icon">
@@ -688,10 +675,8 @@
         </div>
     </section>
 
-
-
         <section id="page-locations" class="page-view">
-        <!-- 1. Locations Hero Banner -->
+
         <div class="locations-hero">
             <div class="locations-hero-container">
                 <div class="locations-hero-text">
@@ -704,66 +689,75 @@
             </div>
         </div>
 
-                                <!-- 2. Locations Main Content Wrapper (Unified 1200px Content Grid) -->
         <div class="locations-content-wrapper">
             <div class="locations-container">
-                
-                <!-- Row 1: Branches (2 Cards) -->
+
                 <div class="locations-row branches-row">
-                    <!-- Branch Card 1: Alexandra Main Branch -->
+
                     <div class="location-card" data-loc-id="alexandra">
                         <div class="loc-img-wrapper">
-                            <img src="images/image-asset.jpg" alt="Alexandra Main Branch">
+                            <img src="images/bg/image-asset.jpg" alt="Alexandra Main Branch">
                         </div>
                         <div class="loc-card-body">
-                            <h3>Alexandra Main Branch</h3>
+                            <h3>
+                                <img src="images/warehouse.svg" alt="" class="loc-title-icon">
+                                <span>Alexandra Main Branch</span>
+                            </h3>
                             <button type="button" class="loc-details-btn" data-location="alexandra">View Details</button>
                         </div>
                     </div>
 
-                    <!-- Branch Card 2: Changi Airport Branch -->
                     <div class="location-card" data-loc-id="airport">
                         <div class="loc-img-wrapper">
-                            <img src="images/shawn-lWFw6fGkadw-unsplash.jpg" alt="Changi Airport Branch">
+                            <img src="images/bg/shawn-lWFw6fGkadw-unsplash.jpg" alt="Changi Airport Branch">
                         </div>
                         <div class="loc-card-body">
-                            <h3>Changi Airport Branch</h3>
+                            <h3>
+                                <img src="images/warehouse.svg" alt="" class="loc-title-icon">
+                                <span>Changi Airport Branch</span>
+                            </h3>
                             <button type="button" class="loc-details-btn" data-location="airport">View Details</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Row 2: Car Parks (3 Cards) -->
                 <div class="locations-row carparks-row">
-                    <!-- Card 3: Orchard Car Park -->
+
                     <div class="location-card" data-loc-id="orchard">
                         <div class="loc-img-wrapper">
-                            <img src="images/jie-yeu-teoh-dYjkroR6Mi4-unsplash.jpg" alt="Orchard Car Park">
+                            <img src="images/bg/jie-yeu-teoh-dYjkroR6Mi4-unsplash.jpg" alt="Orchard Car Park">
                         </div>
                         <div class="loc-card-body">
-                            <h3>Orchard Car Park</h3>
+                            <h3>
+                                <img src="images/square-parking.svg" alt="" class="loc-title-icon">
+                                <span>Orchard Car Park</span>
+                            </h3>
                             <button type="button" class="loc-details-btn" data-location="orchard">View Details</button>
                         </div>
                     </div>
 
-                    <!-- Card 4: Jurong East Car Park -->
                     <div class="location-card" data-loc-id="jurong">
                         <div class="loc-img-wrapper">
-                            <img src="images/shawn-31J1gazL5ro-unsplash.jpg" alt="Jurong East Car Park">
+                            <img src="images/bg/shawn-31J1gazL5ro-unsplash.jpg" alt="Jurong East Car Park">
                         </div>
                         <div class="loc-card-body">
-                            <h3>Jurong East Car Park</h3>
+                            <h3>
+                                <img src="images/square-parking.svg" alt="" class="loc-title-icon">
+                                <span>Jurong East Car Park</span>
+                            </h3>
                             <button type="button" class="loc-details-btn" data-location="jurong">View Details</button>
                         </div>
                     </div>
 
-                    <!-- Card 5: Woodlands Car Park -->
                     <div class="location-card" data-loc-id="woodlands">
                         <div class="loc-img-wrapper">
-                            <img src="images/WoodsSquare_Masthead-20240515-min.jpg" alt="Woodlands Car Park">
+                            <img src="images/bg/WoodsSquare_Masthead-20240515-min.jpg" alt="Woodlands Car Park">
                         </div>
                         <div class="loc-card-body">
-                            <h3>Woodlands Car Park</h3>
+                            <h3>
+                                <img src="images/square-parking.svg" alt="" class="loc-title-icon">
+                                <span>Woodlands Car Park</span>
+                            </h3>
                             <button type="button" class="loc-details-btn" data-location="woodlands">View Details</button>
                         </div>
                     </div>
@@ -773,15 +767,12 @@
         </div>
     </section>
 
-    
-
     <section id="page-about" class="page-view">
         <div class="about-hero-wrapper">
-        
-        <!-- 1. About Hero: 扎根狮城，绿色启�?-->
+
         <div class="about-hero">
             <div class="about-hero-media">
-                <img src="images/jeremy-kwok-nI7ClYyc4cY-unsplash.jpg" alt="Singapore Clean Mobility Streetscape">
+                <img src="images/bg/jeremy-kwok-nI7ClYyc4cY-unsplash.jpg" alt="Singapore Clean Mobility Streetscape">
             </div>
             <div class="about-hero-container">
             <div class="about-hero-content">
@@ -793,7 +784,7 @@
             </div>
         </div>
         </div>
-        <!-- 2. 生态背书栏 (Credentials Bar) -->
+
         <div class="about-creds-bar">
             <div class="about-creds-container">
             <div class="cred-item">
@@ -818,7 +809,7 @@
             </div>
         </div>
         </div>
-        <!-- 3. 故事第一�? 驱动未来 (Driving the Future - �?Zaptec 充电桩实�? -->
+
         <div class="about-story-section">
             <div class="story-grid">
                 <div class="story-text-col">
@@ -842,17 +833,17 @@
                 </div>
                 <div class="story-image-col">
                     <div class="story-img-card">
-                        <img src="images/zaptec-hKDUWDQTZMw-unsplash.jpg" alt="AZoom Clean EV Smart Charging">
+                        <img src="images/bg/zaptec-hKDUWDQTZMw-unsplash.jpg" alt="AZoom Clean EV Smart Charging">
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 4. 故事第二�? 数字化无缝体�?(Drive With Us - �?Polestar 2 数字化中控特�? -->
+
         <div class="about-story-section">
             <div class="story-grid reverse">
                 <div class="story-image-col">
                     <div class="story-img-card">
-                        <img src="images/patrick-langwallner-ebd97HAQbMI-unsplash.jpg" alt="AZoom Digital Smart Cockpit">
+                        <img src="images/bg/patrick-langwallner-ebd97HAQbMI-unsplash.jpg" alt="AZoom Digital Smart Cockpit">
                     </div>
                 </div>
                 <div class="story-text-col">
@@ -868,7 +859,7 @@
                 </div>
             </div>
         </div>
-        <!-- 5. 绿色战绩量化�?(Impact Metrics Bar) -->
+
         <div class="about-metrics-bar">
             <div class="about-metrics-container">
             <div class="metrics-header">
@@ -899,14 +890,14 @@
             </div>
             </div>
         </div>
-        <!-- 6. 联络与留言枢纽 (Get In Touch Today) -->
+
         <div class="about-contact-section" id="about-contact-anchor">
             <div class="contact-container">
                 <div class="contact-info-col">
                     <span class="section-kicker">CONTACT US</span>
                     <h2>Get in touch with our team</h2>
                     <p>Have questions regarding fleet availability, corporate partnerships, or custom rental terms? Our support team is on standby 7 days a week.</p>
-                    
+
                     <div class="contact-details-list">
                         <div class="contact-item">
                             <img src="images/mail.svg" alt="Email" class="contact-icon">
@@ -949,12 +940,6 @@
                             </div>
                             <div class="form-btn-row">
                                 <button type="submit" class="contact-submit-btn">Send message</button>
-                                <div class="form-toast-msg" id="form-toast-msg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="toast-check-icon">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    <span>Message sent!</span>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -963,7 +948,6 @@
         </div>
     </section>
 
-    <!-- 5. Dedicated Search Results Page -->
     <section id="page-search" class="page-view">
         <div class="search-page-header">
             <div class="search-page-container">
@@ -979,9 +963,7 @@
                 <div class="search-widget-card">
                     <div class="widget-top-bar">
                         <button type="button" id="search-view-booking-btn" class="link-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="booking-link-icon">
-                                <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
-                            </svg>
+                            <img src="images/calendar.svg" alt="" class="booking-link-icon">
                             <span>View / edit my booking</span>
                         </button>
                     </div>
@@ -995,7 +977,7 @@
                                     <option value="airport">Changi Airport Branch</option>
                                 </select>
                             </div>
-                        
+
                             <div class="widget-field">
                                 <label for="search-return-location">Return</label>
                                 <select id="search-return-location" required>
@@ -1032,14 +1014,13 @@
 
         <div class="search-results-section">
             <div class="search-results-container">
-                <!-- Initial Empty State (Direct visit or no criteria submitted: pure white circle, no outer box) -->
+
                 <div id="search-empty-state" class="search-empty-circle-wrap">
                     <div class="search-empty-circle">
                         <img src="images/search.svg" alt="Search" class="search-empty-icon-img">
                     </div>
                 </div>
 
-                <!-- Skeleton Loading State (Shown while querying available vehicles) -->
                 <div id="search-loading-state" class="search-skeleton-wrapper" style="display: none;" aria-live="polite">
                     <div class="search-results-header search-skeleton-header">
                         <div class="skeleton-bone skeleton-header-title"></div>
@@ -1052,7 +1033,7 @@
                         </div>
                     </div>
                     <div class="ev-fleet-container search-fleet-container search-skeleton-fleet">
-                        <!-- Skeleton Card 1 -->
+
                         <div class="search-skeleton-card">
                             <div class="skeleton-bone skeleton-img-box"></div>
                             <div class="skeleton-card-body">
@@ -1076,7 +1057,6 @@
                             </div>
                         </div>
 
-                        <!-- Skeleton Card 2 -->
                         <div class="search-skeleton-card">
                             <div class="skeleton-bone skeleton-img-box"></div>
                             <div class="skeleton-card-body">
@@ -1102,7 +1082,6 @@
                     </div>
                 </div>
 
-                <!-- Active Search Results (Hidden until search is triggered) -->
                 <div id="search-results-content" class="search-results-content" style="display: none;">
                     <div class="search-results-header">
                         <h2 class="search-results-title"><span id="search-available-count">9</span> Available Vehicles</h2>
@@ -1131,10 +1110,9 @@
                     </div>
 
                     <div class="ev-fleet-container search-fleet-container" id="search-fleet-grid">
-                        <!-- Cloned 9 curated electric vehicles -->
+
                     </div>
 
-                    <!-- Empty State for Search Filter (when 0 vehicles match filter criteria) -->
                     <div class="ev-empty-state search-filter-empty-state" id="search-filter-empty-state" style="display: none;">
                         <div class="ev-empty-icon-box">
                             <img src="images/car.svg" alt="No vehicles found" class="ev-empty-icon">
@@ -1148,7 +1126,6 @@
         </div>
     </section>
 
-    <!-- 6. Dedicated Reservation Confirmation & Time Selection Page (#page-reserve) -->
     <section id="page-reserve" class="page-view">
         <div class="search-page-header reserve-yellow-header" id="reserve-yellow-header">
             <div class="search-page-container">
@@ -1163,7 +1140,7 @@
                 </div>
                 <div class="reserve-header-hero-slot">
                     <h1 class="reserve-page-title">Complete Your Reservation</h1>
-                    <!-- 3-Step Connected Progress Bar -->
+
                     <div class="reserve-stepper" id="reserve-stepper" role="navigation" aria-label="Reservation Steps">
                         <div class="reserve-step-item is-active" id="reserve-step-node-1" data-step="1">
                             <div class="reserve-step-dot">
@@ -1208,7 +1185,7 @@
             <div class="reserve-page-container">
 
                 <div class="reserve-workspace" id="reserve-workspace">
-                    <!-- Left Column: Selected Vehicle Information (Shown on Step 1 & Step 2) -->
+
                     <div class="reserve-summary-col" id="reserve-summary-col">
                         <div class="reserve-card reserve-vehicle-card">
                             <div class="reserve-card-topbar">
@@ -1220,7 +1197,7 @@
                                 </div>
                                 <div class="reserve-vehicle-info">
                                     <div class="reserve-vehicle-title-row">
-                                        <img id="reserve-car-logo" src="images/byd-seeklogo.svg?v=6" alt="Brand" class="reserve-brand-logo">
+                                        <img id="reserve-car-logo" src="images/logos/byd-seeklogo.svg?v=6" alt="Brand" class="reserve-brand-logo">
                                         <h2 id="reserve-car-name">BYD Atto 3</h2>
                                         <strong class="rate-val" id="reserve-car-rate">S$108 / day</strong>
                                     </div>
@@ -1229,21 +1206,20 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Step 1 (Confirm Time) & Step 2 (Make Payment) -->
                     <div class="reserve-action-col" id="reserve-action-col">
-                        <!-- STEP 1 PANEL: Confirm Time -->
+
                         <div class="reserve-card reserve-details-card reserve-step-panel" id="reserve-step-panel-1">
                             <div class="reserve-card-topbar">
                                 <span class="reserve-card-tag">YOUR RESERVATION DETAILS</span>
                             </div>
 
                             <div class="reserve-details-body">
-                                <!-- Read-Only Itinerary & Date Range -->
+
                                 <div class="reserve-locked-grid">
                                     <div class="reserve-locked-field">
                                         <span class="locked-field-label">Pickup Location</span>
                                         <div class="locked-field-box">
-                                            <img src="images/map-pinned.svg" alt="" class="locked-field-icon">
+                                            <img src="images/warehouse.svg" alt="" class="locked-field-icon" id="reserve-locked-pickup-icon">
                                             <span id="reserve-locked-pickup-loc">Alexandra Main Branch</span>
                                         </div>
                                     </div>
@@ -1251,7 +1227,7 @@
                                     <div class="reserve-locked-field">
                                         <span class="locked-field-label">Return Location</span>
                                         <div class="locked-field-box">
-                                            <img src="images/navigation.svg" alt="" class="locked-field-icon">
+                                            <img src="images/warehouse.svg" alt="" class="locked-field-icon" id="reserve-locked-return-icon">
                                             <span id="reserve-locked-return-loc">Changi Airport Branch</span>
                                         </div>
                                     </div>
@@ -1275,7 +1251,10 @@
                                 <form id="reserve-time-form" class="reserve-time-form" onsubmit="return false;" novalidate>
                                     <div class="reserve-time-grid">
                                         <div class="reserve-time-field" id="field-reserve-pickup-time">
-                                            <label for="reserve-pickup-time" class="locked-field-label">Pickup Time</label>
+                                            <div class="reserve-time-label-row">
+                                                <label for="reserve-pickup-time" class="locked-field-label">Pickup Time</label>
+                                                <span class="reserve-branch-hours-pill" id="reserve-branch-hours-pill" style="display: none;">Counter: 08:00 – 21:00</span>
+                                            </div>
                                             <select id="reserve-pickup-time" class="reserve-time-select" required>
                                                 <option value="" disabled selected hidden>Select</option>
                                             </select>
@@ -1283,7 +1262,9 @@
                                         </div>
 
                                         <div class="reserve-time-field" id="field-reserve-return-time">
-                                            <label for="reserve-return-time" class="locked-field-label">Return Time</label>
+                                            <div class="reserve-time-label-row">
+                                                <label for="reserve-return-time" class="locked-field-label">Return Time</label>
+                                            </div>
                                             <select id="reserve-return-time" class="reserve-time-select" required>
                                                 <option value="" disabled selected hidden>Select</option>
                                             </select>
@@ -1314,9 +1295,8 @@
                             </div>
                         </div>
 
-                        <!-- STEP 2 PANEL: Make Payment (Left: Itemized Bill & Make Payment | Right: Standalone Card Verification Gateway) -->
                         <div class="reserve-payment-split reserve-step-panel" id="reserve-step-panel-2" style="display: none;">
-                            <!-- Left Side: Itemized Bill & Standalone Make Payment Button -->
+
                             <div class="reserve-card payment-bill-card">
                                 <div class="reserve-card-topbar">
                                     <span class="reserve-card-tag">BILLING SUMMARY</span>
@@ -1366,72 +1346,130 @@
                                 </div>
                             </div>
 
-                            <!-- Right Side: Standalone Embedded Bank Card Verification Gateway Module -->
-                            <div class="gateway-module-shell" id="gateway-module-shell">
-                                <div class="gateway-module-topbar">
-                                    <div class="gateway-lock-title">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
-                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            <div class="reserve-payment-method-shell">
+                                <div class="gateway-mode-tabs" role="tablist" aria-label="Payment Mode Selection">
+                                    <button type="button" class="gateway-mode-tab is-active" id="gateway-tab-saved" role="tab" aria-selected="true" aria-controls="gateway-saved-shell">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+                                            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                            <line x1="2" y1="10" x2="22" y2="10"></line>
                                         </svg>
-                                        <span>Card Verification</span>
+                                        <span>Saved Cards</span>
+                                    </button>
+                                    <button type="button" class="gateway-mode-tab" id="gateway-tab-new" role="tab" aria-selected="false" aria-controls="gateway-module-shell">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                        <span>New Card</span>
+                                    </button>
+                                </div>
+
+                                <div class="gateway-saved-shell" id="gateway-saved-shell">
+                                    <div class="gateway-saved-topbar">
+                                        <div class="gateway-saved-header-left">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+                                                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                                            </svg>
+                                            <span>Saved Cards</span>
+                                        </div>
+                                        <span class="gateway-saved-count-pill" id="gateway-saved-count-pill">Saved cards</span>
                                     </div>
-                                    <div class="gateway-card-brands" id="gateway-card-brands" aria-label="Accepted Cards: Visa, Mastercard, American Express, Discover, JCB">
-                                        <span class="gateway-brand-logo-box" data-card-brand="visa"><img src="images/visa.svg" alt="Visa" class="gateway-brand-logo"></span>
-                                        <span class="gateway-brand-logo-box" data-card-brand="mastercard"><img src="images/mastercard.svg" alt="Mastercard" class="gateway-brand-logo"></span>
-                                        <span class="gateway-brand-logo-box" data-card-brand="amex"><img src="images/americanexpress.svg" alt="American Express" class="gateway-brand-logo"></span>
-                                        <span class="gateway-brand-logo-box" data-card-brand="discover"><img src="images/discover.svg" alt="Discover" class="gateway-brand-logo"></span>
-                                        <span class="gateway-brand-logo-box" data-card-brand="jcb"><img src="images/jcb.svg" alt="JCB" class="gateway-brand-logo"></span>
+
+                                    <div class="gateway-saved-body">
+                                        <div class="gateway-saved-cards-list" id="gateway-saved-cards-list"></div>
+
+                                        <div class="gateway-saved-empty" id="gateway-saved-empty" style="display: none;">
+                                            <div class="gateway-saved-empty-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="28" height="28">
+                                                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                                                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                                                </svg>
+                                            </div>
+                                            <div class="gateway-saved-empty-title">No Saved Cards</div>
+                                            <p class="gateway-saved-empty-desc">You don't have any saved cards in your account yet. Switch to New Card to enter your payment details.</p>
+                                            <button type="button" class="gateway-switch-new-btn" id="gateway-switch-new-btn">
+                                                <span>Enter a New Card</span>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14" aria-hidden="true">
+                                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="gateway-module-body">
-                                    <form id="reserve-payment-form" class="reserve-payment-form" onsubmit="return false;" novalidate>
-                                        <div class="payment-field" id="field-pay-name">
-                                            <label for="pay-card-name" class="gateway-field-label">Cardholder Name</label>
-                                            <input type="text" id="pay-card-name" class="payment-input gateway-input" placeholder="Name on card" autocomplete="cc-name" required>
-                                            <span class="reserve-field-error" id="pay-name-error"></span>
+                                <div class="gateway-module-shell" id="gateway-module-shell" style="display: none;">
+                                    <div class="gateway-module-topbar">
+                                        <div class="gateway-lock-title">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                            </svg>
+                                            <span>Card Verification</span>
                                         </div>
+                                        <div class="gateway-card-brands" id="gateway-card-brands" aria-label="Accepted Cards: Visa, Mastercard, American Express, Discover, JCB">
+                                            <span class="gateway-brand-logo-box" data-card-brand="visa"><img src="images/logos/visa.svg" alt="Visa" class="gateway-brand-logo"></span>
+                                            <span class="gateway-brand-logo-box" data-card-brand="mastercard"><img src="images/logos/mastercard.svg" alt="Mastercard" class="gateway-brand-logo"></span>
+                                            <span class="gateway-brand-logo-box" data-card-brand="amex"><img src="images/logos/americanexpress.svg" alt="American Express" class="gateway-brand-logo"></span>
+                                            <span class="gateway-brand-logo-box" data-card-brand="discover"><img src="images/logos/discover.svg" alt="Discover" class="gateway-brand-logo"></span>
+                                            <span class="gateway-brand-logo-box" data-card-brand="jcb"><img src="images/logos/jcb.svg" alt="JCB" class="gateway-brand-logo"></span>
+                                        </div>
+                                    </div>
 
-                                        <div class="payment-field" id="field-pay-number">
-                                            <label for="pay-card-number" class="gateway-field-label">Card Number</label>
-                                            <div class="payment-card-input-wrap">
-                                                <input type="text" id="pay-card-number" class="payment-input gateway-input" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" autocomplete="cc-number" required>
-                                                <img src="images/credit-card.svg" alt="" class="payment-input-card-icon">
+                                    <div class="gateway-module-body">
+                                        <form id="reserve-payment-form" class="reserve-payment-form" onsubmit="return false;" novalidate>
+                                            <div class="payment-field" id="field-pay-name">
+                                                <label for="pay-card-name" class="gateway-field-label">Cardholder Name</label>
+                                                <input type="text" id="pay-card-name" class="payment-input gateway-input" placeholder="Name on card" autocomplete="cc-name" required>
+                                                <span class="reserve-field-error" id="pay-name-error"></span>
                                             </div>
-                                            <span class="reserve-field-error" id="pay-number-error"></span>
-                                        </div>
 
-                                        <div class="payment-row-grid">
-                                            <div class="payment-field" id="field-pay-expiry">
-                                                <label for="pay-card-expiry" class="gateway-field-label">Expiry Date</label>
-                                                <input type="text" id="pay-card-expiry" class="payment-input gateway-input" placeholder="MM/YY" inputmode="numeric" maxlength="5" autocomplete="cc-exp" required>
-                                                <span class="reserve-field-error" id="pay-expiry-error"></span>
+                                            <div class="payment-field" id="field-pay-number">
+                                                <label for="pay-card-number" class="gateway-field-label">Card Number</label>
+                                                <div class="payment-card-input-wrap">
+                                                    <input type="text" id="pay-card-number" class="payment-input gateway-input" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" autocomplete="cc-number" required>
+                                                    <img src="images/credit-card.svg" alt="" class="payment-input-card-icon">
+                                                </div>
+                                                <span class="reserve-field-error" id="pay-number-error"></span>
                                             </div>
 
-                                            <div class="payment-field" id="field-pay-cvv">
-                                                <label for="pay-card-cvv" class="gateway-field-label">CVV / CVC</label>
-                                                <input type="password" id="pay-card-cvv" class="payment-input gateway-input" placeholder="3 digits" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
-                                                <span class="reserve-field-error" id="pay-cvv-error"></span>
-                                            </div>
-                                        </div>
+                                            <div class="payment-row-grid">
+                                                <div class="payment-field" id="field-pay-expiry">
+                                                    <label for="pay-card-expiry" class="gateway-field-label">Expiry Date</label>
+                                                    <input type="text" id="pay-card-expiry" class="payment-input gateway-input" placeholder="MM/YY" inputmode="numeric" maxlength="5" autocomplete="cc-exp" required>
+                                                    <span class="reserve-field-error" id="pay-expiry-error"></span>
+                                                </div>
 
-                                        <div class="gateway-verify-actions">
-                                            <button type="submit" id="reserve-payment-submit-btn" class="gateway-pay-btn">
-                                                <span class="gateway-btn-spinner" aria-hidden="true"></span>
-                                                <svg class="gateway-btn-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                    <polyline class="gateway-check-path" points="4 12 9 17 20 6"></polyline>
-                                                </svg>
-                                                <span id="reserve-payment-submit-text">Verify</span>
-                                            </button>
-                                        </div>
-                                    </form>
+                                                <div class="payment-field" id="field-pay-cvv">
+                                                    <label for="pay-card-cvv" class="gateway-field-label">CVV / CVC</label>
+                                                    <input type="password" id="pay-card-cvv" class="payment-input gateway-input" placeholder="3 digits" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
+                                                    <span class="reserve-field-error" id="pay-cvv-error"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="gateway-save-check-wrap">
+                                                <label class="gateway-save-checkbox-label" for="pay-save-card-check">
+                                                    <input type="checkbox" id="pay-save-card-check" class="gateway-save-checkbox" checked>
+                                                    <span>Save this card for next bookings</span>
+                                                </label>
+                                            </div>
+
+                                            <div class="gateway-verify-actions">
+                                                <button type="submit" id="reserve-payment-submit-btn" class="gateway-pay-btn">
+                                                    <span class="gateway-btn-spinner" aria-hidden="true"></span>
+                                                    <svg class="gateway-btn-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                        <polyline class="gateway-check-path" points="4 12 9 17 20 6"></polyline>
+                                                    </svg>
+                                                    <span id="reserve-payment-submit-text">Verify</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- STEP 3 PANEL: Completed (Full-Width Centered Card, No Back Allowed) -->
                     <div class="reserve-completed-col" id="reserve-step-panel-3" style="display: none;">
                         <div class="reserve-card reserve-completed-card">
                             <div class="completed-hero-badge" aria-hidden="true">
@@ -1486,42 +1524,41 @@
 
     <footer class="site-footer">
         <div class="footer-container">
-            
+
             <div class="footer-top">
-                <div class="footer-logo">
-                    <span>AZoom</span>
+                <div class="footer-logo" role="button" aria-label="AZoom Home">
+                    <img src="images/logos/azoom.svg" alt="AZoom" class="footer-logo-img">
                 </div>
-                
+
                 <div class="footer-socials">
                     <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
-                        <img src="images/facebook-round-svgrepo-com.svg" alt="Facebook" class="social-icon">
+                        <img src="images/logos/facebook-round-svgrepo-com.svg" alt="Facebook" class="social-icon">
                     </a>
                     <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-                        <img src="images/instagram-round-svgrepo-com.svg" alt="Instagram" class="social-icon">
+                        <img src="images/logos/instagram-round-svgrepo-com.svg" alt="Instagram" class="social-icon">
                     </a>
                     <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
-                        <img src="images/linkedin-round-svgrepo-com.svg" alt="LinkedIn" class="social-icon">
+                        <img src="images/logos/linkedin-round-svgrepo-com.svg" alt="LinkedIn" class="social-icon">
                     </a>
                 </div>
             </div>
-            
+
             <div class="footer-divider"></div>
-            
+
             <div class="footer-bottom">
                 <p class="copyright">&copy; AZoom Car Rental 2026</p>
             </div>
         </div>
     </footer>
 
-    <!-- EV Filter Modal (Floating centered dialog with blurred backdrop) -->
     <div id="ev-filter-modal" class="ev-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Filter Vehicles">
         <div class="ev-modal-dialog">
             <button type="button" class="ev-modal-close" id="ev-filter-close" aria-label="Close Filter">
                 <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
             </button>
-            
+
             <div class="ev-modal-body">
-                <!-- 1. Body Type -->
+
                 <div class="filter-group">
                     <div class="filter-group-header">
                         <span class="filter-group-label">Body Type</span>
@@ -1534,7 +1571,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Brand -->
                 <div class="filter-group">
                     <div class="filter-group-header">
                         <span class="filter-group-label">Brand</span>
@@ -1550,7 +1586,6 @@
                     </div>
                 </div>
 
-                <!-- 3. Seating Capacity -->
                 <div class="filter-group">
                     <div class="filter-group-header">
                         <span class="filter-group-label">Seating Capacity</span>
@@ -1562,7 +1597,6 @@
                     </div>
                 </div>
 
-                <!-- 4. Max Daily Rate -->
                 <div class="filter-group">
                     <div class="filter-group-header">
                         <span class="filter-group-label">Max Daily Rate</span>
@@ -1586,14 +1620,12 @@
         </div>
     </div>
 
-    <!-- Account Auth Modal (Floating Login & Register Modal with Blurred Backdrop) -->
     <div id="auth-modal" class="ev-modal-overlay auth-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Account Login and Registration">
         <div class="ev-modal-dialog auth-modal-dialog">
             <button type="button" class="ev-modal-close" id="auth-modal-close" aria-label="Close Authentication Dialog">
                 <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
             </button>
 
-            <!-- Auth Modal Tabs Header -->
             <div class="auth-tabs-header" role="tablist">
                 <button type="button" class="auth-tab-btn active" id="auth-tab-login" data-tab="login" role="tab" aria-selected="true" aria-controls="auth-panel-login">
                     <span>Log In</span>
@@ -1604,7 +1636,7 @@
             </div>
 
             <div class="auth-modal-body">
-                <!-- 1. Log In Panel (Default View) -->
+
                 <div id="auth-panel-login" class="auth-panel active" role="tabpanel" aria-labelledby="auth-tab-login">
                     <div class="auth-panel-intro">
                         <h3 class="auth-title">Welcome Back</h3>
@@ -1638,10 +1670,16 @@
                             <span>Don't have an account?</span>
                             <button type="button" class="auth-switch-link" id="switch-to-register">Register now</button>
                         </div>
+
+                        <div class="auth-staff-entry">
+                            <a href="staff.html" target="_blank" rel="noopener noreferrer" class="auth-staff-btn">
+                                <img src="images/kanban.svg" alt="" class="auth-staff-icon" aria-hidden="true">
+                                <span>Staff Management Portal</span>
+                            </a>
+                        </div>
                     </form>
                 </div>
 
-                <!-- 2. Register Panel -->
                 <div id="auth-panel-register" class="auth-panel" role="tabpanel" aria-labelledby="auth-tab-register" style="display: none;">
                     <div class="auth-panel-intro">
                         <h3 class="auth-title">Create an Account</h3>
@@ -1702,7 +1740,7 @@
             </div>
         </div>
     </div>
-    <!-- My Bookings Modal (Large Floating Dialog with Blurred Backdrop) -->
+
     <div id="booking-modal" class="ev-modal-overlay booking-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="My Bookings">
         <div class="ev-modal-dialog booking-modal-dialog">
             <button type="button" class="ev-modal-close" id="booking-modal-close" aria-label="Close Bookings Dialog">
@@ -1724,17 +1762,286 @@
                 </aside>
 
                 <div class="booking-modal-body">
-                    <!-- Panel 1: In Progress (Dynamically rendered from account bookings) -->
+
                     <div id="booking-panel-upcoming" class="booking-panel active" role="tabpanel"></div>
 
-                    <!-- Panel 2: Completed (Dynamically rendered from account bookings) -->
                     <div id="booking-panel-past" class="booking-panel" role="tabpanel" style="display: none;"></div>
+
+                    <div id="booking-panel-details" class="booking-panel booking-details-panel" style="display: none;"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Top-Center Floating Toast Notification -->
+    <div id="account-modal" class="ev-modal-overlay account-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Manage Account">
+        <div class="ev-modal-dialog account-modal-dialog">
+            <button type="button" class="ev-modal-close" id="account-modal-close" aria-label="Close Account Dialog">
+                <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
+            </button>
+
+            <div class="account-modal-header">
+                <h3 class="account-modal-title">Manage Account</h3>
+            </div>
+
+            <div class="account-modal-workspace">
+                <aside class="account-sidebar" role="tablist" aria-orientation="vertical">
+                    <button type="button" class="account-nav-item active" id="account-nav-personal" data-acc-tab="personal" role="tab" aria-selected="true">
+                        <img src="images/user.svg" alt="" class="account-nav-icon">
+                        <span>Personal Info</span>
+                    </button>
+                    <button type="button" class="account-nav-item" id="account-nav-security" data-acc-tab="security" role="tab" aria-selected="false">
+                        <img src="images/shield.svg" alt="" class="account-nav-icon">
+                        <span>Security</span>
+                    </button>
+                    <button type="button" class="account-nav-item" id="account-nav-payment" data-acc-tab="payment" role="tab" aria-selected="false">
+                        <img src="images/credit-card.svg" alt="" class="account-nav-icon">
+                        <span>Payment Method</span>
+                    </button>
+                    <div class="account-sidebar-spacer"></div>
+                    <button type="button" class="account-nav-item nav-danger" id="account-nav-delete" data-acc-tab="delete" role="tab" aria-selected="false">
+                        <svg class="account-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        <span>Delete Account</span>
+                    </button>
+                </aside>
+
+                <div class="account-modal-body">
+
+                    <div id="account-panel-personal" class="account-panel active" role="tabpanel">
+                        <div class="account-panel-head">
+                            <h4 class="account-panel-title">Update your profile</h4>
+                        </div>
+                        <form id="acc-personal-form" class="account-form" novalidate>
+                            <div class="account-form-row">
+                                <div class="account-field" id="field-acc-firstname">
+                                    <label for="acc-firstname" class="account-label">First Name</label>
+                                    <input type="text" id="acc-firstname" class="account-input" placeholder="e.g. Alex" required>
+                                    <span class="account-field-error" id="acc-firstname-error"></span>
+                                </div>
+                                <div class="account-field" id="field-acc-lastname">
+                                    <label for="acc-lastname" class="account-label">Last Name</label>
+                                    <input type="text" id="acc-lastname" class="account-input" placeholder="e.g. Tan" required>
+                                    <span class="account-field-error" id="acc-lastname-error"></span>
+                                </div>
+                            </div>
+                            <div class="account-field" id="field-acc-email">
+                                <label for="acc-email" class="account-label">Email Address</label>
+                                <input type="email" id="acc-email" class="account-input" placeholder="e.g. name@example.com" required>
+                                <span class="account-field-error" id="acc-email-error"></span>
+                            </div>
+                            <div class="account-feedback" id="acc-personal-feedback" style="display: none;"></div>
+                            <div class="account-actions">
+                                <button type="submit" class="account-btn-primary" id="acc-personal-save-btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="account-panel-security" class="account-panel" role="tabpanel" style="display: none;">
+                        <div class="account-panel-head">
+                            <h4 class="account-panel-title">Change your password</h4>
+                        </div>
+                        <form id="acc-security-form" class="account-form" novalidate>
+                            <div class="account-field" id="field-acc-currpass">
+                                <label for="acc-curr-password" class="account-label">Current Password</label>
+                                <div class="account-input-wrap">
+                                    <input type="password" id="acc-curr-password" class="account-input" placeholder="Enter current password" required>
+                                    <button type="button" class="auth-pwd-toggle" data-pwd-target="acc-curr-password" aria-label="Show password">
+                                        <img src="images/eye-closed.svg" alt="" class="pwd-eye-icon">
+                                    </button>
+                                </div>
+                                <span class="account-field-error" id="acc-currpass-error"></span>
+                            </div>
+                            <div class="account-field" id="field-acc-newpass">
+                                <label for="acc-new-password" class="account-label">New Password</label>
+                                <div class="account-input-wrap">
+                                    <input type="password" id="acc-new-password" class="account-input" placeholder="At least 6 characters" minlength="6" required>
+                                    <button type="button" class="auth-pwd-toggle" data-pwd-target="acc-new-password" aria-label="Show password">
+                                        <img src="images/eye-closed.svg" alt="" class="pwd-eye-icon">
+                                    </button>
+                                </div>
+                                <span class="account-field-error" id="acc-newpass-error"></span>
+                            </div>
+                            <div class="account-field" id="field-acc-confirmpass">
+                                <label for="acc-confirm-password" class="account-label">Confirm New Password</label>
+                                <div class="account-input-wrap">
+                                    <input type="password" id="acc-confirm-password" class="account-input" placeholder="Re-enter new password" required>
+                                    <button type="button" class="auth-pwd-toggle" data-pwd-target="acc-confirm-password" aria-label="Show password">
+                                        <img src="images/eye-closed.svg" alt="" class="pwd-eye-icon">
+                                    </button>
+                                </div>
+                                <span class="account-field-error" id="acc-confirmpass-error"></span>
+                            </div>
+                            <div class="account-feedback" id="acc-security-feedback" style="display: none;"></div>
+                            <div class="account-actions">
+                                <button type="submit" class="account-btn-primary" id="acc-security-save-btn">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="account-panel-payment" class="account-panel" role="tabpanel" style="display: none;">
+                        <div class="account-panel-head">
+                            <h4 class="account-panel-title">Saving your cards</h4>
+                        </div>
+
+                        <div id="acc-card-empty-view" class="acc-card-empty-box">
+                            <div class="acc-empty-icon-wrap">
+                                <img src="images/credit-card.svg" alt="" class="acc-empty-card-icon">
+                            </div>
+                            <h5 class="acc-empty-card-title">No Saved Cards</h5>
+                            <button type="button" class="account-btn-primary" id="acc-add-card-open-btn">
+                                <svg class="account-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>Add Card</span>
+                            </button>
+                        </div>
+
+                        <div id="acc-card-display-box" class="account-card-display-box" style="display: none;">
+                            <div id="acc-saved-cards-list" class="acc-saved-cards-list">
+
+                            </div>
+                            <div class="acc-saved-cards-actions">
+                                <button type="button" class="account-btn-primary" id="acc-add-more-card-btn">
+                                    <svg class="account-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    <span>Add Card</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="acc-add-card-view" class="acc-add-card-view" style="display: none;">
+                            <div class="acc-gateway-back-row">
+                                <button type="button" class="bdetail-back-btn" id="acc-cancel-add-card-btn">
+                                    <span>&larr; Back</span>
+                                </button>
+                            </div>
+
+                            <div class="gateway-module-shell" id="acc-gateway-module-shell" style="max-width: 540px;">
+                                <div class="gateway-module-topbar">
+                                    <div class="gateway-lock-title">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                        </svg>
+                                        <span>Card Verification</span>
+                                    </div>
+                                    <div class="gateway-card-brands" id="acc-gateway-card-brands" aria-label="Accepted Cards: Visa, Mastercard, American Express, Discover, JCB">
+                                        <span class="gateway-brand-logo-box" data-card-brand="visa"><img src="images/logos/visa.svg" alt="Visa" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="mastercard"><img src="images/logos/mastercard.svg" alt="Mastercard" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="amex"><img src="images/logos/americanexpress.svg" alt="American Express" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="discover"><img src="images/logos/discover.svg" alt="Discover" class="gateway-brand-logo"></span>
+                                        <span class="gateway-brand-logo-box" data-card-brand="jcb"><img src="images/logos/jcb.svg" alt="JCB" class="gateway-brand-logo"></span>
+                                    </div>
+                                </div>
+
+                                <div class="gateway-module-body">
+                                    <form id="acc-payment-form" class="reserve-payment-form" onsubmit="return false;" novalidate>
+                                        <div class="payment-field" id="field-acc-cardname">
+                                            <label for="acc-card-name" class="gateway-field-label">Cardholder Name</label>
+                                            <input type="text" id="acc-card-name" class="payment-input gateway-input" placeholder="Name on card" autocomplete="cc-name" required>
+                                            <span class="reserve-field-error" id="acc-cardname-error"></span>
+                                        </div>
+
+                                        <div class="payment-field" id="field-acc-cardnumber">
+                                            <label for="acc-card-number" class="gateway-field-label">Card Number</label>
+                                            <div class="payment-card-input-wrap">
+                                                <input type="text" id="acc-card-number" class="payment-input gateway-input" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" autocomplete="cc-number" required>
+                                                <img src="images/credit-card.svg" alt="" class="payment-input-card-icon" id="acc-card-brand-icon">
+                                            </div>
+                                            <span class="reserve-field-error" id="acc-cardnumber-error"></span>
+                                        </div>
+
+                                        <div class="payment-row-grid">
+                                            <div class="payment-field" id="field-acc-cardexpiry">
+                                                <label for="acc-card-expiry" class="gateway-field-label">Expiry Date</label>
+                                                <input type="text" id="acc-card-expiry" class="payment-input gateway-input" placeholder="MM/YY" inputmode="numeric" maxlength="5" autocomplete="cc-exp" required>
+                                                <span class="reserve-field-error" id="acc-cardexpiry-error"></span>
+                                            </div>
+
+                                            <div class="payment-field" id="field-acc-cardcvv">
+                                                <label for="acc-card-cvv" class="gateway-field-label">CVV / CVC</label>
+                                                <input type="password" id="acc-card-cvv" class="payment-input gateway-input" placeholder="3 digits" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
+                                                <span class="reserve-field-error" id="acc-cardcvv-error"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="gateway-verify-actions">
+                                            <button type="submit" id="acc-verify-card-btn" class="gateway-pay-btn">
+                                                <span class="gateway-btn-spinner" aria-hidden="true"></span>
+                                                <svg class="gateway-btn-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polyline class="gateway-check-path" points="4 12 9 17 20 6"></polyline>
+                                                </svg>
+                                                <span id="acc-verify-card-text">Verify</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="account-panel-delete" class="account-panel" role="tabpanel" style="display: none;">
+                        <div class="account-panel-head">
+                            <h4 class="account-panel-title danger-title">Delete Account</h4>
+                        </div>
+                        <div class="account-danger-box">
+                            <div class="danger-box-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </div>
+                            <div class="danger-box-content">
+                                <strong>Warning: This action is permanent and cannot be undone</strong>
+                                <p>Deleting your account will permanently erase your profile, <strong>all active reservations, and past rental history</strong>. You will lose access to all saved payment methods, rental invoices, and member privileges. Please ensure all ongoing rentals have been completed and vehicles returned before proceeding.</p>
+                            </div>
+                        </div>
+
+                        <form id="acc-delete-form" class="account-form" novalidate>
+                            <div class="account-field" id="field-acc-delete-confirm">
+                                <label for="acc-delete-confirm-input" class="account-label">
+                                    To confirm deletion, please type <code id="acc-delete-code-hint">DELETE</code> below:
+                                </label>
+                                <input type="text" id="acc-delete-confirm-input" class="account-input" placeholder="Type DELETE to confirm" required>
+                                <span class="account-field-error" id="acc-delete-error"></span>
+                            </div>
+                            <div class="account-feedback" id="acc-delete-feedback" style="display: none;"></div>
+                            <div class="account-actions">
+                                <button type="submit" class="account-btn-danger" id="acc-confirm-delete-btn">Permanently Delete Account</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ev-details-modal" class="ev-modal-overlay ev-details-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Vehicle Details">
+        <div class="ev-modal-dialog ev-details-modal-dialog">
+            <button type="button" class="ev-modal-close" id="ev-details-close" aria-label="Close Vehicle Details">
+                <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
+            </button>
+            <div class="ev-details-content" id="ev-details-content"></div>
+        </div>
+    </div>
+
+    <div id="loc-details-modal" class="ev-modal-overlay loc-details-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Location Details">
+        <div class="ev-modal-dialog loc-details-modal-dialog">
+            <button type="button" class="ev-modal-close" id="loc-details-close" aria-label="Close Location Details">
+                <img src="images/x.svg" alt="Close" class="ev-modal-close-icon">
+            </button>
+            <div class="loc-details-content" id="loc-details-content"></div>
+        </div>
+    </div>
+
     <div id="auth-top-toast" class="auth-top-toast" role="status" aria-live="polite" aria-hidden="true">
         <span class="auth-top-toast-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
@@ -1744,7 +2051,6 @@
         <span id="auth-top-toast-text">Registration successful! Please log in to your account.</span>
     </div>
 
-    <!-- Full-Screen Payment Processing Spinner Overlay -->
     <div id="payment-processing-overlay" class="payment-processing-overlay" aria-hidden="true">
         <div class="payment-processing-box">
             <span class="payment-processing-spinner" aria-hidden="true"></span>
@@ -1752,6 +2058,6 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=107"></script>
+    <script src="js/app.js?v=168"></script>
 </body>
 </html>
