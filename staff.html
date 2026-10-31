@@ -52,18 +52,22 @@
     <div class="md-workspace-screen" id="md-workspace-screen">
         <header class="md-appbar">
             <div class="md-appbar-left">
-                <button type="button" class="md-drawer-toggle" id="md-drawer-toggle" aria-label="Open Navigation Drawer" title="Open Navigation Drawer">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
+                <button type="button" class="md-drawer-toggle" id="md-drawer-toggle" aria-label="Toggle Navigation Drawer" title="Toggle Navigation Drawer" aria-expanded="false">
+                    <span class="md-hamburger-line"></span>
+                    <span class="md-hamburger-line"></span>
+                    <span class="md-hamburger-line"></span>
                 </button>
                 <span class="md-appbar-title">AZoom Staff Management Portal</span>
             </div>
             <div class="md-appbar-right">
-                <span id="md-active-admin-label">Admin: admin</span>
-                <button type="button" class="md-logout-btn" id="md-logout-btn">Sign Out</button>
+                <button type="button" class="md-logout-btn" id="md-logout-btn">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md-logout-icon" aria-hidden="true">
+                        <path d="m16 17 5-5-5-5"></path>
+                        <path d="M21 12H9"></path>
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    </svg>
+                    <span>Log Out</span>
+                </button>
             </div>
         </header>
 
@@ -117,9 +121,9 @@
                     </button>
                 </div>
 
-                <div class="md-sidebar-group" id="md-sidebar-group-feedback" style="display: none;">
+                <div class="md-sidebar-group is-hidden" id="md-sidebar-group-feedback" style="display: none;">
                     <div class="md-sidebar-group-header">
-                        <span class="md-group-title">Customer Feedback</span>
+                        <span class="md-group-title">Feedback</span>
                     </div>
                     <button type="button" class="md-nav-item active" data-feedback-tab="unread" role="tab" aria-selected="true">
                         <span class="md-nav-label">Unread</span>

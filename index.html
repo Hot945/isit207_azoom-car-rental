@@ -14,44 +14,60 @@
         <div class="logo" role="button" aria-label="AZoom Home">
             <img src="images/logos/azoom.svg" alt="AZoom" class="navbar-logo-img">
         </div>
-        <nav class="nav-links">
+        <nav class="nav-links" id="nav-links">
             <button class="nav-btn active" data-target="home">Home</button>
             <button class="nav-btn" data-target="evs">Our EVs</button>
             <button class="nav-btn" data-target="locations">Our Locations</button>
             <button class="nav-btn" data-target="about">About Us</button>
         </nav>
-        <div class="nav-auth">
-            <button id="auth-btn" class="auth-btn" aria-haspopup="true" aria-expanded="false" title="Account Login or Registration">
-                <img src="images/user.svg" alt="Auth Icon" id="auth-icon" class="auth-icon">
-                <span id="auth-btn-text">Login / Register</span>
-            </button>
+        <div class="nav-actions">
+            <div class="nav-auth">
+                <button id="auth-btn" class="auth-btn" aria-haspopup="true" aria-expanded="false" title="Account Login or Registration">
+                    <img src="images/user.svg" alt="Auth Icon" id="auth-icon" class="auth-icon">
+                    <span id="auth-btn-text">Login / Register</span>
+                </button>
 
-            <div id="auth-user-dropdown" class="auth-user-dropdown" style="display: none;">
-                <div class="auth-dropdown-user-info">
-                    <span class="dropdown-user-name" id="dropdown-user-name">Alex Tan</span>
-                    <span class="dropdown-user-email" id="dropdown-user-email">demo@azoom.sg</span>
+                <div id="auth-user-dropdown" class="auth-user-dropdown" style="display: none;">
+                    <div class="auth-dropdown-user-info">
+                        <span class="dropdown-user-name" id="dropdown-user-name">Alex Tan</span>
+                        <span class="dropdown-user-email" id="dropdown-user-email">demo@azoom.sg</span>
+                    </div>
+                    <div class="auth-dropdown-divider"></div>
+                    <button type="button" class="auth-dropdown-item-btn" id="dropdown-manage-account-btn">
+                        <img src="images/user.svg" alt="" class="auth-dropdown-item-icon">
+                        <span>Manage Account</span>
+                    </button>
+                    <button type="button" class="auth-dropdown-item-btn" id="dropdown-manage-bookings-btn">
+                        <img src="images/calendar.svg" alt="" class="auth-dropdown-item-icon">
+                        <span>Manage Bookings</span>
+                    </button>
+                    <div class="auth-dropdown-divider"></div>
+                    <button type="button" class="auth-dropdown-logout-btn" id="auth-logout-btn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        <span>Log Out</span>
+                    </button>
                 </div>
-                <div class="auth-dropdown-divider"></div>
-                <button type="button" class="auth-dropdown-item-btn" id="dropdown-manage-account-btn">
-                    <img src="images/user.svg" alt="" class="auth-dropdown-item-icon">
-                    <span>Manage Account</span>
-                </button>
-                <button type="button" class="auth-dropdown-item-btn" id="dropdown-manage-bookings-btn">
-                    <img src="images/calendar.svg" alt="" class="auth-dropdown-item-icon">
-                    <span>Manage Bookings</span>
-                </button>
-                <div class="auth-dropdown-divider"></div>
-                <button type="button" class="auth-dropdown-logout-btn" id="auth-logout-btn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
-                    </svg>
-                    <span>Log Out</span>
-                </button>
             </div>
+            <button type="button" class="nav-hamburger-btn" id="nav-hamburger-btn" aria-label="Open Navigation Menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
     </header>
+    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay" aria-hidden="true"></div>
+    <aside class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+        <nav class="mobile-drawer-nav">
+            <button class="mobile-drawer-btn active" data-target="home">Home</button>
+            <button class="mobile-drawer-btn" data-target="evs">Our EVs</button>
+            <button class="mobile-drawer-btn" data-target="locations">Our Locations</button>
+            <button class="mobile-drawer-btn" data-target="about">About Us</button>
+        </nav>
+    </aside>
 
     <section id="page-home" class="page-view active">
 

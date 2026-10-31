@@ -297,6 +297,7 @@ body {
     font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: 0.01em;
+    line-height: 1;
 }
 
 .md-appbar-right {
@@ -308,7 +309,7 @@ body {
 
 .md-logout-btn {
     height: 34px;
-    padding: 0 14px;
+    padding: 0 13px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.35);
     background: transparent;
@@ -317,7 +318,26 @@ body {
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    box-sizing: border-box;
+    margin-top: 1px;
     transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.md-logout-btn span {
+    display: inline-block;
+    line-height: 1;
+}
+
+.md-logout-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    display: block;
+    transform: translateY(1px);
 }
 
 .md-logout-btn:hover {
@@ -721,25 +741,6 @@ body {
     transform: translateY(0);
 }
 
-@media (max-width: 900px) {
-    .md-workspace-layout {
-        grid-template-columns: 1fr;
-    }
-    .md-sidebar {
-        flex-direction: row;
-        border-right: none;
-        border-bottom: 1px solid var(--md-divider);
-    }
-    .md-booking-body,
-    .md-route-col {
-        grid-template-columns: 1fr;
-    }
-    .md-route-col {
-        border-left: none;
-        border-right: none;
-        padding: 0;
-    }
-}
 
 .md-ref-label {
     font-size: 0.78rem;
@@ -764,26 +765,49 @@ body {
 }
 
 .md-drawer-toggle {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border: none;
     background: transparent;
     color: #FFFFFF;
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     cursor: pointer;
+    border-radius: 8px;
     padding: 0;
-    transition: opacity 0.18s ease, transform 0.15s ease;
+    transition: background-color 0.18s ease, transform 0.15s ease;
 }
 
 .md-drawer-toggle:hover {
-    background: transparent;
-    opacity: 0.75;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .md-drawer-toggle:active {
     transform: scale(0.92);
+}
+
+.md-hamburger-line {
+    width: 18px;
+    height: 2px;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.md-drawer-toggle.is-open .md-hamburger-line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.md-drawer-toggle.is-open .md-hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.md-drawer-toggle.is-open .md-hamburger-line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
 }
 
 .md-drawer-backdrop {
@@ -911,6 +935,11 @@ body {
     flex-direction: column;
     gap: 6px;
     width: 100%;
+}
+
+.md-sidebar-group.is-hidden,
+.md-sidebar-group[style*="display: none"] {
+    display: none !important;
 }
 
 .md-sidebar-group-header {
@@ -1124,3 +1153,295 @@ body {
     transform: scale(0.96);
 }
 
+@media (max-width: 1024px) {
+    .md-appbar {
+        padding: 0 18px;
+    }
+
+    .md-workspace-layout {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 60px);
+    }
+
+    .md-sidebar {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--md-divider);
+        padding: 8px 16px;
+        background-color: var(--md-surface);
+        box-sizing: border-box;
+    }
+
+    .md-sidebar-group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 8px;
+        width: 100%;
+    }
+
+    .md-sidebar-group.is-hidden,
+    .md-sidebar-group[style*="display: none"] {
+        display: none !important;
+    }
+
+    .md-sidebar-group-header {
+        display: block !important;
+        width: 100%;
+        flex: 0 0 100%;
+        padding: 0 2px 2px;
+    }
+
+    .md-group-title {
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: #8C837C;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+
+    .md-sidebar-group .md-nav-item {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        height: 36px;
+        padding: 0 10px;
+        font-size: 0.84rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .md-sidebar-group .md-nav-count {
+        min-width: 20px;
+        height: 18px;
+        font-size: 0.72rem;
+        padding: 0 5px;
+    }
+
+    .md-content-area {
+        flex: 1 1 auto;
+        width: 100%;
+        padding: 14px 16px 28px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .md-bookings-container,
+    .md-feedbacks-container {
+        gap: 12px;
+    }
+
+    .md-booking-card {
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .md-booking-topbar {
+        padding: 8px 16px;
+    }
+
+    .md-booking-meta {
+        font-size: 0.82rem;
+        gap: 6px;
+    }
+
+    .md-ref-code {
+        font-size: 0.88rem;
+    }
+
+    .md-chip {
+        font-size: 0.72rem;
+        padding: 3px 10px;
+    }
+
+    .md-booking-body {
+        grid-template-columns: 1.1fr 1.35fr auto;
+        gap: 14px;
+        padding: 12px 16px;
+        align-items: center;
+    }
+
+    .md-car-col {
+        gap: 12px;
+    }
+
+    .md-car-thumb {
+        width: 78px;
+        height: 54px;
+        border-radius: 8px;
+    }
+
+    .md-car-info h4 {
+        font-size: 0.95rem;
+        margin-bottom: 2px;
+    }
+
+    .md-car-info p {
+        font-size: 0.76rem;
+    }
+
+    .md-route-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        border-left: 1px solid var(--md-divider);
+        border-right: 1px solid var(--md-divider);
+        padding: 0 14px;
+    }
+
+    .md-route-tag {
+        font-size: 0.65rem;
+    }
+
+    .md-route-loc {
+        font-size: 0.82rem;
+    }
+
+    .md-route-date {
+        font-size: 0.74rem;
+    }
+
+    .md-price-main {
+        font-size: 1.22rem;
+    }
+
+    .md-price-sub {
+        font-size: 0.74rem;
+    }
+
+    .md-booking-footer {
+        padding: 8px 16px;
+        gap: 10px;
+    }
+
+    .md-customer-info,
+    .md-footer-note {
+        font-size: 0.8rem;
+    }
+
+    .md-fb-card {
+        padding: 16px 18px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 640px) {
+    .md-appbar {
+        padding: 0 14px;
+    }
+
+    .md-appbar-title {
+        font-size: 0.92rem;
+    }
+
+    .md-sidebar {
+        padding: 6px 12px;
+    }
+
+    .md-sidebar-group {
+        gap: 5px 6px;
+    }
+
+    .md-sidebar-group .md-nav-item {
+        height: 34px;
+        padding: 0 8px;
+        font-size: 0.8rem;
+        gap: 5px;
+    }
+
+    .md-sidebar-group .md-nav-count {
+        min-width: 18px;
+        height: 16px;
+        font-size: 0.68rem;
+        padding: 0 4px;
+    }
+
+    .md-content-area {
+        padding: 10px 12px 20px;
+    }
+
+    .md-booking-topbar {
+        padding: 7px 12px;
+    }
+
+    .md-booking-body {
+        grid-template-columns: 1fr auto;
+        gap: 8px 10px;
+        padding: 10px 12px;
+    }
+
+    .md-car-col {
+        grid-column: 1 / 2;
+        gap: 10px;
+    }
+
+    .md-car-thumb {
+        width: 68px;
+        height: 48px;
+    }
+
+    .md-car-info h4 {
+        font-size: 0.92rem;
+    }
+
+    .md-price-col {
+        grid-column: 2 / 3;
+        align-items: flex-end;
+        text-align: right;
+    }
+
+    .md-price-main {
+        font-size: 1.15rem;
+    }
+
+    .md-route-col {
+        grid-column: 1 / -1;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid var(--md-divider);
+        padding: 8px 0 0;
+    }
+
+    .md-booking-footer {
+        padding: 7px 12px;
+    }
+
+    .md-booking-footer,
+    .md-inspect-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .md-inspect-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .md-select,
+    .md-number-input,
+    .md-text-input,
+    .md-btn-action {
+        width: 100%;
+        height: 34px;
+        font-size: 0.82rem;
+    }
+
+    .md-fb-card {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+}

@@ -15,7 +15,7 @@ function updateNavbarScroll() {
 
 window.addEventListener('scroll', updateNavbarScroll);
 const pageViews = document.querySelectorAll('.page-view');
-const navBtns = document.querySelectorAll('.nav-btn');
+const navBtns = document.querySelectorAll('.nav-btn, .mobile-drawer-btn');
 
 let cardTransitionState = null;
 
@@ -93,10 +93,9 @@ function navigateTo(targetPage) {
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
 
-    const searchHeaderEl = document.querySelector('#page-search .search-page-header');
     const reserveHeaderEl = document.getElementById('reserve-yellow-header');
-    if (searchHeaderEl && reserveHeaderEl && searchHeaderEl.offsetHeight > 0) {
-        reserveHeaderEl.style.height = searchHeaderEl.offsetHeight + 'px';
+    if (reserveHeaderEl) {
+        reserveHeaderEl.style.height = '';
     }
 
     syncLocationsHeroHeight();
@@ -158,9 +157,101 @@ function handleHashChange() {
 }
 window.addEventListener('hashchange', handleHashChange);
 window.addEventListener('DOMContentLoaded', handleHashChange);
+const navHamburgerBtn = document.getElementById('nav-hamburger-btn');
+const mobileDrawerClose = document.getElementById('mobile-drawer-close');
+const mobileDrawerOverlay = document.getElementById('mobile-drawer-overlay');
+const mobileDrawer = document.getElementById('mobile-drawer');
+
+function updateNavbarHeight() {
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        const h = Math.round(navbar.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--navbar-height', `${h}px`);
+    }
+}
+window.addEventListener('resize', updateNavbarHeight);
+window.addEventListener('DOMContentLoaded', updateNavbarHeight);
+
+function openMobileDrawer() {
+    if (typeof window.closeAuthDropdown === 'function') {
+        window.closeAuthDropdown();
+    } else {
+        const authDropdown = document.getElementById('auth-user-dropdown');
+        if (authDropdown) authDropdown.style.display = 'none';
+        const authBtn = document.getElementById('auth-btn');
+        if (authBtn) {
+            authBtn.setAttribute('aria-expanded', 'false');
+            authBtn.classList.remove('is-open');
+        }
+    }
+    updateNavbarHeight();
+    if (mobileDrawer) mobileDrawer.classList.add('mobile-open');
+    if (mobileDrawerOverlay) {
+        mobileDrawerOverlay.classList.add('active');
+        mobileDrawerOverlay.setAttribute('aria-hidden', 'false');
+    }
+    if (navHamburgerBtn) {
+        navHamburgerBtn.setAttribute('aria-expanded', 'true');
+        navHamburgerBtn.classList.add('is-open');
+    }
+    document.body.classList.add('mobile-drawer-open');
+}
+
+function closeMobileDrawer() {
+    if (mobileDrawer) mobileDrawer.classList.remove('mobile-open');
+    if (mobileDrawerOverlay) {
+        mobileDrawerOverlay.classList.remove('active');
+        mobileDrawerOverlay.setAttribute('aria-hidden', 'true');
+    }
+    if (navHamburgerBtn) {
+        navHamburgerBtn.setAttribute('aria-expanded', 'false');
+        navHamburgerBtn.classList.remove('is-open');
+    }
+    document.body.classList.remove('mobile-drawer-open');
+}
+
+const openMobileNav = openMobileDrawer;
+const closeMobileNav = closeMobileDrawer;
+
+if (navHamburgerBtn) {
+    navHamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (mobileDrawer && mobileDrawer.classList.contains('mobile-open')) {
+            closeMobileDrawer();
+        } else {
+            openMobileDrawer();
+        }
+    });
+}
+
+if (mobileDrawerClose) {
+    mobileDrawerClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMobileDrawer();
+    });
+}
+
+if (mobileDrawerOverlay) {
+    mobileDrawerOverlay.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMobileDrawer();
+    });
+}
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('mobile-open')) {
+        closeMobileDrawer();
+    }
+});
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024) closeMobileDrawer();
+});
+
 document.addEventListener('click', (e) => {
     const targetBtn = e.target.closest('[data-target]');
     if (targetBtn) {
+        closeMobileDrawer();
         const targetPage = targetBtn.dataset.target;
         if (window.location.hash === `#${targetPage}` || (!window.location.hash && targetPage === 'home')) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -169,6 +260,7 @@ document.addEventListener('click', (e) => {
         }
     }
     if (e.target.closest('.logo') || e.target.closest('.footer-logo')) {
+        closeMobileDrawer();
         window.location.hash = 'home';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1503,15 +1595,38 @@ if (contactForm) {
         if (switchToRegister) switchToRegister.addEventListener('click', () => switchTab('register'));
         if (switchToLogin) switchToLogin.addEventListener('click', () => switchTab('login'));
 
+        function closeAuthDropdown() {
+            if (authDropdown) authDropdown.style.display = 'none';
+            if (authBtn) {
+                authBtn.setAttribute('aria-expanded', 'false');
+                authBtn.classList.remove('is-open');
+            }
+        }
+        window.closeAuthDropdown = closeAuthDropdown;
+
+        function openAuthDropdown() {
+            if (authDropdown) authDropdown.style.display = 'block';
+            if (authBtn) {
+                authBtn.setAttribute('aria-expanded', 'true');
+                authBtn.classList.add('is-open');
+            }
+        }
+
         if (authBtn) {
             authBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
+                if (typeof closeMobileDrawer === 'function') {
+                    closeMobileDrawer();
+                }
                 const user = getCurrentUser();
                 if (user) {
                     if (authDropdown) {
                         const isVisible = authDropdown.style.display === 'block';
-                        authDropdown.style.display = isVisible ? 'none' : 'block';
-                        authBtn.setAttribute('aria-expanded', !isVisible);
+                        if (isVisible) {
+                            closeAuthDropdown();
+                        } else {
+                            openAuthDropdown();
+                        }
                     }
                 } else {
                     openModal('login');
@@ -1523,15 +1638,14 @@ if (contactForm) {
             authLogoutBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 setCurrentUser(null);
-                if (authDropdown) authDropdown.style.display = 'none';
+                closeAuthDropdown();
             });
         }
 
         document.addEventListener('click', (e) => {
             if (authDropdown && authDropdown.style.display === 'block') {
                 if (!authDropdown.contains(e.target) && e.target !== authBtn && !authBtn.contains(e.target)) {
-                    authDropdown.style.display = 'none';
-                    if (authBtn) authBtn.setAttribute('aria-expanded', 'false');
+                    closeAuthDropdown();
                 }
             }
         });
@@ -1672,11 +1786,8 @@ if (contactForm) {
                         <div class="booking-price-col">
                             <span class="booking-duration-tag">${durText}</span>
                             <span class="booking-total-price">S$${displayTotal}</span>
+                            <button type="button" class="booking-view-details-btn" data-booking-action="view-details" data-booking-id="${b.id}">View Details</button>
                         </div>
-                    </div>
-
-                    <div class="booking-item-footer">
-                        <button type="button" class="booking-view-details-btn" data-booking-action="view-details" data-booking-id="${b.id}">View Details</button>
                     </div>
                 </div>
             `;
@@ -2518,7 +2629,7 @@ if (contactForm) {
                     bookingTabUpcoming.classList.remove('active');
                     bookingTabUpcoming.setAttribute('aria-selected', 'false');
                 }
-                if (bookingPanelPast) bookingPanelPast.style.display = 'block';
+                if (bookingPanelPast) bookingPanelPast.style.display = 'flex';
                 if (bookingPanelUpcoming) bookingPanelUpcoming.style.display = 'none';
             } else {
                 if (bookingTabUpcoming) {
@@ -2529,7 +2640,7 @@ if (contactForm) {
                     bookingTabPast.classList.remove('active');
                     bookingTabPast.setAttribute('aria-selected', 'false');
                 }
-                if (bookingPanelUpcoming) bookingPanelUpcoming.style.display = 'block';
+                if (bookingPanelUpcoming) bookingPanelUpcoming.style.display = 'flex';
                 if (bookingPanelPast) bookingPanelPast.style.display = 'none';
             }
         }
@@ -2891,7 +3002,7 @@ if (contactForm) {
                 showTopToast('Please log in first to manage your account.', 'warning');
                 return;
             }
-            if (authDropdown) authDropdown.style.display = 'none';
+            closeAuthDropdown();
             switchAccountTab(initialTab);
             if (accountModal) {
                 accountModal.classList.add('active');
@@ -2918,7 +3029,7 @@ if (contactForm) {
         if (dropdownManageBookingsBtn) {
             dropdownManageBookingsBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (authDropdown) authDropdown.style.display = 'none';
+                closeAuthDropdown();
                 openBookingModal();
             });
         }
@@ -3368,6 +3479,8 @@ if (contactForm) {
 
         const reserveBackBtn = document.getElementById('reserve-back-btn');
         const reserveBackBtnText = document.getElementById('reserve-back-btn-text');
+        const reservePageTitle = document.querySelector('.reserve-page-title');
+        const reserveTopBar = document.querySelector('#reserve-yellow-header .search-page-top-bar');
         const reserveWorkspace = document.getElementById('reserve-workspace');
         const reserveSummaryCol = document.getElementById('reserve-summary-col');
         const reserveActionCol = document.getElementById('reserve-action-col');
@@ -3574,6 +3687,8 @@ if (contactForm) {
             });
 
             if (step === 1) {
+                if (reservePageTitle) reservePageTitle.textContent = 'Complete Your Reservation';
+                if (reserveTopBar) reserveTopBar.style.display = '';
                 if (stepNode1) stepNode1.classList.add('is-active');
                 if (reserveBackBtn) reserveBackBtn.classList.remove('is-hidden-step3');
                 if (reserveBackBtnText) reserveBackBtnText.textContent = 'Back to Vehicle Selection';
@@ -3584,6 +3699,8 @@ if (contactForm) {
                 if (stepPanel2) stepPanel2.style.display = 'none';
                 if (stepPanel3) stepPanel3.style.display = 'none';
             } else if (step === 2) {
+                if (reservePageTitle) reservePageTitle.textContent = 'Complete Your Reservation';
+                if (reserveTopBar) reserveTopBar.style.display = '';
                 if (stepNode1) {
                     stepNode1.classList.add('is-completed', 'is-clickable');
                 }
@@ -3638,11 +3755,13 @@ if (contactForm) {
                     if (billTotalBottom) billTotalBottom.textContent = `S$${draft.totalPrice}`;
                 }
             } else if (step === 3) {
+                if (reservePageTitle) reservePageTitle.textContent = 'Reservation Completed';
+                if (reserveTopBar) reserveTopBar.style.display = 'none';
                 if (stepNode1) stepNode1.classList.add('is-completed');
                 if (stepLine1) stepLine1.classList.add('is-filled');
                 if (stepNode2) stepNode2.classList.add('is-completed');
                 if (stepLine2) stepLine2.classList.add('is-filled');
-                if (stepNode3) stepNode3.classList.add('is-completed', 'is-active');
+                if (stepNode3) stepNode3.classList.add('is-completed');
 
                 if (reserveBackBtn) reserveBackBtn.classList.add('is-hidden-step3');
                 if (reserveWorkspace) {
@@ -4455,7 +4574,6 @@ if (contactForm) {
 
                         setReserveStep(3);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                        showTopToast(`Payment completed! Booking ${bookingRef} has been saved to your account.`, 'success');
                     }, 1150);
                 }, 700);
             });

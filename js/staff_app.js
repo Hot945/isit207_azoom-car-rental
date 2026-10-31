@@ -131,6 +131,10 @@
             drawerBackdrop.classList.add('is-open');
             drawerBackdrop.setAttribute('aria-hidden', 'false');
         }
+        if (drawerToggle) {
+            drawerToggle.classList.add('is-open');
+            drawerToggle.setAttribute('aria-expanded', 'true');
+        }
     }
 
     function closeDrawer() {
@@ -141,6 +145,10 @@
         if (drawerBackdrop) {
             drawerBackdrop.classList.remove('is-open');
             drawerBackdrop.setAttribute('aria-hidden', 'true');
+        }
+        if (drawerToggle) {
+            drawerToggle.classList.remove('is-open');
+            drawerToggle.setAttribute('aria-expanded', 'false');
         }
     }
 
@@ -431,8 +439,14 @@
         }
 
         if (currentModule === 'reservation') {
-            if (sidebarGroupReservation) sidebarGroupReservation.style.display = 'block';
-            if (sidebarGroupFeedback) sidebarGroupFeedback.style.display = 'none';
+            if (sidebarGroupReservation) {
+                sidebarGroupReservation.style.display = '';
+                sidebarGroupReservation.classList.remove('is-hidden');
+            }
+            if (sidebarGroupFeedback) {
+                sidebarGroupFeedback.style.display = 'none';
+                sidebarGroupFeedback.classList.add('is-hidden');
+            }
             if (bookingsContainer) bookingsContainer.style.display = 'grid';
             if (feedbacksContainer) feedbacksContainer.style.display = 'none';
 
@@ -448,8 +462,14 @@
                 }
             }
         } else {
-            if (sidebarGroupReservation) sidebarGroupReservation.style.display = 'none';
-            if (sidebarGroupFeedback) sidebarGroupFeedback.style.display = 'block';
+            if (sidebarGroupReservation) {
+                sidebarGroupReservation.style.display = 'none';
+                sidebarGroupReservation.classList.add('is-hidden');
+            }
+            if (sidebarGroupFeedback) {
+                sidebarGroupFeedback.style.display = '';
+                sidebarGroupFeedback.classList.remove('is-hidden');
+            }
             if (bookingsContainer) bookingsContainer.style.display = 'none';
             if (feedbacksContainer) feedbacksContainer.style.display = 'flex';
 
@@ -512,6 +532,12 @@
     if (drawerBackdrop) {
         drawerBackdrop.addEventListener('click', closeDrawer);
     }
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+            closeDrawer();
+        }
+    });
 
     drawerItems.forEach(item => {
         item.addEventListener('click', () => {
